@@ -66,8 +66,7 @@ public class AssertionErrorNode extends Node {
             return false;
         }
         AssertionErrorNode other = (AssertionErrorNode) obj;
-        return getCondition().equals(other.getCondition()) &&
-            getDetail().equals(other.getDetail());
+        return getCondition().equals(other.getCondition()) && getDetail().equals(other.getDetail());
     }
 
     @Override

@@ -26,9 +26,7 @@ public class ObjectCreationNode extends Node {
     protected Node constructor;
     protected List<Node> arguments;
 
-    public ObjectCreationNode(NewClassTree tree,
-            Node constructor,
-            List<Node> arguments) {
+    public ObjectCreationNode(NewClassTree tree, Node constructor, List<Node> arguments) {
         super(InternalUtils.typeOf(tree));
         this.tree = tree;
         this.constructor = constructor;

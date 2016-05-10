@@ -13,14 +13,15 @@ import javax.lang.model.element.AnnotationMirror;
  */
 public class RegexAnnotationConverter implements AnnotationConverter<Regex> {
 
-    private static final String regexName = org.checkerframework.checker.regex.qual.Regex.class.getName();
+    private static final String regexName =
+            org.checkerframework.checker.regex.qual.Regex.class.getName();
     private static final Regex DEFAULT = Regex.TOP;
 
     /** If annotated with @Regex, create a RegexVal qualifier. **/
     @Override
     public Regex fromAnnotations(Collection<? extends AnnotationMirror> annos) {
 
-        for (AnnotationMirror anno: annos) {
+        for (AnnotationMirror anno : annos) {
             if (AnnotationUtils.annotationName(anno).equals(regexName)) {
                 Integer value = AnnotationUtils.getElementValue(anno, "value", Integer.class, true);
                 return new Regex.RegexVal(value);

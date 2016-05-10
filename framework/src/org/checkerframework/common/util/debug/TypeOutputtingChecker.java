@@ -22,7 +22,6 @@ import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import com.sun.tools.javac.util.Context;
 
-
 /**
  * A testing class that can be used to test {@link TypeElement}.  In particular
  * it tests that the types read from classfiles are the same to the ones
@@ -94,7 +93,6 @@ public class TypeOutputtingChecker extends BaseTypeChecker {
             // Don't dig deeper
             return null;
         }
-
     }
 
     public static void main(String[] args) {
@@ -128,10 +126,9 @@ public class TypeOutputtingChecker extends BaseTypeChecker {
         // output fields and methods
         for (Element enclosedElt : typeElt.getEnclosedElements()) {
             if (enclosedElt instanceof TypeElement) {
-                printClassType((TypeElement)enclosedElt, atypeFactory);
+                printClassType((TypeElement) enclosedElt, atypeFactory);
             }
-            if (!enclosedElt.getKind().isField()
-                    && !(enclosedElt instanceof ExecutableElement))
+            if (!enclosedElt.getKind().isField() && !(enclosedElt instanceof ExecutableElement))
                 continue;
             AnnotatedTypeMirror memberType = atypeFactory.fromElement(enclosedElt);
             System.out.println(simpleName + "." + enclosedElt + "\t\t" + memberType);

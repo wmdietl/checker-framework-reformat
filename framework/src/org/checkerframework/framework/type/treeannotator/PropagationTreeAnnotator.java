@@ -20,7 +20,6 @@ import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-
 /**
  * {@link PropagationTreeAnnotator} adds qualifiers to types where the resulting
  * type is a function of an input type, e.g. the result of a binary operation
@@ -48,16 +47,16 @@ public class PropagationTreeAnnotator extends TreeAnnotator {
 
     @Override
     public Void visitNewArray(NewArrayTree tree, AnnotatedTypeMirror type) {
-        assert type.getKind() == TypeKind.ARRAY : "PropagationTreeAnnotator.visitNewArray: should be an array type";
+        assert type.getKind() == TypeKind.ARRAY
+                : "PropagationTreeAnnotator.visitNewArray: should be an array type";
 
-        AnnotatedTypeMirror componentType = ((AnnotatedArrayType)type).getComponentType();
+        AnnotatedTypeMirror componentType = ((AnnotatedArrayType) type).getComponentType();
 
         Collection<? extends AnnotationMirror> prev = null;
-        if (tree.getInitializers() != null &&
-                tree.getInitializers().size() != 0) {
+        if (tree.getInitializers() != null && tree.getInitializers().size() != 0) {
             // We have initializers, either with or without an array type.
 
-            for (ExpressionTree init: tree.getInitializers()) {
+            for (ExpressionTree init : tree.getInitializers()) {
                 AnnotatedTypeMirror initType = atypeFactory.getAnnotatedType(init);
                 // initType might be a typeVariable, so use effectiveAnnotations.
                 Collection<AnnotationMirror> annos = initType.getEffectiveAnnotations();
@@ -68,30 +67,36 @@ public class PropagationTreeAnnotator extends TreeAnnotator {
             prev = componentType.getAnnotations();
         }
 
-        assert prev != null : "PropagationTreeAnnotator.visitNewArray: violated assumption about qualifiers";
+        assert prev != null
+                : "PropagationTreeAnnotator.visitNewArray: violated assumption about qualifiers";
 
-        Pair<Tree, AnnotatedTypeMirror> context = atypeFactory.getVisitorState().getAssignmentContext();
+        Pair<Tree, AnnotatedTypeMirror> context =
+                atypeFactory.getVisitorState().getAssignmentContext();
         Collection<? extends AnnotationMirror> post;
 
-        if (context != null && context.second != null && context.second instanceof AnnotatedArrayType) {
-            AnnotatedTypeMirror contextComponentType = ((AnnotatedArrayType) context.second).getComponentType();
+        if (context != null
+                && context.second != null
+                && context.second instanceof AnnotatedArrayType) {
+            AnnotatedTypeMirror contextComponentType =
+                    ((AnnotatedArrayType) context.second).getComponentType();
             // Only compare the qualifiers that existed in the array type
             // Defaulting wasn't performed yet, so prev might have fewer qualifiers than
             // contextComponentType, which would cause a failure.
             // TODO: better solution?
             boolean prevIsSubtype = true;
             for (AnnotationMirror am : prev) {
-                if (contextComponentType.isAnnotatedInHierarchy(am) &&
-                        !this.qualHierarchy.isSubtype(am, contextComponentType.getAnnotationInHierarchy(am))) {
+                if (contextComponentType.isAnnotatedInHierarchy(am)
+                        && !this.qualHierarchy.isSubtype(
+                                am, contextComponentType.getAnnotationInHierarchy(am))) {
                     prevIsSubtype = false;
                 }
             }
             // TODO: checking conformance of component kinds is a basic sanity check
             // It fails for array initializer expressions. Those should be handled nicer.
-            if (contextComponentType.getKind() == componentType.getKind() &&
-                    (prev.isEmpty() ||
-                    (!contextComponentType.getAnnotations().isEmpty() &&
-                            prevIsSubtype))) {
+            if (contextComponentType.getKind() == componentType.getKind()
+                    && (prev.isEmpty()
+                            || (!contextComponentType.getAnnotations().isEmpty()
+                                    && prevIsSubtype))) {
                 post = contextComponentType.getAnnotations();
             } else {
                 // The type of the array initializers is incompatible with the
@@ -112,7 +117,8 @@ public class PropagationTreeAnnotator extends TreeAnnotator {
     public Void visitCompoundAssignment(CompoundAssignmentTree node, AnnotatedTypeMirror type) {
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(node.getExpression());
         AnnotatedTypeMirror lhs = atypeFactory.getAnnotatedType(node.getVariable());
-        Set<? extends AnnotationMirror> lubs = qualHierarchy.leastUpperBounds(rhs.getAnnotations(), lhs.getAnnotations());
+        Set<? extends AnnotationMirror> lubs =
+                qualHierarchy.leastUpperBounds(rhs.getAnnotations(), lhs.getAnnotations());
         type.addMissingAnnotations(lubs);
         return null;
     }
@@ -121,7 +127,9 @@ public class PropagationTreeAnnotator extends TreeAnnotator {
     public Void visitBinary(BinaryTree node, AnnotatedTypeMirror type) {
         AnnotatedTypeMirror a = atypeFactory.getAnnotatedType(node.getLeftOperand());
         AnnotatedTypeMirror b = atypeFactory.getAnnotatedType(node.getRightOperand());
-        Set<? extends AnnotationMirror> lubs = qualHierarchy.leastUpperBounds(a.getEffectiveAnnotations(), b.getEffectiveAnnotations());
+        Set<? extends AnnotationMirror> lubs =
+                qualHierarchy.leastUpperBounds(
+                        a.getEffectiveAnnotations(), b.getEffectiveAnnotations());
         type.addMissingAnnotations(lubs);
         return null;
     }
@@ -150,7 +158,7 @@ public class PropagationTreeAnnotator extends TreeAnnotator {
     public Void visitTypeCast(TypeCastTree node, AnnotatedTypeMirror type) {
 
         AnnotatedTypeMirror exprType = atypeFactory.getAnnotatedType(node.getExpression());
-        if (type.getKind() == TypeKind.TYPEVAR ) {
+        if (type.getKind() == TypeKind.TYPEVAR) {
             if (exprType.getKind() == TypeKind.TYPEVAR) {
                 // If both types are type variables, take the direct annotations.
                 type.addMissingAnnotations(exprType.getAnnotations());

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -33,8 +33,7 @@ public final class WildcardType extends Type {
 
     private ReferenceType sup;
 
-    public WildcardType() {
-    }
+    public WildcardType() {}
 
     public WildcardType(ReferenceType ext) {
         this.ext = ext;
@@ -45,7 +44,13 @@ public final class WildcardType extends Type {
         this.sup = sup;
     }
 
-    public WildcardType(int beginLine, int beginColumn, int endLine, int endColumn, ReferenceType ext, ReferenceType sup) {
+    public WildcardType(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            ReferenceType ext,
+            ReferenceType sup) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.ext = ext;
         this.sup = sup;
@@ -76,5 +81,4 @@ public final class WildcardType extends Type {
     public void setSuper(ReferenceType sup) {
         this.sup = sup;
     }
-
 }

@@ -70,9 +70,13 @@ public class I18nFormatterTreeUtil {
     public I18nFormatterTreeUtil(BaseTypeChecker checker) {
         this.checker = checker;
         this.processingEnv = checker.getProcessingEnvironment();
-        this.formatArgTypesElement = TreeUtils.getMethod(
-                org.checkerframework.checker.i18nformatter.qual.I18nFormat.class.getCanonicalName(), "value", 0,
-                processingEnv);
+        this.formatArgTypesElement =
+                TreeUtils.getMethod(
+                        org.checkerframework.checker.i18nformatter.qual.I18nFormat.class
+                                .getCanonicalName(),
+                        "value",
+                        0,
+                        processingEnv);
     }
 
     /**
@@ -80,7 +84,9 @@ public class I18nFormatterTreeUtil {
      *
      */
     public enum FormatType {
-        I18NINVALID, I18NFORMAT, I18NFORMATFOR
+        I18NINVALID,
+        I18NFORMAT,
+        I18NFORMATFOR
     }
 
     /**
@@ -90,7 +96,8 @@ public class I18nFormatterTreeUtil {
      * as value.
      */
     public AnnotationMirror exceptionToInvalidFormatAnnotation(IllegalArgumentException ex) {
-        AnnotationBuilder builder = new AnnotationBuilder(processingEnv, I18nInvalidFormat.class.getCanonicalName());
+        AnnotationBuilder builder =
+                new AnnotationBuilder(processingEnv, I18nInvalidFormat.class.getCanonicalName());
         builder.setValue("value", ex.getMessage());
         return builder.build();
     }
@@ -101,7 +108,8 @@ public class I18nFormatterTreeUtil {
      * value.
      */
     public AnnotationMirror categoriesToFormatAnnotation(I18nConversionCategory[] args) {
-        AnnotationBuilder builder = new AnnotationBuilder(processingEnv, I18nFormat.class.getCanonicalName());
+        AnnotationBuilder builder =
+                new AnnotationBuilder(processingEnv, I18nFormat.class.getCanonicalName());
         builder.setValue("value", args);
         return builder.build();
     }
@@ -112,8 +120,11 @@ public class I18nFormatterTreeUtil {
      */
     public I18nConversionCategory[] formatAnnotationToCategories(AnnotationMirror anno) {
         @SuppressWarnings("unchecked")
-        List<? extends AnnotationValue> vals = (List<? extends AnnotationValue>) AnnotationUtils
-                .getElementValuesWithDefaults(anno).get(formatArgTypesElement).getValue();
+        List<? extends AnnotationValue> vals =
+                (List<? extends AnnotationValue>)
+                        AnnotationUtils.getElementValuesWithDefaults(anno)
+                                .get(formatArgTypesElement)
+                                .getValue();
 
         I18nConversionCategory[] argTypes = new I18nConversionCategory[vals.size()];
         for (int i = 0; i < vals.size(); ++i) {
@@ -160,15 +171,21 @@ public class I18nFormatterTreeUtil {
     /**
      * Reports an error. Takes a {@link Result} to report the location.
      */
-    public final <E> void failure(Result<E> res, /*@CompilerMessageKey*/ String msg, Object... args) {
-        checker.report(org.checkerframework.framework.source.Result.failure(msg, args), ((ResultImpl<E>) res).location);
+    public final <E> void failure(
+            Result<E> res, /*@CompilerMessageKey*/ String msg, Object... args) {
+        checker.report(
+                org.checkerframework.framework.source.Result.failure(msg, args),
+                ((ResultImpl<E>) res).location);
     }
 
     /**
      * Reports an warning. Takes a {@link Result} to report the location.
      */
-    public final <E> void warning(Result<E> res, /*@CompilerMessageKey*/ String msg, Object... args) {
-        checker.report(org.checkerframework.framework.source.Result.warning(msg, args), ((ResultImpl<E>) res).location);
+    public final <E> void warning(
+            Result<E> res, /*@CompilerMessageKey*/ String msg, Object... args) {
+        checker.report(
+                org.checkerframework.framework.source.Result.warning(msg, args),
+                ((ResultImpl<E>) res).location);
     }
 
     private I18nConversionCategory[] asFormatCallCategoriesLowLevel(MethodInvocationNode node) {
@@ -179,8 +196,11 @@ public class I18nFormatterTreeUtil {
             for (int i = 0; i < convs.size(); i++) {
                 Node conv = convs.get(i);
                 if (conv instanceof FieldAccessNode) {
-                    if (typeMirrorToClass(((FieldAccessNode) conv).getType()) == I18nConversionCategory.class) {
-                        res[i] = I18nConversionCategory.valueOf(((FieldAccessNode) conv).getFieldName());
+                    if (typeMirrorToClass(((FieldAccessNode) conv).getType())
+                            == I18nConversionCategory.class) {
+                        res[i] =
+                                I18nConversionCategory.valueOf(
+                                        ((FieldAccessNode) conv).getFieldName());
                         continue; /* avoid returning null */
                     }
                 }
@@ -192,22 +212,25 @@ public class I18nFormatterTreeUtil {
     }
 
     public Result<I18nConversionCategory[]> getHasFormatCallCategories(MethodInvocationNode node) {
-        return new ResultImpl<I18nConversionCategory[]>(asFormatCallCategoriesLowLevel(node), node.getTree());
+        return new ResultImpl<I18nConversionCategory[]>(
+                asFormatCallCategoriesLowLevel(node), node.getTree());
     }
 
-    public Result<I18nConversionCategory[]> makeFormatCallCategories(MethodInvocationNode node,
-            I18nFormatterAnnotatedTypeFactory atypeFactory) {
+    public Result<I18nConversionCategory[]> makeFormatCallCategories(
+            MethodInvocationNode node, I18nFormatterAnnotatedTypeFactory atypeFactory) {
         Map<String, String> translations = atypeFactory.translations;
         Node firstParam = node.getArgument(0);
-        Result<I18nConversionCategory[]> ret = new ResultImpl<I18nConversionCategory[]>(null, node.getTree());
+        Result<I18nConversionCategory[]> ret =
+                new ResultImpl<I18nConversionCategory[]>(null, node.getTree());
 
         // Now only work with a literal string
         if (firstParam != null && (firstParam instanceof StringLiteralNode)) {
             String s = ((StringLiteralNode) firstParam).getValue();
             if (translations.containsKey(s)) {
                 String value = translations.get(s);
-                ret = new ResultImpl<I18nConversionCategory[]>(I18nFormatUtil.formatParameterCategories(value),
-                        node.getTree());
+                ret =
+                        new ResultImpl<I18nConversionCategory[]>(
+                                I18nFormatUtil.formatParameterCategories(value), node.getTree());
             }
         }
         return ret;
@@ -216,7 +239,10 @@ public class I18nFormatterTreeUtil {
     /**
      * Returns an I18nFormatCall instance, only if FormatFor is called. Otherwise, returns null.
      */
-    public I18nFormatCall createFormatForCall(MethodInvocationTree tree, MethodInvocationNode node, I18nFormatterAnnotatedTypeFactory atypeFactory) {
+    public I18nFormatCall createFormatForCall(
+            MethodInvocationTree tree,
+            MethodInvocationNode node,
+            I18nFormatterAnnotatedTypeFactory atypeFactory) {
         ExecutableElement method = TreeUtils.elementFromUse(tree);
         AnnotatedExecutableType methodAnno = atypeFactory.getAnnotatedType(method);
         for (AnnotatedTypeMirror paramType : methodAnno.getParameterTypes()) {
@@ -243,7 +269,10 @@ public class I18nFormatterTreeUtil {
 
         private AnnotatedTypeMirror formatAnno;
 
-        public I18nFormatCall(MethodInvocationTree tree, MethodInvocationNode node, AnnotatedTypeFactory atypeFactory) {
+        public I18nFormatCall(
+                MethodInvocationTree tree,
+                MethodInvocationNode node,
+                AnnotatedTypeFactory atypeFactory) {
             this.tree = tree;
             this.atypeFactory = atypeFactory;
             List<? extends ExpressionTree> theargs = (tree).getArguments();
@@ -263,8 +292,11 @@ public class I18nFormatterTreeUtil {
          * If it is valid, this.args will be set to the correct parameter arguments.
          * Otherwise, it will be still null.
          */
-        private void initialCheck(List<? extends ExpressionTree> theargs, ExecutableElement method,
-                MethodInvocationNode node, AnnotatedExecutableType methodAnno) {
+        private void initialCheck(
+                List<? extends ExpressionTree> theargs,
+                ExecutableElement method,
+                MethodInvocationNode node,
+                AnnotatedExecutableType methodAnno) {
             int paramIndex = -1;
             Receiver paramArg = null;
             int i = 0;
@@ -275,16 +307,24 @@ public class I18nFormatterTreeUtil {
 
                     if (!typeMirrorToClass(paramType.getUnderlyingType()).equals(String.class)) {
                         // Invalid FormatFor invocation
-                        return ;
+                        return;
                     }
-                    FlowExpressionContext flowExprContext = FlowExpressionParseUtil
-                                .buildFlowExprContextForUse(node, checker.getContext());
-                    String formatforArg = AnnotationUtils.getElementValue(paramType.getAnnotation(I18nFormatFor.class)
-                            , "value", String.class, false);
+                    FlowExpressionContext flowExprContext =
+                            FlowExpressionParseUtil.buildFlowExprContextForUse(
+                                    node, checker.getContext());
+                    String formatforArg =
+                            AnnotationUtils.getElementValue(
+                                    paramType.getAnnotation(I18nFormatFor.class),
+                                    "value",
+                                    String.class,
+                                    false);
                     if (flowExprContext != null) {
                         try {
-                            paramArg = FlowExpressionParseUtil
-                                .parse(formatforArg, flowExprContext, atypeFactory.getPath(tree));
+                            paramArg =
+                                    FlowExpressionParseUtil.parse(
+                                            formatforArg,
+                                            flowExprContext,
+                                            atypeFactory.getPath(tree));
                             paramIndex = flowExprContext.arguments.indexOf(paramArg);
                         } catch (FlowExpressionParseException e) {
                             // errors are reported at declaration site
@@ -317,7 +357,8 @@ public class I18nFormatterTreeUtil {
                     invalidMessage = "(is a @I18nFormat annotation missing?)";
                     AnnotationMirror inv = formatAnno.getAnnotation(I18nInvalidFormat.class);
                     if (inv != null) {
-                        invalidMessage = AnnotationUtils.getElementValue(inv, "value", String.class, true);
+                        invalidMessage =
+                                AnnotationUtils.getElementValue(inv, "value", String.class, true);
                     }
                 }
             } else {
@@ -348,38 +389,54 @@ public class I18nFormatterTreeUtil {
                 final ExpressionTree first = args.get(0);
                 TypeMirror argType = atypeFactory.getAnnotatedType(first).getUnderlyingType();
                 // figure out if argType is an array
-                type = argType.accept(new SimpleTypeVisitor7<InvocationType, Class<Void>>() {
-                    @Override
-                    protected InvocationType defaultAction(TypeMirror e, Class<Void> p) {
-                        // not an array
-                        return InvocationType.VARARG;
-                    }
+                type =
+                        argType.accept(
+                                new SimpleTypeVisitor7<InvocationType, Class<Void>>() {
+                                    @Override
+                                    protected InvocationType defaultAction(
+                                            TypeMirror e, Class<Void> p) {
+                                        // not an array
+                                        return InvocationType.VARARG;
+                                    }
 
-                    @Override
-                    public InvocationType visitArray(ArrayType t, Class<Void> p) {
-                        // it's an array, now figure out if it's a
-                        // (Object[])null array
-                        return first.accept(new SimpleTreeVisitor<InvocationType, Class<Void>>() {
-                            @Override
-                            protected InvocationType defaultAction(Tree node, Class<Void> p) {
-                                // just a normal array
-                                return InvocationType.ARRAY;
-                            }
+                                    @Override
+                                    public InvocationType visitArray(ArrayType t, Class<Void> p) {
+                                        // it's an array, now figure out if it's a
+                                        // (Object[])null array
+                                        return first.accept(
+                                                new SimpleTreeVisitor<
+                                                        InvocationType, Class<Void>>() {
+                                                    @Override
+                                                    protected InvocationType defaultAction(
+                                                            Tree node, Class<Void> p) {
+                                                        // just a normal array
+                                                        return InvocationType.ARRAY;
+                                                    }
 
-                            @Override
-                            public InvocationType visitTypeCast(TypeCastTree node, Class<Void> p) {
-                                // it's a (Object[])null
-                                return atypeFactory.getAnnotatedType(node.getExpression()).getUnderlyingType()
-                                        .getKind() == TypeKind.NULL ? InvocationType.NULLARRAY : InvocationType.ARRAY;
-                            }
-                        }, p);
-                    }
+                                                    @Override
+                                                    public InvocationType visitTypeCast(
+                                                            TypeCastTree node, Class<Void> p) {
+                                                        // it's a (Object[])null
+                                                        return atypeFactory
+                                                                                .getAnnotatedType(
+                                                                                        node
+                                                                                                .getExpression())
+                                                                                .getUnderlyingType()
+                                                                                .getKind()
+                                                                        == TypeKind.NULL
+                                                                ? InvocationType.NULLARRAY
+                                                                : InvocationType.ARRAY;
+                                                    }
+                                                },
+                                                p);
+                                    }
 
-                    @Override
-                    public InvocationType visitNull(NullType t, Class<Void> p) {
-                        return InvocationType.NULLARRAY;
-                    }
-                }, Void.TYPE);
+                                    @Override
+                                    public InvocationType visitNull(NullType t, Class<Void> p) {
+                                        return InvocationType.NULLARRAY;
+                                    }
+                                },
+                                Void.TYPE);
             }
 
             ExpressionTree loc;
@@ -432,46 +489,53 @@ public class I18nFormatterTreeUtil {
     }
 
     private final Class<? extends Object> typeMirrorToClass(final TypeMirror type) {
-        return type.accept(new SimpleTypeVisitor7<Class<? extends Object>, Class<Void>>() {
-            @Override
-            public Class<? extends Object> visitPrimitive(PrimitiveType t, Class<Void> v) {
-                switch (t.getKind()) {
-                case BOOLEAN:
-                    return Boolean.class;
-                case BYTE:
-                    return Byte.class;
-                case CHAR:
-                    return Character.class;
-                case SHORT:
-                    return Short.class;
-                case INT:
-                    return Integer.class;
-                case LONG:
-                    return Long.class;
-                case FLOAT:
-                    return Float.class;
-                case DOUBLE:
-                    return Double.class;
-                default:
-                    return null;
-                }
-            }
-
-            @Override
-            public Class<? extends Object> visitDeclared(DeclaredType dt, Class<Void> v) {
-                return dt.asElement().accept(new SimpleElementVisitor7<Class<? extends Object>, Class<Void>>() {
+        return type.accept(
+                new SimpleTypeVisitor7<Class<? extends Object>, Class<Void>>() {
                     @Override
-                    public Class<? extends Object> visitType(TypeElement e, Class<Void> v) {
-                        try {
-                            return Class.forName(e.getQualifiedName().toString());
-                        } catch (ClassNotFoundException e1) {
-                            return null; // the lookup should work for all the
-                                         // classes we care about
+                    public Class<? extends Object> visitPrimitive(PrimitiveType t, Class<Void> v) {
+                        switch (t.getKind()) {
+                            case BOOLEAN:
+                                return Boolean.class;
+                            case BYTE:
+                                return Byte.class;
+                            case CHAR:
+                                return Character.class;
+                            case SHORT:
+                                return Short.class;
+                            case INT:
+                                return Integer.class;
+                            case LONG:
+                                return Long.class;
+                            case FLOAT:
+                                return Float.class;
+                            case DOUBLE:
+                                return Double.class;
+                            default:
+                                return null;
                         }
                     }
-                }, Void.TYPE);
-            }
-        }, Void.TYPE);
-    }
 
+                    @Override
+                    public Class<? extends Object> visitDeclared(DeclaredType dt, Class<Void> v) {
+                        return dt.asElement()
+                                .accept(
+                                        new SimpleElementVisitor7<
+                                                Class<? extends Object>, Class<Void>>() {
+                                            @Override
+                                            public Class<? extends Object> visitType(
+                                                    TypeElement e, Class<Void> v) {
+                                                try {
+                                                    return Class.forName(
+                                                            e.getQualifiedName().toString());
+                                                } catch (ClassNotFoundException e1) {
+                                                    return null; // the lookup should work for all the
+                                                    // classes we care about
+                                                }
+                                            }
+                                        },
+                                        Void.TYPE);
+                    }
+                },
+                Void.TYPE);
+    }
 }

@@ -73,15 +73,17 @@ public class CollectionToArrayHeuristics {
     private final ExecutableElement size;
     private final AnnotatedDeclaredType collectionType;
 
-    public CollectionToArrayHeuristics(ProcessingEnvironment env,
-            NullnessAnnotatedTypeFactory factory) {
+    public CollectionToArrayHeuristics(
+            ProcessingEnvironment env, NullnessAnnotatedTypeFactory factory) {
         this.processingEnv = env;
         this.atypeFactory = factory;
 
-        this.collectionToArrayObject = TreeUtils.getMethod("java.util.Collection", "toArray", 0, env);
+        this.collectionToArrayObject =
+                TreeUtils.getMethod("java.util.Collection", "toArray", 0, env);
         this.collectionToArrayE = TreeUtils.getMethod("java.util.Collection", "toArray", 1, env);
         this.size = TreeUtils.getMethod("java.util.Collection", "size", 0, env);
-        this.collectionType = factory.fromElement(env.getElementUtils().getTypeElement("java.util.Collection"));
+        this.collectionType =
+                factory.fromElement(env.getElementUtils().getTypeElement("java.util.Collection"));
     }
 
     /**
@@ -103,8 +105,8 @@ public class CollectionToArrayHeuristics {
         } else if (TreeUtils.isMethodInvocation(tree, collectionToArrayE, processingEnv)) {
             assert !tree.getArguments().isEmpty() : tree;
             Tree argument = tree.getArguments().get(0);
-            boolean isArrayCreation = isHandledArrayCreation(argument,
-                    receiver(tree.getMethodSelect()));
+            boolean isArrayCreation =
+                    isHandledArrayCreation(argument, receiver(tree.getMethodSelect()));
             boolean receiver = isNonNullReceiver(tree);
             setComponentNullness(receiver && isArrayCreation, method.getReturnType());
 
@@ -125,7 +127,7 @@ public class CollectionToArrayHeuristics {
      */
     private void setComponentNullness(boolean isNonNull, AnnotatedTypeMirror type) {
         assert type.getKind() == TypeKind.ARRAY;
-        AnnotatedTypeMirror compType = ((AnnotatedArrayType)type).getComponentType();
+        AnnotatedTypeMirror compType = ((AnnotatedArrayType) type).getComponentType();
         compType.replaceAnnotation(isNonNull ? atypeFactory.NONNULL : atypeFactory.NULLABLE);
     }
 
@@ -142,7 +144,7 @@ public class CollectionToArrayHeuristics {
         if (argument.getKind() != Tree.Kind.NEW_ARRAY) {
             return false;
         }
-        NewArrayTree newArr = (NewArrayTree)argument;
+        NewArrayTree newArr = (NewArrayTree) argument;
 
         // case 1: empty array initializer
         if (newArr.getInitializers() != null) {
@@ -159,7 +161,7 @@ public class CollectionToArrayHeuristics {
 
         // case 3: size()-length array creation
         if (TreeUtils.isMethodInvocation(dimension, size, processingEnv)) {
-            MethodInvocationTree invok = (MethodInvocationTree)dimension;
+            MethodInvocationTree invok = (MethodInvocationTree) dimension;
             String invokReceiver = receiver(invok.getMethodSelect());
             return invokReceiver.equals(receiver);
         }
@@ -175,12 +177,20 @@ public class CollectionToArrayHeuristics {
     private boolean isNonNullReceiver(MethodInvocationTree tree) {
         // check receiver
         AnnotatedTypeMirror receiver = atypeFactory.getReceiverType(tree);
-        AnnotatedDeclaredType collection = (AnnotatedDeclaredType) AnnotatedTypes.asSuper(processingEnv.getTypeUtils(), atypeFactory, receiver, collectionType);
+        AnnotatedDeclaredType collection =
+                (AnnotatedDeclaredType)
+                        AnnotatedTypes.asSuper(
+                                processingEnv.getTypeUtils(),
+                                atypeFactory,
+                                receiver,
+                                collectionType);
         assert collection != null;
 
         if (collection.getTypeArguments().isEmpty()
-            || !collection.getTypeArguments().get(0).hasEffectiveAnnotation(atypeFactory.NONNULL))
-            return false;
+                || !collection
+                        .getTypeArguments()
+                        .get(0)
+                        .hasEffectiveAnnotation(atypeFactory.NONNULL)) return false;
         return true;
     }
 
@@ -192,10 +202,9 @@ public class CollectionToArrayHeuristics {
     // This method is quite sloppy, but works most of the time
     private String receiver(Tree tree) {
         if (tree.getKind() == Tree.Kind.MEMBER_SELECT) {
-            return ((MemberSelectTree)tree).getExpression().toString();
+            return ((MemberSelectTree) tree).getExpression().toString();
         } else {
             return "this";
         }
     }
-
 }

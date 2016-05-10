@@ -84,11 +84,9 @@ public class PackageNameNode extends Node {
         }
         PackageNameNode other = (PackageNameNode) obj;
         if (getParent() == null) {
-            return other.getParent() == null
-                    && getElement().equals(other.getElement());
+            return other.getParent() == null && getElement().equals(other.getElement());
         } else {
-            return getParent().equals(other.getParent())
-                    && getElement().equals(other.getElement());
+            return getParent().equals(other.getParent()) && getElement().equals(other.getElement());
         }
     }
 

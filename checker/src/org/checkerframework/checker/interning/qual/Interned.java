@@ -35,13 +35,21 @@ import javax.lang.model.type.TypeKind;
  * @checker_framework.manual #interning-checker Interning Checker
  */
 @SubtypeOf(UnknownInterned.class)
-@ImplicitFor(literals = { LiteralKind.ALL },
-    types = { TypeKind.BOOLEAN, TypeKind.BYTE,
-              TypeKind.CHAR, TypeKind.DOUBLE,
-              TypeKind.FLOAT, TypeKind.INT,
-              TypeKind.LONG, TypeKind.SHORT },
-    typeNames = { Void.class })
-@DefaultFor(value={ TypeUseLocation.LOWER_BOUND } )
+@ImplicitFor(
+    literals = {LiteralKind.ALL},
+    types = {
+        TypeKind.BOOLEAN,
+        TypeKind.BYTE,
+        TypeKind.CHAR,
+        TypeKind.DOUBLE,
+        TypeKind.FLOAT,
+        TypeKind.INT,
+        TypeKind.LONG,
+        TypeKind.SHORT
+    },
+    typeNames = {Void.class}
+)
+@DefaultFor(value = {TypeUseLocation.LOWER_BOUND})
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})

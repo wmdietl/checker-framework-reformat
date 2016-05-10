@@ -76,8 +76,7 @@ public class InstanceOfNode extends Node {
         InstanceOfNode other = (InstanceOfNode) obj;
         // TODO: TypeMirror.equals may be too restrictive.
         // Check whether Types.isSameType is the better comparison.
-        return getOperand().equals(other.getOperand())
-                && getRefType().equals(other.getRefType());
+        return getOperand().equals(other.getOperand()) && getRefType().equals(other.getRefType());
     }
 
     @Override

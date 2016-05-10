@@ -42,7 +42,7 @@ public class TreeParser {
     private final Names names;
 
     public TreeParser(ProcessingEnvironment env) {
-        Context context = ((JavacProcessingEnvironment)env).getContext();
+        Context context = ((JavacProcessingEnvironment) env).getContext();
         maker = TreeMaker.instance(context);
         names = Names.instance(context);
     }
@@ -91,9 +91,12 @@ public class TreeParser {
         Object value = null;
         try {
             value = Integer.valueOf(token);
-        } catch (Exception e2) { try {
-            value = Double.valueOf(token);
-        } catch (Exception ef) {}}
+        } catch (Exception e2) {
+            try {
+                value = Double.valueOf(token);
+            } catch (Exception ef) {
+            }
+        }
         assert value != null;
         return maker.Literal(value);
     }
@@ -105,8 +108,7 @@ public class TreeParser {
             String delim = nextToken();
             if (".".equals(delim)) {
                 nextToken();
-                tree = maker.Select(tree,
-                        names.fromString(token));
+                tree = maker.Select(tree, names.fromString(token));
             } else if ("(".equals(delim)) {
                 nextToken();
                 ListBuffer<JCExpression> args = new ListBuffer<>();
@@ -119,8 +121,7 @@ public class TreeParser {
                 }
                 // For now, handle empty args only
                 assert ")".equals(token);
-                tree = maker.Apply(List.<JCExpression>nil(),
-                        tree, args.toList());
+                tree = maker.Apply(List.<JCExpression>nil(), tree, args.toList());
             } else if ("[".equals(token)) {
                 nextToken();
                 JCExpression index = parseExpression();

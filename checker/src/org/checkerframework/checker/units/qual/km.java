@@ -13,5 +13,5 @@ import org.checkerframework.framework.qual.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 @SubtypeOf(Length.class)
-@UnitsMultiple(quantity=m.class, prefix=Prefix.kilo)
+@UnitsMultiple(quantity = m.class, prefix = Prefix.kilo)
 public @interface km {}

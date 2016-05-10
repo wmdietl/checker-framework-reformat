@@ -36,7 +36,8 @@ class QualifierHierarchyAdapter<Q> {
     private TypeMirrorConverter<Q> converter;
     private AnnotationConverter<Q> annotationConverter;
 
-    public QualifierHierarchyAdapter(AnnotationConverter<Q> annotationConverter,
+    public QualifierHierarchyAdapter(
+            AnnotationConverter<Q> annotationConverter,
             QualifierHierarchy<Q> underlying,
             TypeMirrorConverter<Q> converter) {
         this.annotationConverter = annotationConverter;
@@ -64,16 +65,16 @@ class QualifierHierarchyAdapter<Q> {
         }
 
         @Override
-        protected Set<AnnotationMirror>
-        findBottoms(Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
+        protected Set<AnnotationMirror> findBottoms(
+                Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
             Set<AnnotationMirror> newBottoms = AnnotationUtils.createAnnotationSet();
             newBottoms.add(getBottomAnnotation(null));
             return newBottoms;
         }
 
         @Override
-        protected Set<AnnotationMirror>
-        findTops(Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
+        protected Set<AnnotationMirror> findTops(
+                Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
             Set<AnnotationMirror> newTops = AnnotationUtils.createAnnotationSet();
             newTops.add(getTopAnnotation(null));
             return newTops;
@@ -90,7 +91,8 @@ class QualifierHierarchyAdapter<Q> {
         }
 
         @Override
-        public AnnotationMirror getAnnotationInHierarchy(Collection<? extends AnnotationMirror> annos, AnnotationMirror top) {
+        public AnnotationMirror getAnnotationInHierarchy(
+                Collection<? extends AnnotationMirror> annos, AnnotationMirror top) {
             for (AnnotationMirror anno : annos) {
                 if (converter.isKey(anno)) {
                     return anno;

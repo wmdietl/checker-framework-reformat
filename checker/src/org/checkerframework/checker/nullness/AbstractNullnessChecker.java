@@ -25,7 +25,8 @@ import java.util.LinkedHashSet;
     //     http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-arrays
     // It is permitted temporarily, until we gather more experience.
     // See issues 154, 322, and 433.
-    "forbidnonnullarraycomponents" })
+    "forbidnonnullarraycomponents"
+})
 public abstract class AbstractNullnessChecker extends InitializationChecker {
 
     /**
@@ -62,8 +63,8 @@ public abstract class AbstractNullnessChecker extends InitializationChecker {
 
     @Override
     protected LinkedHashSet<Class<? extends BaseTypeChecker>> getImmediateSubcheckerClasses() {
-        LinkedHashSet<Class<? extends BaseTypeChecker>> checkers
-            = super.getImmediateSubcheckerClasses();
+        LinkedHashSet<Class<? extends BaseTypeChecker>> checkers =
+                super.getImmediateSubcheckerClasses();
         checkers.add(KeyForSubchecker.class);
         return checkers;
     }

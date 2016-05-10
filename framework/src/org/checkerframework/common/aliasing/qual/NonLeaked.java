@@ -31,6 +31,6 @@ import org.checkerframework.framework.qual.SubtypeOf;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE })
+@Target({ElementType.TYPE_USE})
 @SubtypeOf({})
 public @interface NonLeaked {}

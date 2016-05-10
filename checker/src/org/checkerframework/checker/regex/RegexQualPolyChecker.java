@@ -27,27 +27,43 @@ public class RegexQualPolyChecker extends QualifierParameterChecker<Regex> {
                 Arrays.asList(
                         this.getTypeFactory().getQualifierHierarchy().getBottom(),
                         this.getTypeFactory().getQualifierHierarchy().getTop(),
-                        Regex.BOTTOM, Regex.TOP));
+                        Regex.BOTTOM,
+                        Regex.TOP));
     }
 
     @Override
-    protected SurfaceSyntaxFormatterConfiguration<Regex> createSurfaceSyntaxFormatterConfiguration() {
+    protected SurfaceSyntaxFormatterConfiguration<Regex>
+            createSurfaceSyntaxFormatterConfiguration() {
         return new RegexSurfaceSyntaxConfiguration();
     }
 
-    private class RegexSurfaceSyntaxConfiguration extends SurfaceSyntaxFormatterConfiguration<Regex> {
+    private class RegexSurfaceSyntaxConfiguration
+            extends SurfaceSyntaxFormatterConfiguration<Regex> {
 
-        private final Set<String> SUPPRESS_NAMES = new HashSet<>(
-                Arrays.asList("RegexTop", "RegexBot", "PartialRegex"));
+        private final Set<String> SUPPRESS_NAMES =
+                new HashSet<>(Arrays.asList("RegexTop", "RegexBot", "PartialRegex"));
 
         public RegexSurfaceSyntaxConfiguration() {
-            super(Regex.TOP, Regex.BOTTOM,
-                    RegexQualPolyChecker.this.getContext().getTypeFactory().getQualifierHierarchy().getTop(),
-                    RegexQualPolyChecker.this.getContext().getTypeFactory().getQualifierHierarchy().getBottom());
+            super(
+                    Regex.TOP,
+                    Regex.BOTTOM,
+                    RegexQualPolyChecker
+                            .this
+                            .getContext()
+                            .getTypeFactory()
+                            .getQualifierHierarchy()
+                            .getTop(),
+                    RegexQualPolyChecker
+                            .this
+                            .getContext()
+                            .getTypeFactory()
+                            .getQualifierHierarchy()
+                            .getBottom());
         }
 
         @Override
-        protected boolean shouldPrintAnnotation(AnnotationParts anno, boolean printInvisibleQualifiers) {
+        protected boolean shouldPrintAnnotation(
+                AnnotationParts anno, boolean printInvisibleQualifiers) {
             return printInvisibleQualifiers || !(SUPPRESS_NAMES.contains(anno.getName()));
         }
 
@@ -69,5 +85,4 @@ public class RegexQualPolyChecker extends QualifierParameterChecker<Regex> {
             }
         }
     }
-
 }

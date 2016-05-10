@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -36,22 +36,35 @@ public abstract class TypeDeclaration extends BodyDeclaration {
 
     private List<BodyDeclaration> members;
 
-    public TypeDeclaration() {
-    }
+    public TypeDeclaration() {}
 
     public TypeDeclaration(int modifiers, String name) {
         this.name = name;
         this.modifiers = modifiers;
     }
 
-    public TypeDeclaration(List<AnnotationExpr> annotations, JavadocComment javaDoc, int modifiers, String name, List<BodyDeclaration> members) {
+    public TypeDeclaration(
+            List<AnnotationExpr> annotations,
+            JavadocComment javaDoc,
+            int modifiers,
+            String name,
+            List<BodyDeclaration> members) {
         super(annotations, javaDoc);
         this.name = name;
         this.modifiers = modifiers;
         this.members = members;
     }
 
-    public TypeDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations, JavadocComment javaDoc, int modifiers, String name, List<BodyDeclaration> members) {
+    public TypeDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            List<AnnotationExpr> annotations,
+            JavadocComment javaDoc,
+            int modifiers,
+            String name,
+            List<BodyDeclaration> members) {
         super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
         this.name = name;
         this.modifiers = modifiers;
@@ -64,7 +77,7 @@ public abstract class TypeDeclaration extends BodyDeclaration {
 
     /**
      * Return the modifiers of this type declaration.
-     * 
+     *
      * @see ModifierSet
      * @return modifiers
      */

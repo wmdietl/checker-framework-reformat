@@ -66,7 +66,11 @@ public class ControlFlowGraph {
      */
     protected final List<ReturnNode> returnNodes;
 
-    public ControlFlowGraph(SpecialBlock entryBlock, SpecialBlockImpl regularExitBlock, SpecialBlockImpl exceptionalExitBlock, UnderlyingAST underlyingAST,
+    public ControlFlowGraph(
+            SpecialBlock entryBlock,
+            SpecialBlockImpl regularExitBlock,
+            SpecialBlockImpl exceptionalExitBlock,
+            UnderlyingAST underlyingAST,
             IdentityHashMap<Tree, Node> treeLookup,
             IdentityHashMap<Tree, Node> convertedTreeLookup,
             List<ReturnNode> returnNodes) {

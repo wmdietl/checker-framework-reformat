@@ -61,12 +61,14 @@ public class UnitsRelationsDefault implements UnitsRelations {
      * checker-framework provided Units
      */
     @Override
-    public /*@Nullable*/ AnnotationMirror multiplication(AnnotatedTypeMirror lht, AnnotatedTypeMirror rht) {
+    public /*@Nullable*/ AnnotationMirror multiplication(
+            AnnotatedTypeMirror lht, AnnotatedTypeMirror rht) {
         // TODO: does this handle scaling correctly?
 
         // length * length => area
         // checking SI units only
-        if (UnitsRelationsTools.hasSpecificUnitIgnoringPrefix(lht, m) && UnitsRelationsTools.hasSpecificUnitIgnoringPrefix(rht, m)) {
+        if (UnitsRelationsTools.hasSpecificUnitIgnoringPrefix(lht, m)
+                && UnitsRelationsTools.hasSpecificUnitIgnoringPrefix(rht, m)) {
             if (UnitsRelationsTools.hasNoPrefix(lht) && UnitsRelationsTools.hasNoPrefix(rht)) {
                 // m * m
                 return m2;
@@ -106,7 +108,8 @@ public class UnitsRelationsDefault implements UnitsRelations {
      * checker-framework provided Units
      */
     @Override
-    public /*@Nullable*/ AnnotationMirror division(AnnotatedTypeMirror lht, AnnotatedTypeMirror rht) {
+    public /*@Nullable*/ AnnotationMirror division(
+            AnnotatedTypeMirror lht, AnnotatedTypeMirror rht) {
         if (havePairOfUnits(lht, m, rht, s)) {
             // m / s => mPERs
             return mPERs;
@@ -148,7 +151,8 @@ public class UnitsRelationsDefault implements UnitsRelations {
      * @param specificPrefix specific desired prefix to match
      * @return true if all 3 Prefix are the same, false otherwise
      */
-    protected boolean bothHaveSpecificPrefix(Prefix lhtPrefix, Prefix rhtPrefix, Prefix specificPrefix) {
+    protected boolean bothHaveSpecificPrefix(
+            Prefix lhtPrefix, Prefix rhtPrefix, Prefix specificPrefix) {
         if (lhtPrefix == null || rhtPrefix == null || specificPrefix == null) {
             return false;
         }
@@ -166,8 +170,13 @@ public class UnitsRelationsDefault implements UnitsRelations {
      * @param ur right hand unit
      * @return true if lht has lu and rht has ru, false otherwise
      */
-    protected boolean havePairOfUnits(AnnotatedTypeMirror lht, AnnotationMirror ul, AnnotatedTypeMirror rht, AnnotationMirror ur) {
-        return UnitsRelationsTools.hasSpecificUnit(lht, ul) && UnitsRelationsTools.hasSpecificUnit(rht, ur);
+    protected boolean havePairOfUnits(
+            AnnotatedTypeMirror lht,
+            AnnotationMirror ul,
+            AnnotatedTypeMirror rht,
+            AnnotationMirror ur) {
+        return UnitsRelationsTools.hasSpecificUnit(lht, ul)
+                && UnitsRelationsTools.hasSpecificUnit(rht, ur);
     }
 
     /**
@@ -181,7 +190,11 @@ public class UnitsRelationsDefault implements UnitsRelations {
      * @return true if lht and rht have the pair of units u1 and u2 regardless
      *         of order, false otherwise
      */
-    protected boolean havePairOfUnitsIgnoringOrder(AnnotatedTypeMirror lht, AnnotationMirror u1, AnnotatedTypeMirror rht, AnnotationMirror u2) {
+    protected boolean havePairOfUnitsIgnoringOrder(
+            AnnotatedTypeMirror lht,
+            AnnotationMirror u1,
+            AnnotatedTypeMirror rht,
+            AnnotationMirror u2) {
         return havePairOfUnits(lht, u1, rht, u2) || havePairOfUnits(lht, u2, rht, u1);
     }
 }

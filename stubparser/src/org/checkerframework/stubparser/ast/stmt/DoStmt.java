@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,15 +34,20 @@ public final class DoStmt extends Statement {
 
     private Expression condition;
 
-    public DoStmt() {
-    }
+    public DoStmt() {}
 
     public DoStmt(Statement body, Expression condition) {
         this.body = body;
         this.condition = condition;
     }
 
-    public DoStmt(int beginLine, int beginColumn, int endLine, int endColumn, Statement body, Expression condition) {
+    public DoStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Statement body,
+            Expression condition) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.body = body;
         this.condition = condition;

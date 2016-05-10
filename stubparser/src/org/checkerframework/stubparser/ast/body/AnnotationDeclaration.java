@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -32,19 +32,41 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  */
 public final class AnnotationDeclaration extends TypeDeclaration {
 
-    public AnnotationDeclaration() {
-    }
+    public AnnotationDeclaration() {}
 
     public AnnotationDeclaration(int modifiers, String name) {
         super(modifiers, name);
     }
 
-    public AnnotationDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, String name, List<BodyDeclaration> members) {
+    public AnnotationDeclaration(
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            String name,
+            List<BodyDeclaration> members) {
         super(annotations, javaDoc, modifiers, name, members);
     }
 
-    public AnnotationDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, String name, List<BodyDeclaration> members) {
-        super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc, modifiers, name, members);
+    public AnnotationDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            String name,
+            List<BodyDeclaration> members) {
+        super(
+                beginLine,
+                beginColumn,
+                endLine,
+                endColumn,
+                annotations,
+                javaDoc,
+                modifiers,
+                name,
+                members);
     }
 
     @Override
@@ -56,5 +78,4 @@ public final class AnnotationDeclaration extends TypeDeclaration {
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
     }
-
 }

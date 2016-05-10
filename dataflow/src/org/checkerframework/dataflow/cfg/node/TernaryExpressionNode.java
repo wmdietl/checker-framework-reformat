@@ -28,8 +28,8 @@ public class TernaryExpressionNode extends Node {
     protected Node thenOperand;
     protected Node elseOperand;
 
-    public TernaryExpressionNode(ConditionalExpressionTree tree, Node condition,
-            Node thenOperand, Node elseOperand) {
+    public TernaryExpressionNode(
+            ConditionalExpressionTree tree, Node condition, Node thenOperand, Node elseOperand) {
         super(InternalUtils.typeOf(tree));
         assert tree.getKind().equals(Kind.CONDITIONAL_EXPRESSION);
         this.tree = tree;
@@ -62,8 +62,13 @@ public class TernaryExpressionNode extends Node {
 
     @Override
     public String toString() {
-        return "(" + getConditionOperand() + " ? " + getThenOperand() + " : "
-                + getElseOperand() + ")";
+        return "("
+                + getConditionOperand()
+                + " ? "
+                + getThenOperand()
+                + " : "
+                + getElseOperand()
+                + ")";
     }
 
     @Override
@@ -79,8 +84,7 @@ public class TernaryExpressionNode extends Node {
 
     @Override
     public int hashCode() {
-        return HashCodeUtils.hash(getConditionOperand(), getThenOperand(),
-                getElseOperand());
+        return HashCodeUtils.hash(getConditionOperand(), getThenOperand(), getElseOperand());
     }
 
     @Override

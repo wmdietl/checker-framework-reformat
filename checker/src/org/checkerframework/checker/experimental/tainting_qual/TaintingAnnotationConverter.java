@@ -11,7 +11,6 @@ import org.checkerframework.qualframework.base.AnnotationConverter;
 import org.checkerframework.checker.experimental.tainting_qual.qual.Tainted;
 import org.checkerframework.checker.experimental.tainting_qual.qual.Untainted;
 
-
 public class TaintingAnnotationConverter implements AnnotationConverter<Tainting> {
     private Tainting fromAnnotation(AnnotationMirror anno) {
         if (AnnotationUtils.areSameByClass(anno, Tainted.class)) {
@@ -38,4 +37,3 @@ public class TaintingAnnotationConverter implements AnnotationConverter<Tainting
         return fromAnnotation(anno) != null;
     }
 }
-

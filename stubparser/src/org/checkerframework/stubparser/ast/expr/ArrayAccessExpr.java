@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -33,15 +33,20 @@ public final class ArrayAccessExpr extends Expression {
 
     private Expression index;
 
-    public ArrayAccessExpr() {
-    }
+    public ArrayAccessExpr() {}
 
     public ArrayAccessExpr(Expression name, Expression index) {
         this.name = name;
         this.index = index;
     }
 
-    public ArrayAccessExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression name, Expression index) {
+    public ArrayAccessExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression name,
+            Expression index) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.index = index;
@@ -72,5 +77,4 @@ public final class ArrayAccessExpr extends Expression {
     public void setName(Expression name) {
         this.name = name;
     }
-
 }

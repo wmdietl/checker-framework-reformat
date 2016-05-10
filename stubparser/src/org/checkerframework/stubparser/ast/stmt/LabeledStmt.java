@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -33,15 +33,20 @@ public final class LabeledStmt extends Statement {
 
     private Statement stmt;
 
-    public LabeledStmt() {
-    }
+    public LabeledStmt() {}
 
     public LabeledStmt(String label, Statement stmt) {
         this.label = label;
         this.stmt = stmt;
     }
 
-    public LabeledStmt(int beginLine, int beginColumn, int endLine, int endColumn, String label, Statement stmt) {
+    public LabeledStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            String label,
+            Statement stmt) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.label = label;
         this.stmt = stmt;

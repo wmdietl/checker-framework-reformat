@@ -32,12 +32,12 @@ public abstract class BasicTypeProcessor extends AbstractTypeProcessor {
             scanner = createTreePathScanner(currentRoot);
             scanner.scan(p, null);
         } catch (Throwable t) {
-            System.err.println("BasicTypeProcessor.typeProcess: unexpected Throwable (" +
-                    t.getClass().getSimpleName() + ")  when processing "
-                    + currentRoot.getSourceFile().getName() +
-                    (t.getMessage()!=null ? "; message: " + t.getMessage() : ""));
+            System.err.println(
+                    "BasicTypeProcessor.typeProcess: unexpected Throwable ("
+                            + t.getClass().getSimpleName()
+                            + ")  when processing "
+                            + currentRoot.getSourceFile().getName()
+                            + (t.getMessage() != null ? "; message: " + t.getMessage() : ""));
         }
     }
-
 }
-

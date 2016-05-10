@@ -81,7 +81,7 @@ import org.checkerframework.framework.qual.SubtypeOf;
 @SubtypeOf(UnknownInitialization.class)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface UnderInitialization {
     /**
      * The type-frame down to which the expression (of this type) has been

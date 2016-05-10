@@ -72,8 +72,8 @@ public class WholeProgramInferenceScenesHelper {
      * Directory where .jaif files will be written to and read from.
      * This directory is relative to where the CF's javac command is executed.
      */
-    public static final String jaifFilesPath = "build" + File.separator +
-            "whole-program-inference" + File.separator;
+    public static final String jaifFilesPath =
+            "build" + File.separator + "whole-program-inference" + File.separator;
 
     /**
      * Indicates whether assignments where the rhs is null should be ignored.
@@ -121,8 +121,12 @@ public class WholeProgramInferenceScenesHelper {
                     IndexFileWriter.write(scene, new FileWriter(jaifPath));
                 }
             } catch (IOException e) {
-                ErrorReporter.errorAbort("Problem while reading file in: " + jaifPath
-                        + ". Exception message: " + e.getMessage(), e);
+                ErrorReporter.errorAbort(
+                        "Problem while reading file in: "
+                                + jaifPath
+                                + ". Exception message: "
+                                + e.getMessage(),
+                        e);
             } catch (DefException e) {
                 ErrorReporter.errorAbort(e.getMessage(), e);
             }
@@ -151,8 +155,13 @@ public class WholeProgramInferenceScenesHelper {
                 try {
                     IndexFileParser.parseFile(jaifPath, scene);
                 } catch (IOException e) {
-                    ErrorReporter.errorAbort("Problem while reading file in: " + jaifPath + "."
-                            + " Exception message: " + e.getMessage(), e);
+                    ErrorReporter.errorAbort(
+                            "Problem while reading file in: "
+                                    + jaifPath
+                                    + "."
+                                    + " Exception message: "
+                                    + e.getMessage(),
+                            e);
                 }
             }
             scenes.put(jaifPath, scene);
@@ -188,25 +197,27 @@ public class WholeProgramInferenceScenesHelper {
      * @param lhsATM the LHS of the annotated type on the source code.
      * @param defLoc the location where the annotation will be added.
      */
-    protected void updateAnnotationSetInScene(ATypeElement type,
-            AnnotatedTypeFactory atf, String jaifPath,
-            AnnotatedTypeMirror rhsATM, AnnotatedTypeMirror lhsATM,
+    protected void updateAnnotationSetInScene(
+            ATypeElement type,
+            AnnotatedTypeFactory atf,
+            String jaifPath,
+            AnnotatedTypeMirror rhsATM,
+            AnnotatedTypeMirror lhsATM,
             TypeUseLocation defLoc) {
         if (rhsATM instanceof AnnotatedNullType && ignoreNullAssignments) {
             return;
         }
-        AnnotatedTypeMirror atmFromJaif = AnnotatedTypeMirror.createType(
-                rhsATM.getUnderlyingType(), atf, false);
+        AnnotatedTypeMirror atmFromJaif =
+                AnnotatedTypeMirror.createType(rhsATM.getUnderlyingType(), atf, false);
         typeElementToATM(atmFromJaif, type, atf);
         updatesATMWithLUB(atf, rhsATM, atmFromJaif);
         if (lhsATM instanceof AnnotatedTypeVariable) {
-            Set<AnnotationMirror> upperAnnos = ((AnnotatedTypeVariable) lhsATM).
-                        getUpperBound().getEffectiveAnnotations();
+            Set<AnnotationMirror> upperAnnos =
+                    ((AnnotatedTypeVariable) lhsATM).getUpperBound().getEffectiveAnnotations();
             // If the inferred type is a subtype of the upper bounds of the
             // current type on the source code, halt.
-            if (upperAnnos.size() == rhsATM.getAnnotations().size() &&
-                    atf.getQualifierHierarchy().isSubtype(
-                            rhsATM.getAnnotations(), upperAnnos)) {
+            if (upperAnnos.size() == rhsATM.getAnnotations().size()
+                    && atf.getQualifierHierarchy().isSubtype(rhsATM.getAnnotations(), upperAnnos)) {
                 return;
             }
         }
@@ -221,17 +232,14 @@ public class WholeProgramInferenceScenesHelper {
     private void removeIgnoredAnnosFromScene(AScene scene) {
         for (AClass aclass : scene.classes.values()) {
             for (AField field : aclass.fields.values()) {
-                removeIgnoredAnnosFromATypeElement(
-                        field.type, TypeUseLocation.FIELD);
+                removeIgnoredAnnosFromATypeElement(field.type, TypeUseLocation.FIELD);
             }
             for (AMethod method : aclass.methods.values()) {
                 // Return type
-                removeIgnoredAnnosFromATypeElement(
-                        method.returnType, TypeUseLocation.RETURN);
+                removeIgnoredAnnosFromATypeElement(method.returnType, TypeUseLocation.RETURN);
                 // Parameter type
                 for (AField param : method.parameters.values()) {
-                    removeIgnoredAnnosFromATypeElement(
-                            param.type, TypeUseLocation.PARAMETER);
+                    removeIgnoredAnnosFromATypeElement(param.type, TypeUseLocation.PARAMETER);
                 }
             }
         }
@@ -241,8 +249,7 @@ public class WholeProgramInferenceScenesHelper {
      * Removes all annotations that should be ignored from an ATypeElement.
      * (See {@link #shouldIgnore}).
      */
-    private void removeIgnoredAnnosFromATypeElement(ATypeElement typeEl,
-            TypeUseLocation loc) {
+    private void removeIgnoredAnnosFromATypeElement(ATypeElement typeEl, TypeUseLocation loc) {
         Set<Annotation> annosToRemove = new HashSet<>();
         Set<String> annosToIgnoreForLocation = annosToIgnore.get(loc);
         if (annosToIgnoreForLocation == null) {
@@ -272,34 +279,42 @@ public class WholeProgramInferenceScenesHelper {
      * @param sourceCodeATM the annotated type on the source code.
      * @param jaifATM the annotated type on the .jaif file.
      */
-    private void updatesATMWithLUB(AnnotatedTypeFactory atf,
-            AnnotatedTypeMirror sourceCodeATM, AnnotatedTypeMirror jaifATM) {
+    private void updatesATMWithLUB(
+            AnnotatedTypeFactory atf,
+            AnnotatedTypeMirror sourceCodeATM,
+            AnnotatedTypeMirror jaifATM) {
 
         switch (sourceCodeATM.getKind()) {
-        case TYPEVAR:
-            updatesATMWithLUB(atf, ((AnnotatedTypeVariable) sourceCodeATM).getLowerBound(),
-                              ((AnnotatedTypeVariable) jaifATM).getLowerBound());
-            updatesATMWithLUB(atf, ((AnnotatedTypeVariable) sourceCodeATM).getUpperBound(),
-                              ((AnnotatedTypeVariable) jaifATM).getUpperBound());
-            break;
-//        case WILDCARD:
-// Because inferring type arguments is not supported, wildcards won't be encoutered
-//            updatesATMWithLUB(atf, ((AnnotatedWildcardType) sourceCodeATM).getExtendsBound(),
-//                              ((AnnotatedWildcardType) jaifATM).getExtendsBound());
-//            updatesATMWithLUB(atf, ((AnnotatedWildcardType) sourceCodeATM).getSuperBound(),
-//                              ((AnnotatedWildcardType) jaifATM).getSuperBound());
-//            break;
-        case ARRAY:
-            updatesATMWithLUB(atf, ((AnnotatedArrayType) sourceCodeATM).getComponentType(),
-                              ((AnnotatedArrayType) jaifATM).getComponentType());
-            break;
-        // case DECLARED:
-        // inferring annotations on type arguments is not supported, so no need to recur on
-        // generic types. If this was every implemented, this method would need VisitHistory
-        // object to prevent infinite recursion on types such as T extends List<T>.
-        default:
-            // ATM only has primary annotations
-            break;
+            case TYPEVAR:
+                updatesATMWithLUB(
+                        atf,
+                        ((AnnotatedTypeVariable) sourceCodeATM).getLowerBound(),
+                        ((AnnotatedTypeVariable) jaifATM).getLowerBound());
+                updatesATMWithLUB(
+                        atf,
+                        ((AnnotatedTypeVariable) sourceCodeATM).getUpperBound(),
+                        ((AnnotatedTypeVariable) jaifATM).getUpperBound());
+                break;
+                //        case WILDCARD:
+                // Because inferring type arguments is not supported, wildcards won't be encoutered
+                //            updatesATMWithLUB(atf, ((AnnotatedWildcardType) sourceCodeATM).getExtendsBound(),
+                //                              ((AnnotatedWildcardType) jaifATM).getExtendsBound());
+                //            updatesATMWithLUB(atf, ((AnnotatedWildcardType) sourceCodeATM).getSuperBound(),
+                //                              ((AnnotatedWildcardType) jaifATM).getSuperBound());
+                //            break;
+            case ARRAY:
+                updatesATMWithLUB(
+                        atf,
+                        ((AnnotatedArrayType) sourceCodeATM).getComponentType(),
+                        ((AnnotatedArrayType) jaifATM).getComponentType());
+                break;
+                // case DECLARED:
+                // inferring annotations on type arguments is not supported, so no need to recur on
+                // generic types. If this was every implemented, this method would need VisitHistory
+                // object to prevent infinite recursion on types such as T extends List<T>.
+            default:
+                // ATM only has primary annotations
+                break;
         }
 
         // LUB primary annotations
@@ -309,8 +324,7 @@ public class WholeProgramInferenceScenesHelper {
             // amJaif only contains  annotations from the jaif, so it might be missing
             // an annotation in the hierarchy
             if (amJaif != null) {
-                amSource = atf.getQualifierHierarchy().leastUpperBound(
-                        amSource, amJaif);
+                amSource = atf.getQualifierHierarchy().leastUpperBound(amSource, amJaif);
             }
             annosToReplace.add(amSource);
         }
@@ -333,8 +347,10 @@ public class WholeProgramInferenceScenesHelper {
      * See Issue 683
      * https://github.com/typetools/checker-framework/issues/683
      */
-    private boolean shouldIgnore(AnnotationMirror am,
-            TypeUseLocation location, AnnotatedTypeFactory atf,
+    private boolean shouldIgnore(
+            AnnotationMirror am,
+            TypeUseLocation location,
+            AnnotatedTypeFactory atf,
             AnnotatedTypeMirror atm) {
         Element elt = am.getAnnotationType().asElement();
         // Checks if am is an implementation detail (a type qualifier used
@@ -381,15 +397,16 @@ public class WholeProgramInferenceScenesHelper {
                 for (Class<?> c : names) {
                     TypeMirror underlyingtype = atm.getUnderlyingType();
                     while (underlyingtype instanceof javax.lang.model.type.ArrayType) {
-                        underlyingtype = ((javax.lang.model.type.ArrayType)underlyingtype).
-                                getComponentType();
+                        underlyingtype =
+                                ((javax.lang.model.type.ArrayType) underlyingtype)
+                                        .getComponentType();
                     }
-                    if (c.getCanonicalName().equals(
-                            atm.getUnderlyingType().toString())) {
+                    if (c.getCanonicalName().equals(atm.getUnderlyingType().toString())) {
                         return true;
                     }
                 }
-            } catch (MirroredTypesException e) {}
+            } catch (MirroredTypesException e) {
+            }
         }
 
         // Special cases that should be ignored:
@@ -404,12 +421,12 @@ public class WholeProgramInferenceScenesHelper {
      * Returns a subset of annosSet, consisting of the annotations supported
      * by atf.
      */
-    private Set<Annotation> getSupportedAnnosInSet(Set<Annotation> annosSet,
-            AnnotatedTypeFactory atf) {
+    private Set<Annotation> getSupportedAnnosInSet(
+            Set<Annotation> annosSet, AnnotatedTypeFactory atf) {
         Set<Annotation> output = new HashSet<>();
-        Set<Class<? extends java.lang.annotation.Annotation>> supportedAnnos
-                = atf.getSupportedTypeQualifiers();
-        for (Annotation anno: annosSet) {
+        Set<Class<? extends java.lang.annotation.Annotation>> supportedAnnos =
+                atf.getSupportedTypeQualifiers();
+        for (Annotation anno : annosSet) {
             for (Class<? extends java.lang.annotation.Annotation> clazz : supportedAnnos) {
                 // TODO: Remove comparison by name, and make this routine more efficient.
                 if (clazz.getName().equals(anno.def.name)) {
@@ -429,13 +446,12 @@ public class WholeProgramInferenceScenesHelper {
      * @param atf the annotated type factory of a given type system, whose
      * type hierarchy will be used.
      */
-    private void typeElementToATM(AnnotatedTypeMirror atm,
-            ATypeElement type, AnnotatedTypeFactory atf) {
-        Set<Annotation> annos = getSupportedAnnosInSet(type.tlAnnotationsHere,
-                atf);
-        for (Annotation anno: annos) {
-            AnnotationMirror am = AnnotationConverter.annotationToAnnotationMirror(
-                    anno, atf.getProcessingEnv());
+    private void typeElementToATM(
+            AnnotatedTypeMirror atm, ATypeElement type, AnnotatedTypeFactory atf) {
+        Set<Annotation> annos = getSupportedAnnosInSet(type.tlAnnotationsHere, atf);
+        for (Annotation anno : annos) {
+            AnnotationMirror am =
+                    AnnotationConverter.annotationToAnnotationMirror(anno, atf.getProcessingEnv());
             atm.addAnnotation(am);
         }
         if (atm.getKind() == TypeKind.ARRAY) {
@@ -477,16 +493,20 @@ public class WholeProgramInferenceScenesHelper {
      * @param idx used to write annotations on compound types of an ATypeElement.
      * @param defLoc the location where the annotation will be added.
      */
-    private void updateTypeElementFromATM(AnnotatedTypeMirror newATM,
-            AnnotatedTypeMirror curATM, AnnotatedTypeFactory atf,
-            ATypeElement typeToUpdate, int idx, TypeUseLocation defLoc) {
+    private void updateTypeElementFromATM(
+            AnnotatedTypeMirror newATM,
+            AnnotatedTypeMirror curATM,
+            AnnotatedTypeFactory atf,
+            ATypeElement typeToUpdate,
+            int idx,
+            TypeUseLocation defLoc) {
         // Clears only the annotations that are supported by atf.
         // The others stay intact.
         if (idx == 1) {
             // This if avoids clearing the annotations multiple times in cases
             // of type variables and compound types.
-            Set<Annotation> annosToRemove = getSupportedAnnosInSet(
-                    typeToUpdate.tlAnnotationsHere, atf);
+            Set<Annotation> annosToRemove =
+                    getSupportedAnnosInSet(typeToUpdate.tlAnnotationsHere, atf);
             // This method may be called consecutive times for the same ATypeElement.
             // Each time it is called, the AnnotatedTypeMirror has a better type
             // estimate for the ATypeElement. Therefore, it is not a problem to remove
@@ -536,14 +556,19 @@ public class WholeProgramInferenceScenesHelper {
         }
 
         // Recursively update compound type and type variable type if they exist.
-        if (newATM.getKind() == TypeKind.ARRAY &&
-                curATM.getKind() == TypeKind.ARRAY) {
+        if (newATM.getKind() == TypeKind.ARRAY && curATM.getKind() == TypeKind.ARRAY) {
             AnnotatedArrayType newAAT = (AnnotatedArrayType) newATM;
             AnnotatedArrayType oldAAT = (AnnotatedArrayType) curATM;
-            updateTypeElementFromATM(newAAT.getComponentType(), oldAAT.getComponentType(),
-                    atf, typeToUpdate.innerTypes.vivify(new InnerTypeLocation(
-                            TypeAnnotationPosition.getTypePathFromBinary(
-                                    Collections.nCopies(2 * idx, 0)))), idx+1, defLoc);
+            updateTypeElementFromATM(
+                    newAAT.getComponentType(),
+                    oldAAT.getComponentType(),
+                    atf,
+                    typeToUpdate.innerTypes.vivify(
+                            new InnerTypeLocation(
+                                    TypeAnnotationPosition.getTypePathFromBinary(
+                                            Collections.nCopies(2 * idx, 0)))),
+                    idx + 1,
+                    defLoc);
         }
     }
 }

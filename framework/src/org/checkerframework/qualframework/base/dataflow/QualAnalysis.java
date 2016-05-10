@@ -49,7 +49,8 @@ public class QualAnalysis<Q> extends Analysis<QualValue<Q>, QualStore<Q>, QualTr
     }
 
     public QualStore<Q> createCopiedStore(QualStore<Q> qualStore) {
-        return new QualStore<>(this, adapter.createCopiedStore(qualStore.getUnderlyingStore().copy()));
+        return new QualStore<>(
+                this, adapter.createCopiedStore(qualStore.getUnderlyingStore().copy()));
     }
 
     public QualValue<Q> createAbstractValue(QualifiedTypeMirror<Q> type) {
@@ -62,7 +63,8 @@ public class QualAnalysis<Q> extends Analysis<QualValue<Q>, QualStore<Q>, QualTr
     }
 
     public QualValue<Q> createSingleAnnotationValue(Q qual, TypeMirror underlyingType) {
-        CFValue atm = adapter.createSingleAnnotationValue(converter.getAnnotation(qual), underlyingType);
+        CFValue atm =
+                adapter.createSingleAnnotationValue(converter.getAnnotation(qual), underlyingType);
         return new QualValue<>(converter.getQualifiedType(atm.getType()), this);
     }
 

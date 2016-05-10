@@ -20,8 +20,7 @@ public interface AnnotationProvider {
      * @param anno annotation class
      * @return the annotation mirror for anno
      */
-    public AnnotationMirror getDeclAnnotation(Element elt,
-            Class<? extends Annotation> anno);
+    public AnnotationMirror getDeclAnnotation(Element elt, Class<? extends Annotation> anno);
 
     /**
      * Return the annotation on <code>tree</code> that has the class
@@ -33,6 +32,5 @@ public interface AnnotationProvider {
      * @param target
      *            The class of the annotation
      */
-    public AnnotationMirror getAnnotationMirror(Tree tree,
-            Class<? extends Annotation> target);
+    public AnnotationMirror getAnnotationMirror(Tree tree, Class<? extends Annotation> target);
 }

@@ -25,6 +25,5 @@ public interface QualifiedTypes<Q> {
      * @return  the types that the method invocation arguments need to be subtype of
      */
     public List<QualifiedTypeMirror<Q>> expandVarArgs(
-            QualifiedExecutableType<Q> method,
-            List<? extends ExpressionTree> args);
+            QualifiedExecutableType<Q> method, List<? extends ExpressionTree> args);
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -42,15 +42,23 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
 
     private List<ClassOrInterfaceType> implementsList;
 
-    public ClassOrInterfaceDeclaration() {
-    }
+    public ClassOrInterfaceDeclaration() {}
 
     public ClassOrInterfaceDeclaration(int modifiers, boolean isInterface, String name) {
         super(modifiers, name);
         this.interface_ = isInterface;
     }
 
-    public ClassOrInterfaceDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, boolean isInterface, String name, List<TypeParameter> typeParameters, List<ClassOrInterfaceType> extendsList, List<ClassOrInterfaceType> implementsList, List<BodyDeclaration> members) {
+    public ClassOrInterfaceDeclaration(
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            boolean isInterface,
+            String name,
+            List<TypeParameter> typeParameters,
+            List<ClassOrInterfaceType> extendsList,
+            List<ClassOrInterfaceType> implementsList,
+            List<BodyDeclaration> members) {
         super(annotations, javaDoc, modifiers, name, members);
         this.interface_ = isInterface;
         this.typeParameters = typeParameters;
@@ -58,8 +66,30 @@ public final class ClassOrInterfaceDeclaration extends TypeDeclaration {
         this.implementsList = implementsList;
     }
 
-    public ClassOrInterfaceDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, boolean isInterface, String name, List<TypeParameter> typeParameters, List<ClassOrInterfaceType> extendsList, List<ClassOrInterfaceType> implementsList, List<BodyDeclaration> members) {
-        super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc, modifiers, name, members);
+    public ClassOrInterfaceDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            boolean isInterface,
+            String name,
+            List<TypeParameter> typeParameters,
+            List<ClassOrInterfaceType> extendsList,
+            List<ClassOrInterfaceType> implementsList,
+            List<BodyDeclaration> members) {
+        super(
+                beginLine,
+                beginColumn,
+                endLine,
+                endColumn,
+                annotations,
+                javaDoc,
+                modifiers,
+                name,
+                members);
         this.interface_ = isInterface;
         this.typeParameters = typeParameters;
         this.extendsList = extendsList;

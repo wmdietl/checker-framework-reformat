@@ -34,5 +34,4 @@ public abstract class TreeAnnotator extends SimpleTreeVisitor<Void, AnnotatedTyp
     public Void visitMethod(MethodTree node, AnnotatedTypeMirror p) {
         return super.visitMethod(node, p);
     }
-
 }

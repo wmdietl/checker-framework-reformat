@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -31,15 +31,20 @@ public final class QualifiedNameExpr extends NameExpr {
 
     private NameExpr qualifier;
 
-    public QualifiedNameExpr() {
-    }
+    public QualifiedNameExpr() {}
 
     public QualifiedNameExpr(NameExpr scope, String name) {
         super(name);
         this.qualifier = scope;
     }
 
-    public QualifiedNameExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr scope, String name) {
+    public QualifiedNameExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            NameExpr scope,
+            String name) {
         super(beginLine, beginColumn, endLine, endColumn, name);
         this.qualifier = scope;
     }
@@ -61,5 +66,4 @@ public final class QualifiedNameExpr extends NameExpr {
     public void setQualifier(NameExpr qualifier) {
         this.qualifier = qualifier;
     }
-
 }

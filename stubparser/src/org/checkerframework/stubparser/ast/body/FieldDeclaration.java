@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -40,8 +40,7 @@ public final class FieldDeclaration extends BodyDeclaration {
 
     private List<VariableDeclarator> variables;
 
-    public FieldDeclaration() {
-    }
+    public FieldDeclaration() {}
 
     public FieldDeclaration(int modifiers, Type type, VariableDeclarator variable) {
         this.modifiers = modifiers;
@@ -56,14 +55,28 @@ public final class FieldDeclaration extends BodyDeclaration {
         this.variables = variables;
     }
 
-    public FieldDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, Type type, List<VariableDeclarator> variables) {
+    public FieldDeclaration(
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            Type type,
+            List<VariableDeclarator> variables) {
         super(annotations, javaDoc);
         this.modifiers = modifiers;
         this.type = type;
         this.variables = variables;
     }
 
-    public FieldDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, Type type, List<VariableDeclarator> variables) {
+    public FieldDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            Type type,
+            List<VariableDeclarator> variables) {
         super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
         this.modifiers = modifiers;
         this.type = type;
@@ -82,7 +95,7 @@ public final class FieldDeclaration extends BodyDeclaration {
 
     /**
      * Return the modifiers of this member declaration.
-     * 
+     *
      * @see ModifierSet
      * @return modifiers
      */

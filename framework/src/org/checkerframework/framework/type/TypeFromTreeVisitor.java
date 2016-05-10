@@ -13,7 +13,8 @@ import com.sun.source.util.SimpleTreeVisitor;
  *
  * @see org.checkerframework.framework.type.TypeFromTree
  */
-abstract class TypeFromTreeVisitor extends SimpleTreeVisitor<AnnotatedTypeMirror, AnnotatedTypeFactory> {
+abstract class TypeFromTreeVisitor
+        extends SimpleTreeVisitor<AnnotatedTypeMirror, AnnotatedTypeFactory> {
 
     TypeFromTreeVisitor() {}
 
@@ -24,9 +25,9 @@ abstract class TypeFromTreeVisitor extends SimpleTreeVisitor<AnnotatedTypeMirror
             return null; // dead code
         }
         ErrorReporter.errorAbort(
-            "TypeFromTree.defaultAction: conversion undefined for tree type " + node.getKind() + "\n"
-        );
+                "TypeFromTree.defaultAction: conversion undefined for tree type "
+                        + node.getKind()
+                        + "\n");
         return null; // dead code
     }
-
 }

@@ -17,6 +17,8 @@ import org.checkerframework.framework.qual.SubtypeOf;
  * @checker_framework.manual #signature-checker Signature Checker
  */
 @SubtypeOf({BinaryName.class, ClassGetName.class})
-@ImplicitFor(stringPatterns="^[A-Za-z_][A-Za-z_0-9]*(\\.[A-Za-z_][A-Za-z_0-9]*)*(\\$[A-Za-z_0-9]+)*$")
+@ImplicitFor(
+    stringPatterns = "^[A-Za-z_][A-Za-z_0-9]*(\\.[A-Za-z_][A-Za-z_0-9]*)*(\\$[A-Za-z_0-9]+)*$"
+)
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface BinaryNameForNonArray {}

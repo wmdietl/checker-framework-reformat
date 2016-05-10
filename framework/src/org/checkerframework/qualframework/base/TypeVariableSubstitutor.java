@@ -17,19 +17,21 @@ public class TypeVariableSubstitutor<Q> {
      * Currently substitution is performed by AnnotatedTypes class. There are no hooks in the qual system
      * to make that functionality flow through this method. When that is plumbed, this method should be implemented.
      */
-    public QualifiedTypeMirror<Q> substitute(final Map<TypeVariable, QualifiedTypeMirror<Q>> typeParamToArg,
+    public QualifiedTypeMirror<Q> substitute(
+            final Map<TypeVariable, QualifiedTypeMirror<Q>> typeParamToArg,
             final QualifiedTypeMirror<Q> typeMirror) {
 
-        throw new UnsupportedOperationException("Calling this method directly is not " +
-                "yet supported by the qualifier parameter framework.");
+        throw new UnsupportedOperationException(
+                "Calling this method directly is not "
+                        + "yet supported by the qualifier parameter framework.");
     }
 
     // @see doesn't work because the method has protected visibility
     /**
      * see org.checkerframework.framework.type.TypeVariableSubstitutor#substituteTypeVariable(AnnotatedTypeMirror, AnnotatedTypeVariable)
      */
-    protected QualifiedTypeMirror<Q> substituteTypeVariable(final QualifiedTypeMirror<Q> argument,
-            final QualifiedTypeVariable<Q> use) {
+    protected QualifiedTypeMirror<Q> substituteTypeVariable(
+            final QualifiedTypeMirror<Q> argument, final QualifiedTypeVariable<Q> use) {
 
         return adapter.superSubstituteTypeVariable(argument, use);
     }

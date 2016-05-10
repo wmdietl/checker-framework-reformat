@@ -29,18 +29,19 @@ public class UnitsVisitor extends BaseTypeVisitor<UnitsAnnotatedTypeFactory> {
 
         Kind kind = node.getKind();
 
-        if ( (kind == Kind.PLUS_ASSIGNMENT || kind == Kind.MINUS_ASSIGNMENT)) {
+        if ((kind == Kind.PLUS_ASSIGNMENT || kind == Kind.MINUS_ASSIGNMENT)) {
             if (!atypeFactory.getTypeHierarchy().isSubtype(exprType, varType)) {
-                checker.report(Result.failure("compound.assignment.type.incompatible",
-                        varType, exprType), node);
+                checker.report(
+                        Result.failure("compound.assignment.type.incompatible", varType, exprType),
+                        node);
             }
         } else if (exprType.getAnnotation(UnknownUnits.class) == null) {
             // Only allow mul/div with unqualified units
-            checker.report(Result.failure("compound.assignment.type.incompatible",
-                    varType, exprType), node);
+            checker.report(
+                    Result.failure("compound.assignment.type.incompatible", varType, exprType),
+                    node);
         }
 
         return null; // super.visitCompoundAssignment(node, p);
     }
-
 }

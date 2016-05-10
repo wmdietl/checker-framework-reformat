@@ -18,7 +18,7 @@ class Default implements Comparable<Default> {
     public final TypeUseLocation location;
 
     public Default(final AnnotationMirror anno, final TypeUseLocation location) {
-        this.anno     = anno;
+        this.anno = anno;
         this.location = location;
     }
 
@@ -47,9 +47,9 @@ class Default implements Comparable<Default> {
 
     @Override
     public int hashCode() {
-        return 13 + (anno == null     ? 0 : 37 * anno.hashCode())
-                  + (location == null ? 0 : 41 * location.hashCode());
-
+        return 13
+                + (anno == null ? 0 : 37 * anno.hashCode())
+                + (location == null ? 0 : 41 * location.hashCode());
     }
 
     @Override

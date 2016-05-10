@@ -23,11 +23,11 @@ class AdapterQualifiedTypes<Q> implements QualifiedTypes<Q> {
 
     @Override
     public List<QualifiedTypeMirror<Q>> expandVarArgs(
-            QualifiedExecutableType<Q> method,
-            List<? extends ExpressionTree> args) {
-        AnnotatedExecutableType annoMethod = (AnnotatedExecutableType)converter.getAnnotatedType(method);
-        List<AnnotatedTypeMirror> annoResult = AnnotatedTypes.expandVarArgs(
-                typeFactory, annoMethod, args);
+            QualifiedExecutableType<Q> method, List<? extends ExpressionTree> args) {
+        AnnotatedExecutableType annoMethod =
+                (AnnotatedExecutableType) converter.getAnnotatedType(method);
+        List<AnnotatedTypeMirror> annoResult =
+                AnnotatedTypes.expandVarArgs(typeFactory, annoMethod, args);
         return converter.getQualifiedTypeList(annoResult);
     }
 }

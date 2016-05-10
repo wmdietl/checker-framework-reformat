@@ -52,5 +52,5 @@ public @interface DefaultQualifier {
     Class<? extends Annotation> value();
 
     /** @return the locations to which the annotation should be applied */
-    TypeUseLocation[] locations() default { TypeUseLocation.ALL };
+    TypeUseLocation[] locations() default {TypeUseLocation.ALL};
 }

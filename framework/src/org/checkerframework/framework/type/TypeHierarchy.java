@@ -16,5 +16,6 @@ public interface TypeHierarchy {
     /**
      * @return true  if subtype {@literal <:} supertype in the qualifier hierarchy rooted by the top annotation
      */
-    public boolean isSubtype(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype, AnnotationMirror top);
+    public boolean isSubtype(
+            AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype, AnnotationMirror top);
 }

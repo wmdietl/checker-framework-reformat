@@ -14,10 +14,10 @@ import javax.lang.model.element.VariableElement;
  * The analysis class for the lock type system (serves as factory for the
  * transfer function, stores and abstract values).
  */
-public class LockAnalysis extends
-        CFAbstractAnalysis<CFValue, LockStore, LockTransfer> {
+public class LockAnalysis extends CFAbstractAnalysis<CFValue, LockStore, LockTransfer> {
 
-    public LockAnalysis(BaseTypeChecker checker,
+    public LockAnalysis(
+            BaseTypeChecker checker,
             LockAnnotatedTypeFactory factory,
             List<Pair<VariableElement, CFValue>> fieldValues) {
         super(checker, factory, fieldValues);
@@ -25,7 +25,7 @@ public class LockAnalysis extends
 
     @Override
     public LockTransfer createTransferFunction() {
-        return new LockTransfer(this,(LockChecker)checker);
+        return new LockTransfer(this, (LockChecker) checker);
     }
 
     @Override

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,15 +34,20 @@ public final class InstanceOfExpr extends Expression {
 
     private Type type;
 
-    public InstanceOfExpr() {
-    }
+    public InstanceOfExpr() {}
 
     public InstanceOfExpr(Expression expr, Type type) {
         this.expr = expr;
         this.type = type;
     }
 
-    public InstanceOfExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, Type type) {
+    public InstanceOfExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression expr,
+            Type type) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.expr = expr;
         this.type = type;
@@ -73,5 +78,4 @@ public final class InstanceOfExpr extends Expression {
     public void setType(Type type) {
         this.type = type;
     }
-
 }

@@ -11,10 +11,10 @@ import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.Pair;
 
-public class RegexAnalysis extends
-        CFAbstractAnalysis<CFValue, CFStore, RegexTransfer> {
+public class RegexAnalysis extends CFAbstractAnalysis<CFValue, CFStore, RegexTransfer> {
 
-    public RegexAnalysis(BaseTypeChecker checker,
+    public RegexAnalysis(
+            BaseTypeChecker checker,
             RegexClassicAnnotatedTypeFactory factory,
             List<Pair<VariableElement, CFValue>> fieldValues) {
         super(checker, factory, fieldValues);

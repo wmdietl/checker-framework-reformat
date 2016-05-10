@@ -17,8 +17,8 @@ import java.lang.annotation.Target;
  * @checker_framework.manual #tainting-checker Tainting Checker
  */
 @SubtypeOf(Tainted.class)
-@ImplicitFor(literals = { LiteralKind.STRING, LiteralKind.NULL })
+@ImplicitFor(literals = {LiteralKind.STRING, LiteralKind.NULL})
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
-@DefaultFor({ TypeUseLocation.LOWER_BOUND })
+@DefaultFor({TypeUseLocation.LOWER_BOUND})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Untainted {}

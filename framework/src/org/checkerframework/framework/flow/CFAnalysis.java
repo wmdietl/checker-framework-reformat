@@ -17,7 +17,8 @@ import org.checkerframework.javacutil.Pair;
  */
 public class CFAnalysis extends CFAbstractAnalysis<CFValue, CFStore, CFTransfer> {
 
-    public CFAnalysis(BaseTypeChecker checker,
+    public CFAnalysis(
+            BaseTypeChecker checker,
             GenericAnnotatedTypeFactory<CFValue, CFStore, CFTransfer, CFAnalysis> factory,
             List<Pair<VariableElement, CFValue>> fieldValues) {
         super(checker, factory, fieldValues);

@@ -67,6 +67,7 @@ public class TreePathCacher extends TreeScanner<TreePath, Tree> {
     private class Result extends Error {
         private static final long serialVersionUID = 4948452207518392627L;
         TreePath path;
+
         Result(TreePath path) {
             this.path = path;
         }

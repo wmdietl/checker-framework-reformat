@@ -28,10 +28,12 @@ import java.lang.annotation.Target;
  */
 @SubtypeOf(Raw.class)
 @DefaultQualifierInHierarchy
-@DefaultFor({ TypeUseLocation.IMPLICIT_UPPER_BOUND, TypeUseLocation.IMPLICIT_LOWER_BOUND,
-              TypeUseLocation.EXCEPTION_PARAMETER })
+@DefaultFor({
+    TypeUseLocation.IMPLICIT_UPPER_BOUND,
+    TypeUseLocation.IMPLICIT_LOWER_BOUND,
+    TypeUseLocation.EXCEPTION_PARAMETER
+})
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-public @interface NonRaw {
-}
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+public @interface NonRaw {}

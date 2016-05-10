@@ -19,11 +19,12 @@ import java.lang.annotation.Target;
  * @checker_framework.manual #regex-checker Regex Checker
  */
 @InvisibleQualifier
-@ImplicitFor(literals = {LiteralKind.NULL},
-  typeNames = {java.lang.Void.class})
+@ImplicitFor(
+    literals = {LiteralKind.NULL},
+    typeNames = {java.lang.Void.class}
+)
 @SubtypeOf({Regex.class, PartialRegex.class})
-@DefaultFor(value={ TypeUseLocation.LOWER_BOUND })
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-@TargetLocations({ TypeUseLocation.EXPLICIT_LOWER_BOUND,
-    TypeUseLocation.EXPLICIT_UPPER_BOUND })
+@DefaultFor(value = {TypeUseLocation.LOWER_BOUND})
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+@TargetLocations({TypeUseLocation.EXPLICIT_LOWER_BOUND, TypeUseLocation.EXPLICIT_UPPER_BOUND})
 public @interface RegexBottom {}

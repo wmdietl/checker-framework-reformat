@@ -28,8 +28,7 @@ public class NumericalAdditionNode extends Node {
 
     public NumericalAdditionNode(Tree tree, Node left, Node right) {
         super(InternalUtils.typeOf(tree));
-        assert tree.getKind() == Kind.PLUS
-                || tree.getKind() == Kind.PLUS_ASSIGNMENT;
+        assert tree.getKind() == Kind.PLUS || tree.getKind() == Kind.PLUS_ASSIGNMENT;
         this.tree = tree;
         this.left = left;
         this.right = right;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -40,17 +40,25 @@ public final class ForStmt extends Statement {
 
     private Statement body;
 
-    public ForStmt() {
-    }
+    public ForStmt() {}
 
-    public ForStmt(List<Expression> init, Expression compare, List<Expression> update, Statement body) {
+    public ForStmt(
+            List<Expression> init, Expression compare, List<Expression> update, Statement body) {
         this.compare = compare;
         this.init = init;
         this.update = update;
         this.body = body;
     }
 
-    public ForStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Expression> init, Expression compare, List<Expression> update, Statement body) {
+    public ForStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            List<Expression> init,
+            Expression compare,
+            List<Expression> update,
+            Statement body) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.compare = compare;
         this.init = init;

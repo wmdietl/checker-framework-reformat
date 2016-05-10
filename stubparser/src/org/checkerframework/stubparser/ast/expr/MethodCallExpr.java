@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -40,8 +40,7 @@ public final class MethodCallExpr extends Expression {
 
     private List<Expression> args;
 
-    public MethodCallExpr() {
-    }
+    public MethodCallExpr() {}
 
     public MethodCallExpr(Expression scope, String name) {
         this.scope = scope;
@@ -54,7 +53,15 @@ public final class MethodCallExpr extends Expression {
         this.args = args;
     }
 
-    public MethodCallExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope, List<Type> typeArgs, String name, List<Expression> args) {
+    public MethodCallExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression scope,
+            List<Type> typeArgs,
+            String name,
+            List<Expression> args) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.scope = scope;
         this.typeArgs = typeArgs;
@@ -103,5 +110,4 @@ public final class MethodCallExpr extends Expression {
     public void setTypeArgs(List<Type> typeArgs) {
         this.typeArgs = typeArgs;
     }
-
 }

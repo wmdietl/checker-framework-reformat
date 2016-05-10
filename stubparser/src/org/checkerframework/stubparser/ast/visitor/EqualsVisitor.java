@@ -1343,5 +1343,4 @@ public class EqualsVisitor implements GenericVisitor<Boolean, Node> {
     public Boolean visit(IndexUnit n, Node arg) {
         throw new RuntimeException("Not Supported!");
     }
-
 }

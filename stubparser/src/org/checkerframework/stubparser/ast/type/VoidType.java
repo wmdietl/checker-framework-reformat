@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -29,8 +29,7 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  */
 public final class VoidType extends Type {
 
-    public VoidType() {
-    }
+    public VoidType() {}
 
     public VoidType(int beginLine, int beginColumn, int endLine, int endColumn) {
         super(beginLine, beginColumn, endLine, endColumn);
@@ -45,5 +44,4 @@ public final class VoidType extends Type {
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
     }
-
 }

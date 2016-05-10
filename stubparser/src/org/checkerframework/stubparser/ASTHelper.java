@@ -28,7 +28,7 @@ import org.checkerframework.stubparser.ast.type.PrimitiveType.Primitive;
 
 /**
  * This class helps to construct new nodes.
- * 
+ *
  * @author Julio Vilmar Gesser
  */
 public final class ASTHelper {
@@ -58,7 +58,7 @@ public final class ASTHelper {
     /**
      * Creates a new {@link NameExpr} from a qualified name.<br>
      * The qualified name can contains "." (dot) characters.
-     * 
+     *
      * @param qualifiedName
      *            qualified name
      * @return instanceof {@link NameExpr}
@@ -74,7 +74,7 @@ public final class ASTHelper {
 
     /**
      * Creates a new {@link Parameter}.
-     * 
+     *
      * @param type
      *            type of the parameter
      * @param name
@@ -87,7 +87,7 @@ public final class ASTHelper {
 
     /**
      * Creates a {@link FieldDeclaration}.
-     * 
+     *
      * @param modifiers
      *            modifiers
      * @param type
@@ -96,7 +96,8 @@ public final class ASTHelper {
      *            variable declarator
      * @return instance of {@link FieldDeclaration}
      */
-    public static FieldDeclaration createFieldDeclaration(int modifiers, Type type, VariableDeclarator variable) {
+    public static FieldDeclaration createFieldDeclaration(
+            int modifiers, Type type, VariableDeclarator variable) {
         List<VariableDeclarator> variables = new ArrayList<VariableDeclarator>();
         variables.add(variable);
         FieldDeclaration ret = new FieldDeclaration(modifiers, type, variables);
@@ -105,7 +106,7 @@ public final class ASTHelper {
 
     /**
      * Creates a {@link FieldDeclaration}.
-     * 
+     *
      * @param modifiers
      *            modifiers
      * @param type
@@ -122,7 +123,7 @@ public final class ASTHelper {
 
     /**
      * Creates a {@link VariableDeclarationExpr}.
-     * 
+     *
      * @param type
      *            type
      * @param name
@@ -138,7 +139,7 @@ public final class ASTHelper {
     /**
      * Adds the given parameter to the method. The list of parameters will be
      * initialized if it is <code>null</code>.
-     * 
+     *
      * @param method
      *            method
      * @param parameter
@@ -156,7 +157,7 @@ public final class ASTHelper {
     /**
      * Adds the given argument to the method call. The list of arguments will be
      * initialized if it is <code>null</code>.
-     * 
+     *
      * @param call
      *            method call
      * @param arg
@@ -174,7 +175,7 @@ public final class ASTHelper {
     /**
      * Adds the given type declaration to the compilation unit. The list of
      * types will be initialized if it is <code>null</code>.
-     * 
+     *
      * @param cu
      *            compilation unit
      * @param type
@@ -187,12 +188,11 @@ public final class ASTHelper {
             cu.setTypes(types);
         }
         types.add(type);
-
     }
 
     /**
      * Creates a new {@link ReferenceType} for a class or interface.
-     * 
+     *
      * @param name
      *            name of the class or interface
      * @param arrayCount
@@ -205,7 +205,7 @@ public final class ASTHelper {
 
     /**
      * Creates a new {@link ReferenceType} for the given primitive type.
-     * 
+     *
      * @param type
      *            primitive type
      * @param arrayCount
@@ -240,7 +240,7 @@ public final class ASTHelper {
     /**
      * Adds the given declaration to the specified type. The list of members
      * will be initialized if it is <code>null</code>.
-     * 
+     *
      * @param type
      *            type declaration
      * @param decl
@@ -254,5 +254,4 @@ public final class ASTHelper {
         }
         members.add(decl);
     }
-
 }

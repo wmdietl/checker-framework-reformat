@@ -13,13 +13,15 @@ import java.util.HashMap;
  * TypeVariableSubstitutor that handles the qualifier parameter specific logic
  * or combining TypeVariable uses with substituted types.
  */
-public abstract class QualifiedParameterTypeVariableSubstitutor<Q> extends TypeVariableSubstitutor<QualParams<Q>> {
+public abstract class QualifiedParameterTypeVariableSubstitutor<Q>
+        extends TypeVariableSubstitutor<QualParams<Q>> {
 
     /** Combine two wildcards into one when substituting a qualified type into
      * a qualified type variable use (for example, substituting {@code
      * [T := C《Q=TAINTED》]} into the use {@code T + 《Q=UNTAINTED》}).
      */
     protected abstract Wildcard<Q> combineForSubstitution(Wildcard<Q> a, Wildcard<Q> b);
+
     protected abstract PolyQual<Q> combineForSubstitution(PolyQual<Q> a, PolyQual<Q> b);
 
     @Override
@@ -33,7 +35,8 @@ public abstract class QualifiedParameterTypeVariableSubstitutor<Q> extends TypeV
             // There are no top-level qualifiers on a wildcard type, so instead
             // we apply the combining to both the upper and lower bounds of the
             // wildcard.
-            QualifiedWildcardType<QualParams<Q>> wild = (QualifiedWildcardType<QualParams<Q>>)argument;
+            QualifiedWildcardType<QualParams<Q>> wild =
+                    (QualifiedWildcardType<QualParams<Q>>) argument;
             QualifiedTypeMirror<QualParams<Q>> extendsBound = wild.getExtendsBound();
             QualifiedTypeMirror<QualParams<Q>> superBound = wild.getSuperBound();
 
@@ -76,6 +79,5 @@ public abstract class QualifiedParameterTypeVariableSubstitutor<Q> extends TypeV
             throw new RuntimeException("Expected both QualParams to have a primary qualifier");
         }
         return SetQualifierVisitor.apply(argument, new QualParams<>(newParams, primary));
-
     }
 }

@@ -29,6 +29,7 @@ public class ClassValChecker extends BaseTypeChecker {
         subCheckers.add(ValueChecker.class);
         return subCheckers;
     }
+
     @Override
     public boolean shouldResolveReflection() {
         // Because this checker is a subchecker of MethodVal,

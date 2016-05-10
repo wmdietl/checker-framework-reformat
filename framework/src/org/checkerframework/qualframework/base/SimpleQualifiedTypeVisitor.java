@@ -18,7 +18,7 @@ import org.checkerframework.qualframework.base.QualifiedTypeMirror.QualifiedPara
  * A simple implementation of {@link QualifiedTypeVisitor}, patterned after
  * {@link javax.lang.model.util.SimpleTypeVisitor8}.
  */
-public class SimpleQualifiedTypeVisitor<Q,R,P> implements QualifiedTypeVisitor<Q,R,P> {
+public class SimpleQualifiedTypeVisitor<Q, R, P> implements QualifiedTypeVisitor<Q, R, P> {
     protected final R DEFAULT_VALUE;
 
     public SimpleQualifiedTypeVisitor() {
@@ -92,7 +92,6 @@ public class SimpleQualifiedTypeVisitor<Q,R,P> implements QualifiedTypeVisitor<Q
     public R visitWildcard(QualifiedWildcardType<Q> type, P p) {
         return defaultAction(type, p);
     }
-
 
     @Override
     public R visitTypeDeclaration(QualifiedTypeDeclaration<Q> type, P p) {

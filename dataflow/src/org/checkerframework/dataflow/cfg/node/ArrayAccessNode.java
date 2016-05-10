@@ -23,7 +23,6 @@ import com.sun.source.tree.Tree;
  * @author Charlie Garrett
  *
  */
-
 public class ArrayAccessNode extends Node {
 
     protected Tree tree;
@@ -68,8 +67,7 @@ public class ArrayAccessNode extends Node {
             return false;
         }
         ArrayAccessNode other = (ArrayAccessNode) obj;
-        return getArray().equals(other.getArray())
-                && getIndex().equals(other.getIndex());
+        return getArray().equals(other.getArray()) && getIndex().equals(other.getIndex());
     }
 
     @Override

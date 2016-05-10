@@ -36,8 +36,10 @@ public class AssignmentNode extends Node {
 
     public AssignmentNode(Tree tree, Node target, Node expression) {
         super(InternalUtils.typeOf(tree));
-        assert tree instanceof AssignmentTree || tree instanceof VariableTree
-                || tree instanceof CompoundAssignmentTree || tree instanceof UnaryTree;
+        assert tree instanceof AssignmentTree
+                || tree instanceof VariableTree
+                || tree instanceof CompoundAssignmentTree
+                || tree instanceof UnaryTree;
         assert target instanceof FieldAccessNode
                 || target instanceof LocalVariableNode
                 || target instanceof ArrayAccessNode;

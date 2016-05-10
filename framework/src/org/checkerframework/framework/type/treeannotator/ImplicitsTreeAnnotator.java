@@ -24,7 +24,6 @@ import com.sun.source.tree.LiteralTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.Tree.Kind;
 
-
 /**
  * Adds annotations to a type based on the contents of a tree. By default, this
  * class honors the {@link org.checkerframework.framework.qual.ImplicitFor} annotation and applies implicit
@@ -66,7 +65,9 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
      * This is here and not in LiteralKinds because LiteralKind is in the checker-qual.jar
      * which cannot depend on classes, such as Tree.Kind, that are in the tools.jar
      */
-    private static final Map<LiteralKind, Tree.Kind> literalKindToTreeKind = new EnumMap<>(LiteralKind.class);
+    private static final Map<LiteralKind, Tree.Kind> literalKindToTreeKind =
+            new EnumMap<>(LiteralKind.class);
+
     static {
         literalKindToTreeKind.put(LiteralKind.BOOLEAN, Kind.BOOLEAN_LITERAL);
         literalKindToTreeKind.put(LiteralKind.CHAR, Kind.CHAR_LITERAL);
@@ -103,7 +104,8 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
                 continue;
             }
 
-            AnnotationMirror theQual = AnnotationUtils.fromClass(atypeFactory.getElementUtils(), qual);
+            AnnotationMirror theQual =
+                    AnnotationUtils.fromClass(atypeFactory.getElementUtils(), qual);
             for (LiteralKind literalKind : implicit.literals()) {
                 addLiteralKind(literalKind, theQual);
             }
@@ -122,8 +124,13 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
     public void addTreeClass(Class<? extends Tree> treeClass, AnnotationMirror theQual) {
         boolean res = qualHierarchy.updateMappingToMutableSet(treeClasses, treeClass, theQual);
         if (!res) {
-            ErrorReporter.errorAbort("PropagationTreeAnnotator: invalid update of map " +
-                    treeClasses + " at " + treeClass + " with " +theQual);
+            ErrorReporter.errorAbort(
+                    "PropagationTreeAnnotator: invalid update of map "
+                            + treeClasses
+                            + " at "
+                            + treeClass
+                            + " with "
+                            + theQual);
         }
     }
 
@@ -146,7 +153,8 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
             if (treeKind != null) {
                 addTreeKind(treeKind, theQual);
             } else {
-                ErrorReporter.errorAbort("LiteralKind " + literalKind + " is not mapped to a Tree.Kind.");
+                ErrorReporter.errorAbort(
+                        "LiteralKind " + literalKind + " is not mapped to a Tree.Kind.");
             }
         }
     }
@@ -159,8 +167,13 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
     public void addTreeKind(Kind treeKind, AnnotationMirror theQual) {
         boolean res = qualHierarchy.updateMappingToMutableSet(treeKinds, treeKind, theQual);
         if (!res) {
-            ErrorReporter.errorAbort("PropagationTreeAnnotator: invalid update of treeKinds " +
-                    treeKinds + " at " + treeKind + " with " + theQual);
+            ErrorReporter.errorAbort(
+                    "PropagationTreeAnnotator: invalid update of treeKinds "
+                            + treeKinds
+                            + " at "
+                            + treeKind
+                            + " with "
+                            + theQual);
         }
     }
 
@@ -170,10 +183,17 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
      * @param theQual {@code AnnotationMirror} to apply to Strings that match the pattern
      */
     public void addStringPattern(String pattern, AnnotationMirror theQual) {
-        boolean res = qualHierarchy.updateMappingToMutableSet(stringPatterns, Pattern.compile(pattern), theQual);
+        boolean res =
+                qualHierarchy.updateMappingToMutableSet(
+                        stringPatterns, Pattern.compile(pattern), theQual);
         if (!res) {
-            ErrorReporter.errorAbort("PropagationTreeAnnotator: invalid update of stringPatterns " +
-                    stringPatterns + " at " + pattern + " with " + theQual);
+            ErrorReporter.errorAbort(
+                    "PropagationTreeAnnotator: invalid update of stringPatterns "
+                            + stringPatterns
+                            + " at "
+                            + pattern
+                            + " with "
+                            + theQual);
         }
     }
 
@@ -225,16 +245,25 @@ public class ImplicitsTreeAnnotator extends TreeAnnotator {
                 }
             }
             Set<? extends AnnotationMirror> res = null;
-            if (! matches.isEmpty()) {
+            if (!matches.isEmpty()) {
                 res = matches.get(0);
                 for (Set<? extends AnnotationMirror> sam : matches) {
                     res = qualHierarchy.greatestLowerBounds(res, sam);
                 }
                 // Verify that res is not a subtype of any type in nonMatches
-                for (Set<? extends AnnotationMirror> sam: nonMatches) {
+                for (Set<? extends AnnotationMirror> sam : nonMatches) {
                     if (qualHierarchy.isSubtype(res, sam)) {
-                            ErrorReporter.errorAbort(
-                              "Bug in @ImplicitFor(stringpatterns=...) in type hierarchy definition: inferred type for \"" + string + "\" is " + res + " which is a subtype of " + sam + " but its pattern does not match the string.  matches = " + matches + "; nonMatches = " + nonMatches);
+                        ErrorReporter.errorAbort(
+                                "Bug in @ImplicitFor(stringpatterns=...) in type hierarchy definition: inferred type for \""
+                                        + string
+                                        + "\" is "
+                                        + res
+                                        + " which is a subtype of "
+                                        + sam
+                                        + " but its pattern does not match the string.  matches = "
+                                        + matches
+                                        + "; nonMatches = "
+                                        + nonMatches);
                     }
                 }
                 type.addAnnotations(res);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -200,7 +200,6 @@ public abstract class GenericVisitorAdapter<R, A> implements GenericVisitor<R, A
             }
         }
         return null;
-
     }
 
     public R visit(BooleanLiteralExpr n, A arg) {
@@ -221,7 +220,6 @@ public abstract class GenericVisitorAdapter<R, A> implements GenericVisitor<R, A
         n.getExcept().accept(this, arg);
         n.getCatchBlock().accept(this, arg);
         return null;
-
     }
 
     public R visit(CharLiteralExpr n, A arg) {
@@ -717,7 +715,6 @@ public abstract class GenericVisitorAdapter<R, A> implements GenericVisitor<R, A
             }
         }
         return null;
-
     }
 
     public R visit(SynchronizedStmt n, A arg) {
@@ -835,5 +832,4 @@ public abstract class GenericVisitorAdapter<R, A> implements GenericVisitor<R, A
     public R visit(LineComment n, A arg) {
         return null;
     }
-
 }

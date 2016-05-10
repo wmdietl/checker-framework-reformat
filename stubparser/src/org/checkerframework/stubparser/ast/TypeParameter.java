@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -41,8 +41,8 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  *       &lt;IDENTIFIER&gt; ( "extends" {@link ClassOrInterfaceType} ( "&amp;" {@link ClassOrInterfaceType} )* )?
  *   </td>
  * </tr>
- * </table> 
- * 
+ * </table>
+ *
  * @author Julio Vilmar Gesser
  */
 public final class TypeParameter extends Node {
@@ -53,16 +53,23 @@ public final class TypeParameter extends Node {
 
     private List<ClassOrInterfaceType> typeBound;
 
-    public TypeParameter() {
-    }
+    public TypeParameter() {}
 
-    public TypeParameter(String name, List<AnnotationExpr> annotations, List<ClassOrInterfaceType> typeBound) {
+    public TypeParameter(
+            String name, List<AnnotationExpr> annotations, List<ClassOrInterfaceType> typeBound) {
         this.name = name;
         this.annotations = annotations;
         this.typeBound = typeBound;
     }
 
-    public TypeParameter(int beginLine, int beginColumn, int endLine, int endColumn, String name, List<AnnotationExpr> annotations, List<ClassOrInterfaceType> typeBound) {
+    public TypeParameter(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            String name,
+            List<AnnotationExpr> annotations,
+            List<ClassOrInterfaceType> typeBound) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.annotations = annotations;
@@ -81,7 +88,7 @@ public final class TypeParameter extends Node {
 
     /**
      * Return the name of the paramenter.
-     * 
+     *
      * @return the name of the paramenter
      */
     public String getName() {
@@ -91,7 +98,7 @@ public final class TypeParameter extends Node {
     /**
      * Return the list of {@link ClassOrInterfaceType} that this parameter
      * extends. Return <code>null</code> null if there are no type.
-     * 
+     *
      * @return list of types that this paramente extends or <code>null</code>
      */
     public List<ClassOrInterfaceType> getTypeBound() {
@@ -100,7 +107,7 @@ public final class TypeParameter extends Node {
 
     /**
      * Sets the name of this type parameter.
-     * 
+     *
      * @param name
      *            the name to set
      */
@@ -110,7 +117,7 @@ public final class TypeParameter extends Node {
 
     /**
      * Sets the list o types.
-     * 
+     *
      * @param typeBound
      *            the typeBound to set
      */
@@ -121,5 +128,4 @@ public final class TypeParameter extends Node {
     public List<AnnotationExpr> getAnnotations() {
         return annotations;
     }
-
 }

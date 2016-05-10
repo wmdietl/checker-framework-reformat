@@ -22,14 +22,14 @@ import com.sun.source.tree.Tree.Kind;
  * Extending classes will use the QualifiedTypeFactory provided by {@link context}.
  *
  */
-public class TypecheckVisitorAdapter<Q> extends BaseTypeVisitor<GenericAnnotatedTypeFactory<?,?,?,?>> {
+public class TypecheckVisitorAdapter<Q>
+        extends BaseTypeVisitor<GenericAnnotatedTypeFactory<?, ?, ?, ?>> {
 
     protected final QualifierContext<Q> context;
 
     public TypecheckVisitorAdapter(CheckerAdapter<Q> checker) {
         super(checker);
         this.context = checker.getUnderlying();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -39,11 +39,11 @@ public class TypecheckVisitorAdapter<Q> extends BaseTypeVisitor<GenericAnnotated
     }
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType,
-            AnnotatedDeclaredType useType, Tree tree) {
+    public boolean isValidUse(
+            AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType, Tree tree) {
 
-        if (tree.getKind() == Kind.VARIABLE &&
-            InternalUtils.symbol(tree).asType().getKind() == TypeKind.TYPEVAR) {
+        if (tree.getKind() == Kind.VARIABLE
+                && InternalUtils.symbol(tree).asType().getKind() == TypeKind.TYPEVAR) {
             // We get an error annotating type variable uses otherwise.
             return true;
         }
@@ -53,12 +53,11 @@ public class TypecheckVisitorAdapter<Q> extends BaseTypeVisitor<GenericAnnotated
 
     @Override
     protected void checkExceptionParameter(CatchTree node) {
-        QualifiedTypeMirror<Q> exceptionParam = context.getTypeFactory()
-                .getQualifiedType((node.getParameter()));
+        QualifiedTypeMirror<Q> exceptionParam =
+                context.getTypeFactory().getQualifiedType((node.getParameter()));
         Q required = getExceptionParameterLowerBoundQualifier();
 
-        Q found = context.getTypeFactory()
-                .getQualifiedType((node.getParameter())).getQualifier();
+        Q found = context.getTypeFactory().getQualifiedType((node.getParameter())).getQualifier();
 
         if (!context.getTypeFactory().getQualifierHierarchy().isSubtype(required, found)) {
             checker.report(
@@ -70,9 +69,12 @@ public class TypecheckVisitorAdapter<Q> extends BaseTypeVisitor<GenericAnnotated
             QualifiedUnionType<Q> aut = (QualifiedUnionType<Q>) exceptionParam;
             for (QualifiedTypeMirror<Q> alterntive : aut.getAlternatives()) {
                 Q foundAltern = alterntive.getQualifier();
-                if (!context.getTypeFactory().getQualifierHierarchy().isSubtype(required, foundAltern)) {
-                    checker.report(Result.failure("exception.parameter.invalid",
-                            foundAltern, required), node.getParameter());
+                if (!context.getTypeFactory()
+                        .getQualifierHierarchy()
+                        .isSubtype(required, foundAltern)) {
+                    checker.report(
+                            Result.failure("exception.parameter.invalid", foundAltern, required),
+                            node.getParameter());
                 }
             }
         }

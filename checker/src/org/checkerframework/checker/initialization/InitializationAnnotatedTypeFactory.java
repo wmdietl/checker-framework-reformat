@@ -72,11 +72,11 @@ import com.sun.tools.javac.tree.JCTree;
  * @author Stefan Heule
  */
 public abstract class InitializationAnnotatedTypeFactory<
-        Value extends CFAbstractValue<Value>,
-        Store extends InitializationStore<Value, Store>,
-        Transfer extends InitializationTransfer<Value, Transfer, Store>,
-        Flow extends CFAbstractAnalysis<Value, Store, Transfer>>
-    extends GenericAnnotatedTypeFactory<Value, Store, Transfer, Flow> {
+                Value extends CFAbstractValue<Value>,
+                Store extends InitializationStore<Value, Store>,
+                Transfer extends InitializationTransfer<Value, Transfer, Store>,
+                Flow extends CFAbstractAnalysis<Value, Store, Transfer>>
+        extends GenericAnnotatedTypeFactory<Value, Store, Transfer, Flow> {
 
     /**
      * {@link UnknownInitialization} or {@link Raw}
@@ -144,7 +144,6 @@ public abstract class InitializationAnnotatedTypeFactory<
         initAnnos = Collections.unmodifiableSet(tempInitAnnos);
     }
 
-
     public Set<Class<? extends Annotation>> getInitializationAnnotations() {
         return initAnnos;
     }
@@ -154,10 +153,10 @@ public abstract class InitializationAnnotatedTypeFactory<
      */
     protected boolean isInitializationAnnotation(AnnotationMirror anno) {
         assert anno != null;
-        return AnnotationUtils.areSameIgnoringValues(anno, UNCLASSIFIED) ||
-                AnnotationUtils.areSameIgnoringValues(anno, FREE) ||
-                AnnotationUtils.areSameIgnoringValues(anno, COMMITTED) ||
-                AnnotationUtils.areSameIgnoringValues(anno, FBCBOTTOM);
+        return AnnotationUtils.areSameIgnoringValues(anno, UNCLASSIFIED)
+                || AnnotationUtils.areSameIgnoringValues(anno, FREE)
+                || AnnotationUtils.areSameIgnoringValues(anno, COMMITTED)
+                || AnnotationUtils.areSameIgnoringValues(anno, FBCBOTTOM);
     }
 
     /*
@@ -179,15 +178,13 @@ public abstract class InitializationAnnotatedTypeFactory<
      */
     public abstract AnnotationMirror getFieldInvariantAnnotation();
 
-
     /**
      * Returns a {@link UnderInitialization} annotation with a given type frame.
      */
     public AnnotationMirror createFreeAnnotation(TypeMirror typeFrame) {
         assert typeFrame != null;
         assert useFbc : "The rawness type system does not have a @UnderInitialization annotation.";
-        AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-                UnderInitialization.class);
+        AnnotationBuilder builder = new AnnotationBuilder(processingEnv, UnderInitialization.class);
         builder.setValue("value", typeFrame);
         return builder.build();
     }
@@ -198,8 +195,7 @@ public abstract class InitializationAnnotatedTypeFactory<
     public AnnotationMirror createFreeAnnotation(Class<?> typeFrame) {
         assert typeFrame != null;
         assert useFbc : "The rawness type system does not have a @UnderInitialization annotation.";
-        AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-                UnderInitialization.class);
+        AnnotationBuilder builder = new AnnotationBuilder(processingEnv, UnderInitialization.class);
         builder.setValue("value", typeFrame);
         return builder.build();
     }
@@ -210,8 +206,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      */
     public AnnotationMirror createUnclassifiedAnnotation(Class<?> typeFrame) {
         assert typeFrame != null;
-        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class
-                : Raw.class;
+        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class : Raw.class;
         AnnotationBuilder builder = new AnnotationBuilder(processingEnv, clazz);
         builder.setValue("value", typeFrame);
         return builder.build();
@@ -222,8 +217,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      */
     public AnnotationMirror createUnclassifiedAnnotation(TypeMirror typeFrame) {
         assert typeFrame != null;
-        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class
-                : Raw.class;
+        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class : Raw.class;
         AnnotationBuilder builder = new AnnotationBuilder(processingEnv, clazz);
         builder.setValue("value", typeFrame);
         return builder.build();
@@ -234,8 +228,8 @@ public abstract class InitializationAnnotatedTypeFactory<
      * be {@link UnderInitialization} or {@link UnknownInitialization}.
      */
     public TypeMirror getTypeFrameFromAnnotation(AnnotationMirror annotation) {
-        TypeMirror name = AnnotationUtils.getElementValue(annotation, "value",
-                TypeMirror.class, true);
+        TypeMirror name =
+                AnnotationUtils.getElementValue(annotation, "value", TypeMirror.class, true);
         return name;
     }
 
@@ -253,8 +247,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      * comparison.
      */
     public boolean isUnclassified(AnnotationMirror anno) {
-        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class
-                : Raw.class;
+        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class : Raw.class;
         return AnnotationUtils.areSameByClass(anno, clazz);
     }
 
@@ -287,8 +280,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      * comparison.
      */
     public boolean isUnclassified(AnnotatedTypeMirror anno) {
-        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class
-                : Raw.class;
+        Class<? extends Annotation> clazz = useFbc ? UnknownInitialization.class : Raw.class;
         return anno.hasEffectiveAnnotation(clazz);
     }
 
@@ -296,8 +288,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      * Does {@code anno} have the bottom annotation?
      */
     public boolean isFbcBottom(AnnotatedTypeMirror anno) {
-        Class<? extends Annotation> clazz = useFbc ? FBCBottom.class
-                : NonRaw.class;
+        Class<? extends Annotation> clazz = useFbc ? FBCBottom.class : NonRaw.class;
         return anno.hasEffectiveAnnotation(clazz);
     }
 
@@ -306,8 +297,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      * {@code useFbc} is false, then {@link NonRaw} is used in the comparison.
      */
     public boolean isCommitted(AnnotatedTypeMirror anno) {
-        Class<? extends Annotation> clazz = useFbc ? Initialized.class
-                : NonRaw.class;
+        Class<? extends Annotation> clazz = useFbc ? Initialized.class : NonRaw.class;
         return anno.hasEffectiveAnnotation(clazz);
     }
 
@@ -315,7 +305,6 @@ public abstract class InitializationAnnotatedTypeFactory<
     protected MultiGraphFactory createQualifierHierarchyFactory() {
         return new MultiGraphQualifierHierarchy.MultiGraphFactory(this);
     }
-
 
     /**
      * Are all fields committed-only?
@@ -354,14 +343,16 @@ public abstract class InitializationAnnotatedTypeFactory<
      *
      */
     @Override
-    public void postAsMemberOf(AnnotatedTypeMirror type,
-            AnnotatedTypeMirror owner, Element element) {
+    public void postAsMemberOf(
+            AnnotatedTypeMirror type, AnnotatedTypeMirror owner, Element element) {
         super.postAsMemberOf(type, owner, element);
 
         if (element.getKind().isField()) {
-            Collection<? extends AnnotationMirror> declaredFieldAnnotations = getDeclAnnotations(element);
+            Collection<? extends AnnotationMirror> declaredFieldAnnotations =
+                    getDeclAnnotations(element);
             AnnotatedTypeMirror fieldAnnotations = getAnnotatedType(element);
-            computeFieldAccessType(type, declaredFieldAnnotations, owner, fieldAnnotations, element);
+            computeFieldAccessType(
+                    type, declaredFieldAnnotations, owner, fieldAnnotations, element);
         }
     }
 
@@ -390,7 +381,7 @@ public abstract class InitializationAnnotatedTypeFactory<
         Tree topLevelMember = findTopLevelClassMemberForTree(path);
         if (topLevelMember != null) {
             if (topLevelMember.getKind() != Kind.METHOD
-                    || TreeUtils.isConstructor((MethodTree)topLevelMember)) {
+                    || TreeUtils.isConstructor((MethodTree) topLevelMember)) {
 
                 setSelfTypeInInitializationCode(tree, selfType, path);
             }
@@ -412,7 +403,8 @@ public abstract class InitializationAnnotatedTypeFactory<
 
             List<? extends Tree> classMembers = enclosingClass.getMembers();
             TreePath searchPath = path;
-            while (searchPath.getParentPath() != null && searchPath.getParentPath() != enclosingClass) {
+            while (searchPath.getParentPath() != null
+                    && searchPath.getParentPath() != enclosingClass) {
                 searchPath = searchPath.getParentPath();
                 if (classMembers.contains(searchPath.getLeaf())) {
                     return searchPath.getLeaf();
@@ -422,8 +414,8 @@ public abstract class InitializationAnnotatedTypeFactory<
         return null;
     }
 
-    protected void setSelfTypeInInitializationCode(Tree tree,
-            AnnotatedDeclaredType selfType, TreePath path) {
+    protected void setSelfTypeInInitializationCode(
+            Tree tree, AnnotatedDeclaredType selfType, TreePath path) {
         ClassTree enclosingClass = TreeUtils.enclosingClass(path);
         Type classType = ((JCTree) enclosingClass).type;
         AnnotationMirror annotation = null;
@@ -434,8 +426,7 @@ public abstract class InitializationAnnotatedTypeFactory<
             Store store = getStoreBefore(tree);
             if (store != null) {
                 List<AnnotationMirror> annos = Collections.emptyList();
-                if (getUninitializedInvariantFields(store, path, false,
-                        annos).size() == 0) {
+                if (getUninitializedInvariantFields(store, path, false, annos).size() == 0) {
                     if (useFbc) {
                         annotation = createFreeAnnotation(classType);
                     } else {
@@ -490,8 +481,10 @@ public abstract class InitializationAnnotatedTypeFactory<
      * Returns the (non-static) fields that have the invariant annotation
      * and are not yet initialized in a given store.
      */
-    public List<VariableTree> getUninitializedInvariantFields(Store store,
-            TreePath path, boolean isStatic,
+    public List<VariableTree> getUninitializedInvariantFields(
+            Store store,
+            TreePath path,
+            boolean isStatic,
             List<? extends AnnotationMirror> receiverAnnotations) {
         ClassTree currentClass = TreeUtils.enclosingClass(path);
         List<VariableTree> fields = InitializationChecker.getAllFields(currentClass);
@@ -519,8 +512,7 @@ public abstract class InitializationAnnotatedTypeFactory<
      * Returns the (non-static) fields that have the invariant annotation
      * and are initialized in a given store.
      */
-    public List<VariableTree> getInitializedInvariantFields(Store store,
-            TreePath path) {
+    public List<VariableTree> getInitializedInvariantFields(Store store, TreePath path) {
         // TODO: Instead of passing the TreePath around, can we use
         // getCurrentClassTree?
         ClassTree currentClass = TreeUtils.enclosingClass(path);
@@ -546,23 +538,21 @@ public abstract class InitializationAnnotatedTypeFactory<
      * Returns whether the field {@code f} is unused, given the annotations on
      * the receiver.
      */
-    private boolean isUnused(VariableTree field,
-            Collection<? extends AnnotationMirror> receiverAnnos) {
+    private boolean isUnused(
+            VariableTree field, Collection<? extends AnnotationMirror> receiverAnnos) {
         if (receiverAnnos.isEmpty()) {
             return false;
         }
 
-        AnnotationMirror unused = getDeclAnnotation(
-                TreeUtils.elementFromDeclaration(field), Unused.class);
+        AnnotationMirror unused =
+                getDeclAnnotation(TreeUtils.elementFromDeclaration(field), Unused.class);
         if (unused == null) {
             return false;
         }
 
-        Name when = AnnotationUtils.getElementValueClassName(unused, "when",
-                                                             false);
+        Name when = AnnotationUtils.getElementValueClassName(unused, "when", false);
         for (AnnotationMirror anno : receiverAnnos) {
-            Name annoName = ((TypeElement) anno.getAnnotationType().asElement())
-                    .getQualifiedName();
+            Name annoName = ((TypeElement) anno.getAnnotationType().asElement()).getQualifiedName();
             if (annoName.contentEquals(when)) {
                 return true;
             }
@@ -589,10 +579,12 @@ public abstract class InitializationAnnotatedTypeFactory<
      * @param receiverType
      *            Inferred annotations of the receiver.
      */
-    private void computeFieldAccessType(AnnotatedTypeMirror type,
+    private void computeFieldAccessType(
+            AnnotatedTypeMirror type,
             Collection<? extends AnnotationMirror> declaredFieldAnnotations,
             AnnotatedTypeMirror receiverType,
-            AnnotatedTypeMirror fieldAnnotations, Element element) {
+            AnnotatedTypeMirror fieldAnnotations,
+            Element element) {
         // not necessary for primitive fields
         if (TypesUtils.isPrimitive(type.getUnderlyingType())) {
             return;
@@ -603,12 +595,11 @@ public abstract class InitializationAnnotatedTypeFactory<
                 fieldAnnotations.getAnnotations(), UNCLASSIFIED)) {
             return;
         }
-        if (isUnclassified(receiverType)
-                || isFree(receiverType)) {
+        if (isUnclassified(receiverType) || isFree(receiverType)) {
 
-            TypeMirror fieldDeclarationType = element.getEnclosingElement()
-                    .asType();
-            boolean isInitializedForFrame = isInitializedForFrame(receiverType, fieldDeclarationType);
+            TypeMirror fieldDeclarationType = element.getEnclosingElement().asType();
+            boolean isInitializedForFrame =
+                    isInitializedForFrame(receiverType, fieldDeclarationType);
             if (isInitializedForFrame) {
                 // The receiver is initialized for this frame.
                 // Change the type of the field to @UnknownInitialization or @Raw so that
@@ -626,8 +617,8 @@ public abstract class InitializationAnnotatedTypeFactory<
                 type.addAnnotations(qualHierarchy.getTopAnnotations());
             }
 
-            if (!AnnotationUtils.containsSame(declaredFieldAnnotations,
-                    NOT_ONLY_COMMITTED) || !useFbc) {
+            if (!AnnotationUtils.containsSame(declaredFieldAnnotations, NOT_ONLY_COMMITTED)
+                    || !useFbc) {
                 // add root annotation for all other hierarchies, and
                 // Committed for the commitment hierarchy
                 type.replaceAnnotation(COMMITTED);
@@ -638,21 +629,18 @@ public abstract class InitializationAnnotatedTypeFactory<
     @Override
     protected TypeAnnotator createTypeAnnotator() {
         return new ListTypeAnnotator(
-                super.createTypeAnnotator(),
-                new CommitmentTypeAnnotator(this)
-        );
+                super.createTypeAnnotator(), new CommitmentTypeAnnotator(this));
     }
 
     @Override
     protected TreeAnnotator createTreeAnnotator() {
         return new ListTreeAnnotator(
-                super.createTreeAnnotator(),
-                new CommitmentTreeAnnotator(this)
-        );
+                super.createTreeAnnotator(), new CommitmentTreeAnnotator(this));
     }
 
     protected class CommitmentTypeAnnotator extends TypeAnnotator {
-        public CommitmentTypeAnnotator(InitializationAnnotatedTypeFactory<?, ?, ?, ?> atypeFactory) {
+        public CommitmentTypeAnnotator(
+                InitializationAnnotatedTypeFactory<?, ?, ?, ?> atypeFactory) {
             super(atypeFactory);
         }
 
@@ -671,7 +659,8 @@ public abstract class InitializationAnnotatedTypeFactory<
 
     protected class CommitmentTreeAnnotator extends TreeAnnotator {
 
-        public CommitmentTreeAnnotator(InitializationAnnotatedTypeFactory<?, ?, ?, ?> atypeFactory) {
+        public CommitmentTreeAnnotator(
+                InitializationAnnotatedTypeFactory<?, ?, ?, ?> atypeFactory) {
             super(atypeFactory);
         }
 
@@ -681,7 +670,8 @@ public abstract class InitializationAnnotatedTypeFactory<
             if (TreeUtils.isConstructor(node)) {
                 assert p instanceof AnnotatedExecutableType;
                 AnnotatedExecutableType exeType = (AnnotatedExecutableType) p;
-                DeclaredType underlyingType = (DeclaredType) exeType.getReturnType().getUnderlyingType();
+                DeclaredType underlyingType =
+                        (DeclaredType) exeType.getReturnType().getUnderlyingType();
                 AnnotationMirror a = getFreeOrRawAnnotationOfSuperType(underlyingType);
                 exeType.getReturnType().replaceAnnotation(a);
             }
@@ -736,8 +726,7 @@ public abstract class InitializationAnnotatedTypeFactory<
          * initialization qualifiers.
          */
         public boolean isSubtypeInitialization(AnnotationMirror rhs, AnnotationMirror lhs) {
-            if (!isInitializationAnnotation(rhs) ||
-                    !isInitializationAnnotation(lhs)) {
+            if (!isInitializationAnnotation(rhs) || !isInitializationAnnotation(lhs)) {
                 return false;
             }
 
@@ -792,10 +781,9 @@ public abstract class InitializationAnnotatedTypeFactory<
          * @param anno2 an initialization qualifier
          * @return the lub of anno1 and anno2
          */
-        protected AnnotationMirror leastUpperBoundInitialization(AnnotationMirror anno1,
-                AnnotationMirror anno2) {
-            if (!isInitializationAnnotation(anno1) ||
-                    !isInitializationAnnotation(anno2)) {
+        protected AnnotationMirror leastUpperBoundInitialization(
+                AnnotationMirror anno1, AnnotationMirror anno2) {
+            if (!isInitializationAnnotation(anno1) || !isInitializationAnnotation(anno2)) {
                 return null;
             }
 
@@ -820,15 +808,16 @@ public abstract class InitializationAnnotatedTypeFactory<
             }
 
             if (free1 && free2) {
-                return createFreeAnnotation(lubTypeFrame(
-                        getTypeFrameFromAnnotation(anno1),
-                        getTypeFrameFromAnnotation(anno2)));
+                return createFreeAnnotation(
+                        lubTypeFrame(
+                                getTypeFrameFromAnnotation(anno1),
+                                getTypeFrameFromAnnotation(anno2)));
             }
 
             assert (unc1 || free1) && (unc2 || free2);
-            return createUnclassifiedAnnotation(lubTypeFrame(
-                    getTypeFrameFromAnnotation(anno1),
-                    getTypeFrameFromAnnotation(anno2)));
+            return createUnclassifiedAnnotation(
+                    lubTypeFrame(
+                            getTypeFrameFromAnnotation(anno1), getTypeFrameFromAnnotation(anno2)));
         }
 
         /**
@@ -845,10 +834,8 @@ public abstract class InitializationAnnotatedTypeFactory<
         }
 
         @Override
-        public AnnotationMirror greatestLowerBound(AnnotationMirror anno1,
-                AnnotationMirror anno2) {
+        public AnnotationMirror greatestLowerBound(AnnotationMirror anno1, AnnotationMirror anno2) {
             return super.greatestLowerBound(anno1, anno2);
         }
-
     }
 }

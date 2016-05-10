@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -33,14 +33,14 @@ public class LongLiteralExpr extends StringLiteralExpr {
 
     protected static final String MIN_VALUE = "-" + UNSIGNED_MIN_VALUE + "L";
 
-    public LongLiteralExpr() {
-    }
+    public LongLiteralExpr() {}
 
     public LongLiteralExpr(String value) {
         super(value);
     }
 
-    public LongLiteralExpr(int beginLine, int beginColumn, int endLine, int endColumn, String value) {
+    public LongLiteralExpr(
+            int beginLine, int beginColumn, int endLine, int endColumn, String value) {
         super(beginLine, beginColumn, endLine, endColumn, value);
     }
 
@@ -55,9 +55,12 @@ public class LongLiteralExpr extends StringLiteralExpr {
     }
 
     public final boolean isMinValue() {
-        return value != null && //
-                value.length() == 20 && //
-                value.startsWith(UNSIGNED_MIN_VALUE) && //
+        return value != null
+                && //
+                value.length() == 20
+                && //
+                value.startsWith(UNSIGNED_MIN_VALUE)
+                && //
                 (value.charAt(19) == 'L' || value.charAt(19) == 'l');
     }
 }

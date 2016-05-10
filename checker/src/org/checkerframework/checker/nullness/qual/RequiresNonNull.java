@@ -38,7 +38,7 @@ import org.checkerframework.framework.qual.PreconditionAnnotation;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR })
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
 @PreconditionAnnotation(qualifier = NonNull.class)
 public @interface RequiresNonNull {
     /**

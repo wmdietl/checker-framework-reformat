@@ -69,8 +69,7 @@ public class MarkerNode extends Node {
             return false;
         }
 
-        return getTree().equals(other.getTree())
-                && getMessage().equals(other.getMessage());
+        return getTree().equals(other.getTree()) && getMessage().equals(other.getMessage());
     }
 
     @Override

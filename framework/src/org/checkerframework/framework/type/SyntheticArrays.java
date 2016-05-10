@@ -21,9 +21,8 @@ public class SyntheticArrays {
      */
     public static boolean isArrayClone(final AnnotatedTypeMirror type, final Element elem) {
         return type.getKind() == TypeKind.ARRAY
-            && elem.getKind() == ElementKind.METHOD
-            && elem.getSimpleName().contentEquals("clone");
-
+                && elem.getKind() == ElementKind.METHOD
+                && elem.getSimpleName().contentEquals("clone");
     }
 
     /**
@@ -31,10 +30,10 @@ public class SyntheticArrays {
      * @param newReturnType identifies a type that should replace methodElem's return type
      * @return the annotated type of methodElem with its return type replaced by newReturnType
      */
-    public static AnnotatedExecutableType replaceReturnType(final Element methodElem,
-                                                            final AnnotatedArrayType newReturnType) {
+    public static AnnotatedExecutableType replaceReturnType(
+            final Element methodElem, final AnnotatedArrayType newReturnType) {
         final AnnotatedExecutableType method =
-            (AnnotatedExecutableType) newReturnType.atypeFactory.getAnnotatedType(methodElem);
+                (AnnotatedExecutableType) newReturnType.atypeFactory.getAnnotatedType(methodElem);
         method.returnType = newReturnType;
         return method;
     }

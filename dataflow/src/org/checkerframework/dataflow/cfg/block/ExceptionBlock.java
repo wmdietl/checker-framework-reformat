@@ -34,5 +34,4 @@ public interface ExceptionBlock extends SingleSuccessorBlock {
      * @return the list of exceptional successor blocks as an unmodifiable map
      */
     Map<TypeMirror, Set<Block>> getExceptionalSuccessors();
-
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -40,8 +40,7 @@ public final class ArrayCreationExpr extends Expression {
 
     private List<Expression> dimensions;
 
-    public ArrayCreationExpr() {
-    }
+    public ArrayCreationExpr() {}
 
     public ArrayCreationExpr(Type type, int arrayCount, ArrayInitializerExpr initializer) {
         this.type = type;
@@ -50,7 +49,14 @@ public final class ArrayCreationExpr extends Expression {
         this.dimensions = null;
     }
 
-    public ArrayCreationExpr(int beginLine, int beginColumn, int endLine, int endColumn, Type type, int arrayCount, ArrayInitializerExpr initializer) {
+    public ArrayCreationExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Type type,
+            int arrayCount,
+            ArrayInitializerExpr initializer) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.type = type;
         this.arrayCount = arrayCount;
@@ -65,7 +71,14 @@ public final class ArrayCreationExpr extends Expression {
         this.initializer = null;
     }
 
-    public ArrayCreationExpr(int beginLine, int beginColumn, int endLine, int endColumn, Type type, List<Expression> dimensions, int arrayCount) {
+    public ArrayCreationExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Type type,
+            List<Expression> dimensions,
+            int arrayCount) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.type = type;
         this.arrayCount = arrayCount;
@@ -114,5 +127,4 @@ public final class ArrayCreationExpr extends Expression {
     public void setType(Type type) {
         this.type = type;
     }
-
 }

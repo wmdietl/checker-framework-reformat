@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -44,15 +44,20 @@ public final class UnaryExpr extends Expression {
 
     private Operator op;
 
-    public UnaryExpr() {
-    }
+    public UnaryExpr() {}
 
     public UnaryExpr(Expression expr, Operator op) {
         this.expr = expr;
         this.op = op;
     }
 
-    public UnaryExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, Operator op) {
+    public UnaryExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression expr,
+            Operator op) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.expr = expr;
         this.op = op;
@@ -83,5 +88,4 @@ public final class UnaryExpr extends Expression {
     public void setOperator(Operator op) {
         this.op = op;
     }
-
 }

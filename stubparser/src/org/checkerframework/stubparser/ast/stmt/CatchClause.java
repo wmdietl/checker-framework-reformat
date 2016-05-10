@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -35,15 +35,20 @@ public final class CatchClause extends Node {
 
     private BlockStmt catchBlock;
 
-    public CatchClause() {
-    }
+    public CatchClause() {}
 
     public CatchClause(Parameter except, BlockStmt catchBlock) {
         this.except = except;
         this.catchBlock = catchBlock;
     }
 
-    public CatchClause(int beginLine, int beginColumn, int endLine, int endColumn, Parameter except, BlockStmt catchBlock) {
+    public CatchClause(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Parameter except,
+            BlockStmt catchBlock) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.except = except;
         this.catchBlock = catchBlock;

@@ -43,8 +43,9 @@ public class InferredValue {
          */
         public final Set<AnnotationMirror> additionalAnnotations;
 
-        public InferredTarget(final TypeVariable target,
-                              final Collection<? extends AnnotationMirror> additionalAnnotations) {
+        public InferredTarget(
+                final TypeVariable target,
+                final Collection<? extends AnnotationMirror> additionalAnnotations) {
             this.target = target;
             this.additionalAnnotations = new HashSet<>(additionalAnnotations);
         }

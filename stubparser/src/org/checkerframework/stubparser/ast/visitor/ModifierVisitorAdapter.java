@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -114,12 +114,12 @@ import org.checkerframework.stubparser.ast.type.WildcardType;
  * This visitor adapter can be used to save time when some specific nodes needs
  * to be changed. To do that just extend this class and override the methods
  * from the nodes who needs to be changed, returning the changed node.
- * 
+ *
  * @author Julio Vilmar Gesser
  */
 public abstract class ModifierVisitorAdapter<A> implements GenericVisitor<Node, A> {
 
-    private void removeNulls(List< ? > list) {
+    private void removeNulls(List<?> list) {
         for (int i = list.size() - 1; i >= 0; i--) {
             if (list.get(i) == null) {
                 list.remove(i);
@@ -250,7 +250,6 @@ public abstract class ModifierVisitorAdapter<A> implements GenericVisitor<Node, 
         n.setExcept((Parameter) n.getExcept().accept(this, arg));
         n.setCatchBlock((BlockStmt) n.getCatchBlock().accept(this, arg));
         return n;
-
     }
 
     public Node visit(CharLiteralExpr n, A arg) {
@@ -729,7 +728,8 @@ public abstract class ModifierVisitorAdapter<A> implements GenericVisitor<Node, 
         List<BodyDeclaration> anonymousClassBody = n.getAnonymousClassBody();
         if (anonymousClassBody != null) {
             for (int i = 0; i < anonymousClassBody.size(); i++) {
-                anonymousClassBody.set(i, (BodyDeclaration) anonymousClassBody.get(i).accept(this, arg));
+                anonymousClassBody.set(
+                        i, (BodyDeclaration) anonymousClassBody.get(i).accept(this, arg));
             }
             removeNulls(anonymousClassBody);
         }
@@ -823,7 +823,6 @@ public abstract class ModifierVisitorAdapter<A> implements GenericVisitor<Node, 
             removeNulls(entries);
         }
         return n;
-
     }
 
     public Node visit(SynchronizedStmt n, A arg) {
@@ -943,5 +942,4 @@ public abstract class ModifierVisitorAdapter<A> implements GenericVisitor<Node, 
     public Node visit(LineComment n, A arg) {
         return n;
     }
-
 }

@@ -17,7 +17,8 @@ import java.lang.annotation.Target;
  * @checker_framework.manual #i18n-checker Internationalization Checker
  */
 @SubtypeOf(UnknownLocalized.class)
-@ImplicitFor(literals = {
+@ImplicitFor(
+    literals = {
         /* All integer literals */
         LiteralKind.INT,
         LiteralKind.LONG,

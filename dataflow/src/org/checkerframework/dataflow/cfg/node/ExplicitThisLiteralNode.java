@@ -22,8 +22,7 @@ public class ExplicitThisLiteralNode extends ThisLiteralNode {
 
     public ExplicitThisLiteralNode(Tree t) {
         super(InternalUtils.typeOf(t));
-        assert t instanceof IdentifierTree
-                && ((IdentifierTree) t).getName().contentEquals("this");
+        assert t instanceof IdentifierTree && ((IdentifierTree) t).getName().contentEquals("this");
         tree = t;
     }
 

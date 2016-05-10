@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -39,8 +39,8 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  *       "import" ( "static" )? {@link NameExpr} ( "." "*" )? ";"
  *   </td>
  * </tr>
- * </table> 
- * 
+ * </table>
+ *
  * @author Julio Vilmar Gesser
  */
 public final class ImportDeclaration extends Node {
@@ -51,8 +51,7 @@ public final class ImportDeclaration extends Node {
 
     private boolean asterisk;
 
-    public ImportDeclaration() {
-    }
+    public ImportDeclaration() {}
 
     public ImportDeclaration(NameExpr name, boolean isStatic, boolean isAsterisk) {
         this.name = name;
@@ -60,7 +59,14 @@ public final class ImportDeclaration extends Node {
         this.asterisk = isAsterisk;
     }
 
-    public ImportDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name, boolean isStatic, boolean isAsterisk) {
+    public ImportDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            NameExpr name,
+            boolean isStatic,
+            boolean isAsterisk) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.static_ = isStatic;
@@ -79,7 +85,7 @@ public final class ImportDeclaration extends Node {
 
     /**
      * Retrieves the name of the import.
-     * 
+     *
      * @return the name of the import
      */
     public NameExpr getName() {
@@ -88,7 +94,7 @@ public final class ImportDeclaration extends Node {
 
     /**
      * Return if the import ends with "*".
-     * 
+     *
      * @return <code>true</code> if the import ends with "*", <code>false</code>
      *         otherwise
      */
@@ -98,7 +104,7 @@ public final class ImportDeclaration extends Node {
 
     /**
      * Return if the import is static.
-     * 
+     *
      * @return <code>true</code> if the import is static, <code>false</code>
      *         otherwise
      */
@@ -108,7 +114,7 @@ public final class ImportDeclaration extends Node {
 
     /**
      * Sets if this import is asterisk.
-     * 
+     *
      * @param asterisk
      *            <code>true</code> if this import is asterisk
      */
@@ -118,7 +124,7 @@ public final class ImportDeclaration extends Node {
 
     /**
      * Sets the name this import.
-     * 
+     *
      * @param name
      *            the name to set
      */
@@ -128,12 +134,11 @@ public final class ImportDeclaration extends Node {
 
     /**
      * Sets if this import is static.
-     * 
+     *
      * @param static_
      *            <code>true</code> if this import is static
      */
     public void setStatic(boolean static_) {
         this.static_ = static_;
     }
-
 }

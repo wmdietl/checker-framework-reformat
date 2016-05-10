@@ -123,7 +123,8 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
     @Override
     public void updateInferredConstructorParameterTypes(
             ObjectCreationNode objectCreationNode,
-            ExecutableElement constructorElt, AnnotatedTypeFactory atf) {
+            ExecutableElement constructorElt,
+            AnnotatedTypeFactory atf) {
         ClassSymbol classSymbol = getEnclosingClassSymbol(objectCreationNode.getTree());
         if (classSymbol == null) {
             // TODO: Handle anonymous classes.
@@ -140,7 +141,6 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
 
         List<Node> arguments = objectCreationNode.getArguments();
         updateInferredExecutableParameterTypes(constructorElt, atf, jaifPath, method, arguments);
-
     }
 
     /**
@@ -168,8 +168,10 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
      */
     @Override
     public void updateInferredMethodParameterTypes(
-            MethodInvocationNode methodInvNode, Tree receiverTree,
-            ExecutableElement methodElt, AnnotatedTypeFactory atf) {
+            MethodInvocationNode methodInvNode,
+            Tree receiverTree,
+            ExecutableElement methodElt,
+            AnnotatedTypeFactory atf) {
         if (receiverTree == null) {
             // TODO: Method called from static context.
             // I struggled to obtain the ClassTree of a method called
@@ -207,8 +209,12 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
     /**
      * Helper method for updating parameter types based on calls to a method or constructor.
      */
-    private void updateInferredExecutableParameterTypes(ExecutableElement methodElt, AnnotatedTypeFactory atf,
-                                                        String jaifPath, AMethod method, List<Node> arguments) {
+    private void updateInferredExecutableParameterTypes(
+            ExecutableElement methodElt,
+            AnnotatedTypeFactory atf,
+            String jaifPath,
+            AMethod method,
+            List<Node> arguments) {
         for (int i = 0; i < arguments.size(); i++) {
             VariableElement ve = methodElt.getParameters().get(i);
             AnnotatedTypeMirror paramATM = atf.getAnnotatedType(ve);
@@ -226,8 +232,7 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
             AnnotatedTypeMirror argATM = atf.getAnnotatedType(treeNode);
             AField param = method.parameters.vivify(i);
             helper.updateAnnotationSetInScene(
-                    param.type, atf, jaifPath, argATM, paramATM,
-                    TypeUseLocation.PARAMETER);
+                    param.type, atf, jaifPath, argATM, paramATM, TypeUseLocation.PARAMETER);
         }
     }
 
@@ -255,8 +260,11 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
      */
     @Override
     public void updateInferredParameterType(
-            LocalVariableNode lhs, Node rhs, ClassTree classTree,
-            MethodTree methodTree, AnnotatedTypeFactory atf) {
+            LocalVariableNode lhs,
+            Node rhs,
+            ClassTree classTree,
+            MethodTree methodTree,
+            AnnotatedTypeFactory atf) {
         ClassSymbol classSymbol = getEnclosingClassSymbol(classTree, lhs);
         // TODO: Anonymous classes
         // See Issue 682
@@ -287,8 +295,7 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
                 AnnotatedTypeMirror argATM = atf.getAnnotatedType(treeNode);
                 AField param = method.parameters.vivify(i);
                 helper.updateAnnotationSetInScene(
-                        param.type, atf, jaifPath, argATM, paramATM,
-                        TypeUseLocation.PARAMETER);
+                        param.type, atf, jaifPath, argATM, paramATM, TypeUseLocation.PARAMETER);
                 break;
             }
         }
@@ -327,8 +334,8 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
 
         // If the inferred field has a declaration annotation with the
         // @IgnoreInWholeProgramInference meta-annotation, exit this routine.
-        for (AnnotationMirror declAnno : atf.getDeclAnnotations(
-                InternalUtils.symbol(lhs.getTree()))) {
+        for (AnnotationMirror declAnno :
+                atf.getDeclAnnotations(InternalUtils.symbol(lhs.getTree()))) {
             Element elt = declAnno.getAnnotationType().asElement();
             if (elt.getAnnotation(IgnoreInWholeProgramInference.class) != null) {
                 return;
@@ -365,8 +372,10 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
      * type hierarchy will be used to update the method's return type.
      */
     @Override
-    public void updateInferredMethodReturnType(ReturnNode retNode,
-            ClassSymbol classSymbol, MethodTree methodTree,
+    public void updateInferredMethodReturnType(
+            ReturnNode retNode,
+            ClassSymbol classSymbol,
+            MethodTree methodTree,
             AnnotatedTypeFactory atf) {
         // See Issue 682
         // https://github.com/typetools/checker-framework/issues/682
@@ -382,8 +391,7 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
         // Type of the expression returned
         AnnotatedTypeMirror rhsATM = atf.getAnnotatedType(retNode.getTree().getExpression());
         helper.updateAnnotationSetInScene(
-                method.returnType, atf, jaifPath, rhsATM, lhsATM,
-                TypeUseLocation.RETURN);
+                method.returnType, atf, jaifPath, rhsATM, lhsATM, TypeUseLocation.RETURN);
     }
 
     /**
@@ -403,13 +411,12 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
      * is from the field's receiver.
      */
     // TODO: These methods below could be moved somewhere else.
-    private ClassSymbol getEnclosingClassSymbol(
-            ClassTree classTree, Node field) {
+    private ClassSymbol getEnclosingClassSymbol(ClassTree classTree, Node field) {
         Node receiverNode = null;
         if (field instanceof FieldAccessNode) {
-            receiverNode = ((FieldAccessNode)field).getReceiver();
+            receiverNode = ((FieldAccessNode) field).getReceiver();
         } else if (field instanceof LocalVariableNode) {
-            receiverNode = ((LocalVariableNode)field).getReceiver();
+            receiverNode = ((LocalVariableNode) field).getReceiver();
         } else {
             ErrorReporter.errorAbort("Unexpected type: " + field.getClass());
         }
@@ -434,9 +441,9 @@ public class WholeProgramInferenceScenes implements WholeProgramInference {
         if (symbol instanceof ClassSymbol) {
             return (ClassSymbol) symbol;
         } else if (symbol instanceof VarSymbol) {
-            return ((VarSymbol)symbol).asType().asElement().enclClass();
+            return ((VarSymbol) symbol).asType().asElement().enclClass();
         } else if (symbol instanceof MethodSymbol) {
-            return ((MethodSymbol)symbol).enclClass();
+            return ((MethodSymbol) symbol).enclClass();
         }
         return null;
     }

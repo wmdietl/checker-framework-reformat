@@ -13,7 +13,8 @@ class TypeAnnotatorAdapter<Q> extends ImplicitsTypeAnnotator {
     private final TypeAnnotator<Q> underlying;
     private final TypeMirrorConverter<Q> converter;
 
-    public TypeAnnotatorAdapter(TypeAnnotator<Q> underlying,
+    public TypeAnnotatorAdapter(
+            TypeAnnotator<Q> underlying,
             TypeMirrorConverter<Q> converter,
             QualifiedTypeFactoryAdapter<Q> factoryAdapter) {
         super(factoryAdapter);
@@ -31,7 +32,7 @@ class TypeAnnotatorAdapter<Q> extends ImplicitsTypeAnnotator {
      */
     public Q getExistingQualifier(ExtendedTypeMirror type) {
         if (type instanceof WrappedAnnotatedTypeMirror) {
-            AnnotatedTypeMirror atm = ((WrappedAnnotatedTypeMirror)type).unwrap();
+            AnnotatedTypeMirror atm = ((WrappedAnnotatedTypeMirror) type).unwrap();
             if (atm.hasAnnotation(TypeMirrorConverter.Key.class)) {
                 return converter.getQualifier(atm);
             }

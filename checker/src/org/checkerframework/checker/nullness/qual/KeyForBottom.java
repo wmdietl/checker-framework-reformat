@@ -23,7 +23,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 @InvisibleQualifier
 @SubtypeOf(KeyFor.class)
-@DefaultFor({ TypeUseLocation.LOWER_BOUND })
-@ImplicitFor(literals = {LiteralKind.NULL},
-  typeNames = {java.lang.Void.class})
+@DefaultFor({TypeUseLocation.LOWER_BOUND})
+@ImplicitFor(
+    literals = {LiteralKind.NULL},
+    typeNames = {java.lang.Void.class}
+)
 public @interface KeyForBottom {}

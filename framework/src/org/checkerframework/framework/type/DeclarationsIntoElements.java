@@ -34,8 +34,8 @@ public class DeclarationsIntoElements {
      * @param atypeFactory the type factory
      * @param tree the ClassTree to process
      */
-    public static void store(ProcessingEnvironment env,
-            AnnotatedTypeFactory atypeFactory, ClassTree tree) {
+    public static void store(
+            ProcessingEnvironment env, AnnotatedTypeFactory atypeFactory, ClassTree tree) {
         for (Tree mem : tree.getMembers()) {
             if (mem.getKind() == Tree.Kind.METHOD) {
                 storeMethod(env, atypeFactory, (MethodTree) mem);
@@ -50,8 +50,8 @@ public class DeclarationsIntoElements {
      * @param atypeFactory the type factory
      * @param meth the MethodTree to add the annotations
      */
-    private static void storeMethod(ProcessingEnvironment env,
-            AnnotatedTypeFactory atypeFactory, MethodTree meth) {
+    private static void storeMethod(
+            ProcessingEnvironment env, AnnotatedTypeFactory atypeFactory, MethodTree meth) {
         ExecutableElement element = TreeUtils.elementFromDeclaration(meth);
         MethodSymbol sym = (MethodSymbol) element;
         java.util.List<? extends AnnotationMirror> elementAnnos = element.getAnnotationMirrors();
@@ -68,5 +68,4 @@ public class DeclarationsIntoElements {
 
         sym.appendAttributes(tcs);
     }
-
 }

@@ -22,8 +22,8 @@ import java.util.Collection;
  * and an AnnotationFormatter that converts @Key annotations to the qualifier, which
  * is then formatted by a QualFormatter.
  */
-public class DefaultQualifiedTypeFormatter<Q, QUAL_FORMATTER extends QualFormatter<Q>> implements
-        QualifiedTypeFormatter<Q> {
+public class DefaultQualifiedTypeFormatter<Q, QUAL_FORMATTER extends QualFormatter<Q>>
+        implements QualifiedTypeFormatter<Q> {
 
     protected final TypeMirrorConverter<Q> converter;
     protected final QUAL_FORMATTER qualFormatter;
@@ -55,8 +55,10 @@ public class DefaultQualifiedTypeFormatter<Q, QUAL_FORMATTER extends QualFormatt
      *                            qualFormatter
      * @return the AnnotatedTypeFormatter
      */
-    protected AnnotatedTypeFormatter createAnnotatedTypeFormatter(AnnotationFormatter annotationFormatter) {
-        return new DefaultAnnotatedTypeFormatter(annotationFormatter, useOldFormat, defaultPrintInvisibleQualifiers);
+    protected AnnotatedTypeFormatter createAnnotatedTypeFormatter(
+            AnnotationFormatter annotationFormatter) {
+        return new DefaultAnnotatedTypeFormatter(
+                annotationFormatter, useOldFormat, defaultPrintInvisibleQualifiers);
     }
 
     @Override
@@ -85,16 +87,20 @@ public class DefaultQualifiedTypeFormatter<Q, QUAL_FORMATTER extends QualFormatt
     protected class AnnoToQualFormatter extends DefaultAnnotationFormatter {
 
         @SideEffectFree
-        public String formatAnnotationString(Collection<? extends AnnotationMirror> annos, boolean printInvisible) {
+        public String formatAnnotationString(
+                Collection<? extends AnnotationMirror> annos, boolean printInvisible) {
             StringBuilder sb = new StringBuilder();
             for (AnnotationMirror obj : annos) {
                 if (obj == null) {
-                    ErrorReporter.errorAbort("Found unexpected null AnnotationMirror " +
-                            "when formatting annotation mirror: " + annos);
+                    ErrorReporter.errorAbort(
+                            "Found unexpected null AnnotationMirror "
+                                    + "when formatting annotation mirror: "
+                                    + annos);
                 }
 
                 if (!AnnotationUtils.areSameByClass(obj, TypeMirrorConverter.Key.class)) {
-                    ErrorReporter.errorAbort("Tried to format something other than an @Key annotation: " + obj);
+                    ErrorReporter.errorAbort(
+                            "Tried to format something other than an @Key annotation: " + obj);
                 } else {
                     Q qual = converter.getQualifier(obj);
                     String result = qualFormatter.format(qual, printInvisible);
@@ -110,7 +116,8 @@ public class DefaultQualifiedTypeFormatter<Q, QUAL_FORMATTER extends QualFormatt
         @Override
         protected void formatAnnotationMirror(AnnotationMirror am, StringBuilder sb) {
             if (!AnnotationUtils.areSameByClass(am, TypeMirrorConverter.Key.class)) {
-                ErrorReporter.errorAbort("Tried to format something other than an @Key annotation: " + am);
+                ErrorReporter.errorAbort(
+                        "Tried to format something other than an @Key annotation: " + am);
             } else {
                 Q qual = converter.getQualifier(am);
                 String result = qualFormatter.format(qual);

@@ -50,6 +50,7 @@ public interface ReflectionResolver {
      *            the original result for the unresolved, reflective method call
      */
     public Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> resolveReflectiveCall(
-            AnnotatedTypeFactory factory, MethodInvocationTree tree,
+            AnnotatedTypeFactory factory,
+            MethodInvocationTree tree,
             Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult);
 }

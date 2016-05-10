@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -117,7 +117,6 @@ import org.checkerframework.stubparser.ast.type.WildcardType;
  *
  * @author Julio Vilmar Gesser
  */
-
 public final class DumpVisitor implements VoidVisitor<Object> {
 
     // Writes to StringBuilder buffer.
@@ -255,8 +254,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
      * @param annotations list of {@link AnnotationExpr annotation expressions}
      * @param arg argument provided to the calling visitor method
      */
-    private void printAnnotations(List<AnnotationExpr> annotations,
-            Object arg) {
+    private void printAnnotations(List<AnnotationExpr> annotations, Object arg) {
         printAnnotations(annotations, arg, false);
     }
 
@@ -268,20 +266,24 @@ public final class DumpVisitor implements VoidVisitor<Object> {
      * @param arg argument provided to the calling visitor method
      * @param isOnReceiver whether annotation is on a method receiver
      */
-    private void printAnnotations(List<AnnotationExpr> annotations,
-            Object arg, boolean isOnReceiver) {
+    private void printAnnotations(
+            List<AnnotationExpr> annotations, Object arg, boolean isOnReceiver) {
         if (annotations != null) {
             Iterator<AnnotationExpr> i = annotations.iterator();
             if (i.hasNext()) {
                 AnnotationExpr a = i.next();
-                if (isOnReceiver) { printer.print(" "); }
+                if (isOnReceiver) {
+                    printer.print(" ");
+                }
                 a.accept(this, arg);
                 while (i.hasNext()) {
                     printer.print(" ");
                     a = i.next();
                     a.accept(this, arg);
                 }
-                if (!isOnReceiver) { printer.print(" "); }
+                if (!isOnReceiver) {
+                    printer.print(" ");
+                }
             }
         }
     }
@@ -295,7 +297,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
     private void printTypeArgs(List<Type> args, Object arg) {
         if (args != null) {
             printer.print("<");
-            for (Iterator<Type> i = args.iterator(); i.hasNext();) {
+            for (Iterator<Type> i = args.iterator(); i.hasNext(); ) {
                 Type t = i.next();
                 t.accept(this, arg);
                 if (i.hasNext()) {
@@ -315,7 +317,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
     private void printTypeParameters(List<TypeParameter> args, Object arg) {
         if (args != null) {
             printer.print("<");
-            for (Iterator<TypeParameter> i = args.iterator(); i.hasNext();) {
+            for (Iterator<TypeParameter> i = args.iterator(); i.hasNext(); ) {
                 TypeParameter t = i.next();
                 t.accept(this, arg);
                 if (i.hasNext()) {
@@ -335,7 +337,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
     private void printArguments(List<Expression> args, Object arg) {
         printer.print("(");
         if (args != null) {
-            for (Iterator<Expression> i = args.iterator(); i.hasNext();) {
+            for (Iterator<Expression> i = args.iterator(); i.hasNext(); ) {
                 Expression e = i.next();
                 e.accept(this, arg);
                 if (i.hasNext()) {
@@ -379,7 +381,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
             printer.printLn();
         }
         if (n.getTypes() != null) {
-            for (Iterator<TypeDeclaration> i = n.getTypes().iterator(); i.hasNext();) {
+            for (Iterator<TypeDeclaration> i = n.getTypes().iterator(); i.hasNext(); ) {
                 i.next().accept(this, arg);
                 printer.printLn();
                 if (i.hasNext()) {
@@ -436,7 +438,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         if (n.getExtends() != null) {
             printer.print(" extends ");
-            for (Iterator<ClassOrInterfaceType> i = n.getExtends().iterator(); i.hasNext();) {
+            for (Iterator<ClassOrInterfaceType> i = n.getExtends().iterator(); i.hasNext(); ) {
                 ClassOrInterfaceType c = i.next();
                 c.accept(this, arg);
                 if (i.hasNext()) {
@@ -447,7 +449,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         if (n.getImplements() != null) {
             printer.print(" implements ");
-            for (Iterator<ClassOrInterfaceType> i = n.getImplements().iterator(); i.hasNext();) {
+            for (Iterator<ClassOrInterfaceType> i = n.getImplements().iterator(); i.hasNext(); ) {
                 ClassOrInterfaceType c = i.next();
                 c.accept(this, arg);
                 if (i.hasNext()) {
@@ -491,7 +493,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         printer.print(n.getName());
         if (n.getTypeBound() != null) {
             printer.print(" extends ");
-            for (Iterator<ClassOrInterfaceType> i = n.getTypeBound().iterator(); i.hasNext();) {
+            for (Iterator<ClassOrInterfaceType> i = n.getTypeBound().iterator(); i.hasNext(); ) {
                 ClassOrInterfaceType c = i.next();
                 c.accept(this, arg);
                 if (i.hasNext()) {
@@ -565,7 +567,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         n.getType().accept(this, arg);
 
         printer.print(" ");
-        for (Iterator<VariableDeclarator> i = n.getVariables().iterator(); i.hasNext();) {
+        for (Iterator<VariableDeclarator> i = n.getVariables().iterator(); i.hasNext(); ) {
             VariableDeclarator var = i.next();
             var.accept(this, arg);
             if (i.hasNext()) {
@@ -595,7 +597,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         printer.print("{");
         if (n.getValues() != null) {
             printer.print(" ");
-            for (Iterator<Expression> i = n.getValues().iterator(); i.hasNext();) {
+            for (Iterator<Expression> i = n.getValues().iterator(); i.hasNext(); ) {
                 Expression expr = i.next();
                 expr.accept(this, arg);
                 if (i.hasNext()) {
@@ -924,7 +926,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         printer.print("(");
         if (n.getParameters() != null) {
-            for (Iterator<Parameter> i = n.getParameters().iterator(); i.hasNext();) {
+            for (Iterator<Parameter> i = n.getParameters().iterator(); i.hasNext(); ) {
                 Parameter p = i.next();
                 p.accept(this, arg);
                 if (i.hasNext()) {
@@ -938,7 +940,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         if (n.getThrows() != null) {
             printer.print(" throws ");
-            for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext();) {
+            for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext(); ) {
                 NameExpr name = i.next();
                 name.accept(this, arg);
                 if (i.hasNext()) {
@@ -971,7 +973,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         printer.print("(");
         if (n.getParameters() != null) {
-            for (Iterator<Parameter> i = n.getParameters().iterator(); i.hasNext();) {
+            for (Iterator<Parameter> i = n.getParameters().iterator(); i.hasNext(); ) {
                 Parameter p = i.next();
                 p.accept(this, arg);
                 if (i.hasNext()) {
@@ -989,7 +991,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         if (n.getThrows() != null) {
             printer.print(" throws ");
-            for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext();) {
+            for (Iterator<NameExpr> i = n.getThrows().iterator(); i.hasNext(); ) {
                 NameExpr name = i.next();
                 name.accept(this, arg);
                 if (i.hasNext()) {
@@ -1040,7 +1042,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         n.getType().accept(this, arg);
         printer.print(" ");
 
-        for (Iterator<VariableDeclarator> i = n.getVars().iterator(); i.hasNext();) {
+        for (Iterator<VariableDeclarator> i = n.getVars().iterator(); i.hasNext(); ) {
             VariableDeclarator v = i.next();
             v.accept(this, arg);
             if (i.hasNext()) {
@@ -1074,7 +1076,6 @@ public final class DumpVisitor implements VoidVisitor<Object> {
             printer.unindent();
         }
         printer.print("}");
-
     }
 
     public void visit(LabeledStmt n, Object arg) {
@@ -1104,7 +1105,6 @@ public final class DumpVisitor implements VoidVisitor<Object> {
             printer.unindent();
         }
         printer.print("}");
-
     }
 
     public void visit(SwitchEntryStmt n, Object arg) {
@@ -1154,7 +1154,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
 
         if (n.getImplements() != null) {
             printer.print(" implements ");
-            for (Iterator<ClassOrInterfaceType> i = n.getImplements().iterator(); i.hasNext();) {
+            for (Iterator<ClassOrInterfaceType> i = n.getImplements().iterator(); i.hasNext(); ) {
                 ClassOrInterfaceType c = i.next();
                 c.accept(this, arg);
                 if (i.hasNext()) {
@@ -1167,7 +1167,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         printer.indent();
         if (n.getEntries() != null) {
             printer.printLn();
-            for (Iterator<EnumConstantDeclaration> i = n.getEntries().iterator(); i.hasNext();) {
+            for (Iterator<EnumConstantDeclaration> i = n.getEntries().iterator(); i.hasNext(); ) {
                 EnumConstantDeclaration e = i.next();
                 e.accept(this, arg);
                 if (i.hasNext()) {
@@ -1265,7 +1265,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
     public void visit(ForStmt n, Object arg) {
         printer.print("for (");
         if (n.getInit() != null) {
-            for (Iterator<Expression> i = n.getInit().iterator(); i.hasNext();) {
+            for (Iterator<Expression> i = n.getInit().iterator(); i.hasNext(); ) {
                 Expression e = i.next();
                 e.accept(this, arg);
                 if (i.hasNext()) {
@@ -1279,7 +1279,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         }
         printer.print("; ");
         if (n.getUpdate() != null) {
-            for (Iterator<Expression> i = n.getUpdate().iterator(); i.hasNext();) {
+            for (Iterator<Expression> i = n.getUpdate().iterator(); i.hasNext(); ) {
                 Expression e = i.next();
                 e.accept(this, arg);
                 if (i.hasNext()) {
@@ -1323,7 +1323,6 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         n.getExcept().accept(this, arg);
         printer.print(") ");
         n.getCatchBlock().accept(this, arg);
-
     }
 
     public void visit(AnnotationDeclaration n, Object arg) {
@@ -1376,7 +1375,7 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         n.getName().accept(this, arg);
         printer.print("(");
         if (n.getPairs() != null) {
-            for (Iterator<MemberValuePair> i = n.getPairs().iterator(); i.hasNext();) {
+            for (Iterator<MemberValuePair> i = n.getPairs().iterator(); i.hasNext(); ) {
                 MemberValuePair m = i.next();
                 m.accept(this, arg);
                 if (i.hasNext()) {
@@ -1403,5 +1402,4 @@ public final class DumpVisitor implements VoidVisitor<Object> {
         printer.print(n.getContent());
         printer.printLn("*/");
     }
-
 }

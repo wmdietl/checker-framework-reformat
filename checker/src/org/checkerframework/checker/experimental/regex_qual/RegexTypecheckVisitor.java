@@ -73,10 +73,14 @@ public class RegexTypecheckVisitor extends TypecheckVisitorAdapter<Regex> {
                 int paramGroups = (Integer) literal.getValue();
                 ExpressionTree receiver = TreeUtils.getReceiverTree(node);
                 int annoGroups = 0;
-                QualifiedTypeMirror<Regex> receiverType = context.getTypeFactory().getQualifiedType(receiver);
+                QualifiedTypeMirror<Regex> receiverType =
+                        context.getTypeFactory().getQualifiedType(receiver);
                 Regex regex = receiverType.getQualifier();
                 if (!regex.isRegexVal() || ((Regex.RegexVal) regex).getCount() < paramGroups) {
-                    checker.report(Result.failure("group.count.invalid", paramGroups, annoGroups, receiver), group);
+                    checker.report(
+                            Result.failure(
+                                    "group.count.invalid", paramGroups, annoGroups, receiver),
+                            group);
                 }
             } else {
                 checker.report(Result.warning("group.count.unknown"), group);

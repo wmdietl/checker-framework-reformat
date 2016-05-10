@@ -72,16 +72,15 @@ public class RegularTransferResult<A extends AbstractValue<A>, S extends Store<S
      * this class (including use through aliases). Complete control over the
      * objects is transfered to this class.
      */
-    public RegularTransferResult(A value, S resultStore,
-            Map<TypeMirror, S> exceptionalStores, boolean storeChanged) {
+    public RegularTransferResult(
+            A value, S resultStore, Map<TypeMirror, S> exceptionalStores, boolean storeChanged) {
         super(value);
         this.store = resultStore;
         this.storeChanged = storeChanged;
         this.exceptionalStores = exceptionalStores;
     }
 
-    public RegularTransferResult(A value, S resultStore,
-        Map<TypeMirror, S> exceptionalStores) {
+    public RegularTransferResult(A value, S resultStore, Map<TypeMirror, S> exceptionalStores) {
         this(value, resultStore, exceptionalStores, false);
     }
 
@@ -125,6 +124,6 @@ public class RegularTransferResult<A extends AbstractValue<A>, S extends Store<S
      */
     @Override
     public boolean storeChanged() {
-      return storeChanged;
+        return storeChanged;
     }
 }

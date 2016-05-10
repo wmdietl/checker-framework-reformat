@@ -64,12 +64,12 @@ public abstract class AggregateChecker extends SourceChecker {
     }
 
     /** processingEnv needs to be set on each checker since
-        we are not calling init on the checker, which leaves
-        it null.
-        If one of checkers is an AggregateChecker, its
-        visitors will try use checker's processing env which
-        should not be null.
-    **/
+     * we are not calling init on the checker, which leaves
+     * it null.
+     * If one of checkers is an AggregateChecker, its
+     * visitors will try use checker's processing env which
+     * should not be null.
+     **/
     @Override
     protected void setProcessingEnvironment(ProcessingEnvironment env) {
         super.setProcessingEnvironment(env);
@@ -108,7 +108,7 @@ public abstract class AggregateChecker extends SourceChecker {
     // AbstractTypeProcessor delegation
     @Override
     public final void typeProcess(TypeElement element, TreePath tree) {
-        Context context = ((JavacProcessingEnvironment)processingEnv).getContext();
+        Context context = ((JavacProcessingEnvironment) processingEnv).getContext();
         Log log = Log.instance(context);
         if (log.nerrors > this.errsOnLastExit) {
             // If there is a Java error, do not perform any
@@ -142,7 +142,8 @@ public abstract class AggregateChecker extends SourceChecker {
         for (SourceChecker checker : checkers) {
             options.addAll(checker.getSupportedOptions());
         }
-        options.addAll(expandCFOptions(Arrays.asList(this.getClass()), options.toArray(new String[0])));
+        options.addAll(
+                expandCFOptions(Arrays.asList(this.getClass()), options.toArray(new String[0])));
         return options;
     }
 

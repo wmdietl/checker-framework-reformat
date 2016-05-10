@@ -51,16 +51,20 @@ public class A2FReducer implements AFReducer {
         }
 
         @Override
-        public AFConstraint makeConstraint(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
+        public AFConstraint makeConstraint(
+                AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
             return new A2F(subtype, supertype);
         }
 
         @Override
-        public AFConstraint makeInverseConstraint(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
+        public AFConstraint makeInverseConstraint(
+                AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
             return new F2A(subtype, supertype);
         }
+
         @Override
-        public AFConstraint makeEqualityConstraint(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
+        public AFConstraint makeEqualityConstraint(
+                AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
             return new FIsA(supertype, subtype);
         }
     }

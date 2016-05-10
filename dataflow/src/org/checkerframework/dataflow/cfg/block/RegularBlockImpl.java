@@ -12,8 +12,7 @@ import org.checkerframework.dataflow.cfg.node.Node;
  * @author Stefan Heule
  *
  */
-public class RegularBlockImpl extends SingleSuccessorBlockImpl implements
-        RegularBlock {
+public class RegularBlockImpl extends SingleSuccessorBlockImpl implements RegularBlock {
 
     /** Internal representation of the contents. */
     protected List<Node> contents;
@@ -63,5 +62,4 @@ public class RegularBlockImpl extends SingleSuccessorBlockImpl implements
     public boolean isEmpty() {
         return contents.isEmpty();
     }
-
 }

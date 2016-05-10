@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -50,8 +50,7 @@ public final class AssignExpr extends Expression {
 
     private Operator op;
 
-    public AssignExpr() {
-    }
+    public AssignExpr() {}
 
     public AssignExpr(Expression target, Expression value, Operator op) {
         this.target = target;
@@ -59,7 +58,14 @@ public final class AssignExpr extends Expression {
         this.op = op;
     }
 
-    public AssignExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression target, Expression value, Operator op) {
+    public AssignExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression target,
+            Expression value,
+            Operator op) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.target = target;
         this.value = value;
@@ -99,5 +105,4 @@ public final class AssignExpr extends Expression {
     public void setValue(Expression value) {
         this.value = value;
     }
-
 }

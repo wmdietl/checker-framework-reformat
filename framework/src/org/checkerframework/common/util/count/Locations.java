@@ -97,7 +97,8 @@ public class Locations extends SourceChecker {
                 TreePath path = getCurrentPath();
                 Tree prev = null;
                 for (Tree t : path) {
-                    if (prev != null && prev.getKind() == Tree.Kind.BLOCK
+                    if (prev != null
+                            && prev.getKind() == Tree.Kind.BLOCK
                             && t.getKind() == Tree.Kind.METHOD) {
                         isBodyAnnotation = true;
                         break;
@@ -105,7 +106,8 @@ public class Locations extends SourceChecker {
                     prev = t;
                 }
 
-                System.out.printf(":annotation %s %s %s %s%n",
+                System.out.printf(
+                        ":annotation %s %s %s %s%n",
                         tree.getAnnotationType(),
                         tree,
                         root.getSourceFile().getName(),
@@ -238,6 +240,7 @@ public class Locations extends SourceChecker {
 
     @Override
     public AnnotationProvider getAnnotationProvider() {
-        throw new UnsupportedOperationException("getAnnotationProvider is not implemented for this class.");
+        throw new UnsupportedOperationException(
+                "getAnnotationProvider is not implemented for this class.");
     }
 }

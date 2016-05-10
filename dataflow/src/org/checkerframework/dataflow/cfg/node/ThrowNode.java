@@ -27,8 +27,7 @@ public class ThrowNode extends Node {
     protected ThrowTree tree;
     protected Node expression;
 
-    public ThrowNode(ThrowTree tree,
-            Node expression, Types types) {
+    public ThrowNode(ThrowTree tree, Node expression, Types types) {
         super(types.getNoType(TypeKind.NONE));
         this.tree = tree;
         this.expression = expression;

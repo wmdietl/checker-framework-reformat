@@ -36,61 +36,64 @@ public class FormatterVisitor extends BaseTypeVisitor<FormatterAnnotatedTypeFact
                 Result<InvocationType> invc = fc.getInvocationType();
                 ConversionCategory[] formatCats = fc.getFormatCategories();
                 switch (invc.value()) {
-                case VARARG:
-                    Result<TypeMirror>[] paramTypes = fc.getParamTypes();
-                    int paraml = paramTypes.length;
-                    int formatl = formatCats.length;
-                    if (paraml < formatl) {
-                        // II.1
-                        tu.failure(invc, "format.missing.arguments", formatl, paraml);
-                    } else {
-                        if (paraml > formatl) {
-                            // II.2
-                            tu.warning(invc, "format.excess.arguments", formatl, paraml);
-                        }
-                        for (int i = 0; i < formatl; ++i) {
-                            ConversionCategory formatCat = formatCats[i];
-                            Result<TypeMirror> param = paramTypes[i];
-                            TypeMirror paramType = param.value();
+                    case VARARG:
+                        Result<TypeMirror>[] paramTypes = fc.getParamTypes();
+                        int paraml = paramTypes.length;
+                        int formatl = formatCats.length;
+                        if (paraml < formatl) {
+                            // II.1
+                            tu.failure(invc, "format.missing.arguments", formatl, paraml);
+                        } else {
+                            if (paraml > formatl) {
+                                // II.2
+                                tu.warning(invc, "format.excess.arguments", formatl, paraml);
+                            }
+                            for (int i = 0; i < formatl; ++i) {
+                                ConversionCategory formatCat = formatCats[i];
+                                Result<TypeMirror> param = paramTypes[i];
+                                TypeMirror paramType = param.value();
 
-                            switch (formatCat) {
-                            case UNUSED:
-                                // I.2
-                                tu.warning(param, "format.argument.unused"," "+(1+i));
-                                break;
-                            case NULL:
-                                // I.3
-                                tu.failure(param, "format.specifier.null"," "+(1+i));
-                                break;
-                            case GENERAL:
-                                break;
-                            default:
-                                if (!fc.isValidParameter(formatCat, paramType)) {
-                                    // II.3
-                                    tu.failure(param, "argument.type.incompatible", paramType,
-                                            formatCat);
+                                switch (formatCat) {
+                                    case UNUSED:
+                                        // I.2
+                                        tu.warning(param, "format.argument.unused", " " + (1 + i));
+                                        break;
+                                    case NULL:
+                                        // I.3
+                                        tu.failure(param, "format.specifier.null", " " + (1 + i));
+                                        break;
+                                    case GENERAL:
+                                        break;
+                                    default:
+                                        if (!fc.isValidParameter(formatCat, paramType)) {
+                                            // II.3
+                                            tu.failure(
+                                                    param,
+                                                    "argument.type.incompatible",
+                                                    paramType,
+                                                    formatCat);
+                                        }
+                                        break;
                                 }
-                                break;
                             }
                         }
-                    }
-                    break;
-                case NULLARRAY:
-                    /* continue */
-                case ARRAY:
-                    for (ConversionCategory cat : formatCats) {
-                        if (cat == ConversionCategory.NULL) {
-                            // I.3
-                            tu.failure(invc, "format.specifier.null","");
+                        break;
+                    case NULLARRAY:
+                        /* continue */
+                    case ARRAY:
+                        for (ConversionCategory cat : formatCats) {
+                            if (cat == ConversionCategory.NULL) {
+                                // I.3
+                                tu.failure(invc, "format.specifier.null", "");
+                            }
+                            if (cat == ConversionCategory.UNUSED) {
+                                // I.2
+                                tu.warning(invc, "format.argument.unused", "");
+                            }
                         }
-                        if (cat == ConversionCategory.UNUSED) {
-                            // I.2
-                            tu.warning(invc, "format.argument.unused","");
-                        }
-                    }
-                    // III
-                    tu.warning(invc, "format.indirect.arguments");
-                    break;
+                        // III
+                        tu.warning(invc, "format.indirect.arguments");
+                        break;
                 }
             }
         }

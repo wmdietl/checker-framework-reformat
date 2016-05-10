@@ -16,10 +16,11 @@ import org.checkerframework.javacutil.Pair;
  *
  * @author Stefan Heule
  */
-public class NullnessAnalysis extends
-        CFAbstractAnalysis<NullnessValue, NullnessStore, NullnessTransfer> {
+public class NullnessAnalysis
+        extends CFAbstractAnalysis<NullnessValue, NullnessStore, NullnessTransfer> {
 
-    public NullnessAnalysis(BaseTypeChecker checker,
+    public NullnessAnalysis(
+            BaseTypeChecker checker,
             NullnessAnnotatedTypeFactory factory,
             List<Pair<VariableElement, NullnessValue>> fieldValues) {
         super(checker, factory, fieldValues);

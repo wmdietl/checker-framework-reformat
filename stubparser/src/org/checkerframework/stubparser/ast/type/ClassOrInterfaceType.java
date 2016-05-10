@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -37,8 +37,7 @@ public final class ClassOrInterfaceType extends Type {
 
     private List<Type> typeArgs;
 
-    public ClassOrInterfaceType() {
-    }
+    public ClassOrInterfaceType() {}
 
     public ClassOrInterfaceType(String name) {
         this.name = name;
@@ -49,7 +48,14 @@ public final class ClassOrInterfaceType extends Type {
         this.name = name;
     }
 
-    public ClassOrInterfaceType(int beginLine, int beginColumn, int endLine, int endColumn, ClassOrInterfaceType scope, String name, List<Type> typeArgs) {
+    public ClassOrInterfaceType(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            ClassOrInterfaceType scope,
+            String name,
+            List<Type> typeArgs) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.scope = scope;
         this.name = name;

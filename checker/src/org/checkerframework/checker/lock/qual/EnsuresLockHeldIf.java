@@ -20,7 +20,7 @@ import org.checkerframework.framework.qual.InheritedAnnotation;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR })
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
 @ConditionalPostconditionAnnotation(qualifier = LockHeld.class)
 @InheritedAnnotation
 public @interface EnsuresLockHeldIf {

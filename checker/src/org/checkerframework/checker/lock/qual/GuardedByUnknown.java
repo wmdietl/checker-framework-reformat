@@ -22,6 +22,6 @@ import org.checkerframework.framework.qual.TypeUseLocation;
  */
 @SubtypeOf({})
 @Retention(RetentionPolicy.RUNTIME)
-@DefaultInUncheckedCodeFor({ TypeUseLocation.RECEIVER })
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
+@DefaultInUncheckedCodeFor({TypeUseLocation.RECEIVER})
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface GuardedByUnknown {}

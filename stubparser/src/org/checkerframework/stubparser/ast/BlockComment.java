@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -30,19 +30,19 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  * </p>
  * Block comments can has multi lines and are delimited by "/&#42;" and
  * "&#42;/".
- * 
+ *
  * @author Julio Vilmar Gesser
  */
 public final class BlockComment extends Comment {
 
-    public BlockComment() {
-    }
+    public BlockComment() {}
 
     public BlockComment(String content) {
         super(content);
     }
 
-    public BlockComment(int beginLine, int beginColumn, int endLine, int endColumn, String content) {
+    public BlockComment(
+            int beginLine, int beginColumn, int endLine, int endColumn, String content) {
         super(beginLine, beginColumn, endLine, endColumn, content);
     }
 

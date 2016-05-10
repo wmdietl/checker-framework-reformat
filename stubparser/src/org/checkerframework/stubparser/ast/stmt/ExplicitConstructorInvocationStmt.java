@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -41,16 +41,24 @@ public final class ExplicitConstructorInvocationStmt extends Statement {
 
     private List<Expression> args;
 
-    public ExplicitConstructorInvocationStmt() {
-    }
+    public ExplicitConstructorInvocationStmt() {}
 
-    public ExplicitConstructorInvocationStmt(boolean isThis, Expression expr, List<Expression> args) {
+    public ExplicitConstructorInvocationStmt(
+            boolean isThis, Expression expr, List<Expression> args) {
         this.isThis = isThis;
         this.expr = expr;
         this.args = args;
     }
 
-    public ExplicitConstructorInvocationStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Type> typeArgs, boolean isThis, Expression expr, List<Expression> args) {
+    public ExplicitConstructorInvocationStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            List<Type> typeArgs,
+            boolean isThis,
+            Expression expr,
+            List<Expression> args) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.typeArgs = typeArgs;
         this.isThis = isThis;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,8 +34,7 @@ public final class AssertStmt extends Statement {
 
     private Expression msg;
 
-    public AssertStmt() {
-    }
+    public AssertStmt() {}
 
     public AssertStmt(Expression check) {
         this.check = check;
@@ -46,7 +45,13 @@ public final class AssertStmt extends Statement {
         this.msg = msg;
     }
 
-    public AssertStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression check, Expression msg) {
+    public AssertStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression check,
+            Expression msg) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.check = check;
         this.msg = msg;

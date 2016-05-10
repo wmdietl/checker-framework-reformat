@@ -37,8 +37,9 @@ import com.sun.source.tree.Tree;
  *
  * @author Konstantin Weitz
  */
-public class FormatterAnnotatedTypeFactory extends
-        GenericAnnotatedTypeFactory<CFValue, CFStore, FormatterTransfer, FormatterAnalysis> {
+public class FormatterAnnotatedTypeFactory
+        extends GenericAnnotatedTypeFactory<
+                CFValue, CFStore, FormatterTransfer, FormatterAnalysis> {
 
     private final AnnotationMirror FORMAT;
     private final AnnotationMirror INVALIDFORMAT;
@@ -59,8 +60,7 @@ public class FormatterAnnotatedTypeFactory extends
 
     @Override
     protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
-        return getBundledTypeQualifiersWithoutPolyAll(
-                UnknownFormat.class, FormatBottom.class);
+        return getBundledTypeQualifiersWithoutPolyAll(UnknownFormat.class, FormatBottom.class);
     }
 
     @Override
@@ -70,10 +70,7 @@ public class FormatterAnnotatedTypeFactory extends
 
     @Override
     protected TreeAnnotator createTreeAnnotator() {
-        return new ListTreeAnnotator(
-                super.createTreeAnnotator(),
-                new FormatterTreeAnnotator(this)
-        );
+        return new ListTreeAnnotator(super.createTreeAnnotator(), new FormatterTreeAnnotator(this));
     }
 
     private class FormatterTreeAnnotator extends TreeAnnotator {
@@ -94,9 +91,13 @@ public class FormatterAnnotatedTypeFactory extends
                     AnnotationMirror anno;
                     try {
                         ConversionCategory[] cs = FormatUtil.formatParameterCategories(format);
-                        anno = FormatterAnnotatedTypeFactory.this.treeUtil.categoriesToFormatAnnotation(cs);
+                        anno =
+                                FormatterAnnotatedTypeFactory.this.treeUtil
+                                        .categoriesToFormatAnnotation(cs);
                     } catch (IllegalFormatException e) {
-                        anno = FormatterAnnotatedTypeFactory.this.treeUtil.exceptionToInvalidFormatAnnotation(e);
+                        anno =
+                                FormatterAnnotatedTypeFactory.this.treeUtil
+                                        .exceptionToInvalidFormatAnnotation(e);
                     }
                     type.addAnnotation(anno);
                 }
@@ -113,13 +114,10 @@ public class FormatterAnnotatedTypeFactory extends
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
-            if (AnnotationUtils.areSameIgnoringValues(rhs, FORMAT) &&
-                AnnotationUtils.areSameIgnoringValues(lhs, FORMAT))
-            {
-                ConversionCategory[] rhsArgTypes =
-                        treeUtil.formatAnnotationToCategories(rhs);
-                ConversionCategory[] lhsArgTypes =
-                        treeUtil.formatAnnotationToCategories(lhs);
+            if (AnnotationUtils.areSameIgnoringValues(rhs, FORMAT)
+                    && AnnotationUtils.areSameIgnoringValues(lhs, FORMAT)) {
+                ConversionCategory[] rhsArgTypes = treeUtil.formatAnnotationToCategories(rhs);
+                ConversionCategory[] lhsArgTypes = treeUtil.formatAnnotationToCategories(lhs);
 
                 if (rhsArgTypes.length != lhsArgTypes.length) {
                     return false;

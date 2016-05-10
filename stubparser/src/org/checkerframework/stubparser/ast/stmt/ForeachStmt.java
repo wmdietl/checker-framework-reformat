@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -37,8 +37,7 @@ public final class ForeachStmt extends Statement {
 
     private Statement body;
 
-    public ForeachStmt() {
-    }
+    public ForeachStmt() {}
 
     public ForeachStmt(VariableDeclarationExpr var, Expression iterable, Statement body) {
         this.var = var;
@@ -46,7 +45,14 @@ public final class ForeachStmt extends Statement {
         this.body = body;
     }
 
-    public ForeachStmt(int beginLine, int beginColumn, int endLine, int endColumn, VariableDeclarationExpr var, Expression iterable, Statement body) {
+    public ForeachStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            VariableDeclarationExpr var,
+            Expression iterable,
+            Statement body) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.var = var;
         this.iterable = iterable;

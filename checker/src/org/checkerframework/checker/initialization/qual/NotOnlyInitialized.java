@@ -24,5 +24,4 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NotOnlyInitialized {
-}
+public @interface NotOnlyInitialized {}

@@ -96,22 +96,25 @@ public class QualifierPolymorphism {
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
         this.qualhierarchy = factory.getQualifierHierarchy();
 
-        Map<AnnotationMirror, AnnotationMirror> polys = new HashMap<AnnotationMirror, AnnotationMirror>();
+        Map<AnnotationMirror, AnnotationMirror> polys =
+                new HashMap<AnnotationMirror, AnnotationMirror>();
         for (AnnotationMirror aam : qualhierarchy.getTypeQualifiers()) {
             if (isPolyAll(aam)) {
                 polys.put(null, aam);
                 continue;
             }
-            for (AnnotationMirror aa : aam.getAnnotationType().asElement().getAnnotationMirrors() ) {
-                if (aa.getAnnotationType().toString().equals(PolymorphicQualifier.class.getCanonicalName())) {
+            for (AnnotationMirror aa : aam.getAnnotationType().asElement().getAnnotationMirrors()) {
+                if (aa.getAnnotationType()
+                        .toString()
+                        .equals(PolymorphicQualifier.class.getCanonicalName())) {
                     Name plval = AnnotationUtils.getElementValueClassName(aa, "value", true);
                     AnnotationMirror ttreetop;
                     if (PolymorphicQualifier.class.getCanonicalName().contentEquals(plval)) {
                         Set<? extends AnnotationMirror> tops = qualhierarchy.getTopAnnotations();
                         if (tops.size() != 1) {
                             ErrorReporter.errorAbort(
-                                    "QualifierPolymorphism: PolymorphicQualifier has to specify type hierarchy, if more than one exist; top types: " +
-                                    tops);
+                                    "QualifierPolymorphism: PolymorphicQualifier has to specify type hierarchy, if more than one exist; top types: "
+                                            + tops);
                         }
                         ttreetop = tops.iterator().next();
                     } else {
@@ -120,8 +123,10 @@ public class QualifierPolymorphism {
                     }
                     if (polys.containsKey(ttreetop)) {
                         ErrorReporter.errorAbort(
-                                "QualifierPolymorphism: checker has multiple polymorphic qualifiers: " +
-                                polys.get(ttreetop) + " and " + aam);
+                                "QualifierPolymorphism: checker has multiple polymorphic qualifiers: "
+                                        + polys.get(ttreetop)
+                                        + " and "
+                                        + aam);
                     }
                     polys.put(ttreetop, aam);
                 }
@@ -141,7 +146,9 @@ public class QualifierPolymorphism {
         }
         Element qualElt = qual.getAnnotationType().asElement();
         for (AnnotationMirror am : qualElt.getAnnotationMirrors()) {
-            if (am.getAnnotationType().toString().equals(PolymorphicQualifier.class.getCanonicalName())) {
+            if (am.getAnnotationType()
+                    .toString()
+                    .equals(PolymorphicQualifier.class.getCanonicalName())) {
                 return am;
             }
         }
@@ -161,7 +168,8 @@ public class QualifierPolymorphism {
      * Returns the (given) top of the type hierarchy, in which it is polymorphic, otherwise.
      * The top qualifier is given by the programmer, so must be normalized to ensure its the real top.
      */
-    public static Class<? extends Annotation> getPolymorphicQualifierTop(Elements elements, AnnotationMirror qual) {
+    public static Class<? extends Annotation> getPolymorphicQualifierTop(
+            Elements elements, AnnotationMirror qual) {
         AnnotationMirror poly = getPolymorphicQualifier(qual);
 
         // System.out.println("poly: " + poly + " pq: " + PolymorphicQualifier.class.getCanonicalName());
@@ -169,10 +177,11 @@ public class QualifierPolymorphism {
             return null;
         }
         @SuppressWarnings("unchecked")
-        Class<? extends Annotation> ret = (Class<? extends Annotation>) AnnotationUtils.getElementValueClass(poly, "value", true);
+        Class<? extends Annotation> ret =
+                (Class<? extends Annotation>)
+                        AnnotationUtils.getElementValueClass(poly, "value", true);
         return ret;
     }
-
 
     /**
      * Resolves polymorphism annotations for the given type.
@@ -187,14 +196,20 @@ public class QualifierPolymorphism {
         // See also BaseTypeVisitor.visitMethodInvocation and
         // CFGBuilder.CFGTranslationPhaseOne.visitMethodInvocation
         if (TreeUtils.isEnumSuper(tree)) return;
-        List<AnnotatedTypeMirror> requiredArgs = AnnotatedTypes.expandVarArgs(atypeFactory, type, tree.getArguments());
-        List<AnnotatedTypeMirror> arguments = AnnotatedTypes.getAnnotatedTypes(atypeFactory, requiredArgs, tree.getArguments());
+        List<AnnotatedTypeMirror> requiredArgs =
+                AnnotatedTypes.expandVarArgs(atypeFactory, type, tree.getArguments());
+        List<AnnotatedTypeMirror> arguments =
+                AnnotatedTypes.getAnnotatedTypes(atypeFactory, requiredArgs, tree.getArguments());
 
-        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping = collector.visit(arguments, requiredArgs);
+        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping =
+                collector.visit(arguments, requiredArgs);
 
         if (type.getReceiverType() != null) {
-            matchingMapping = collector.reduce(matchingMapping,
-                    collector.visit(atypeFactory.getReceiverType(tree), type.getReceiverType()));
+            matchingMapping =
+                    collector.reduce(
+                            matchingMapping,
+                            collector.visit(
+                                    atypeFactory.getReceiverType(tree), type.getReceiverType()));
         }
 
         if (matchingMapping != null && !matchingMapping.isEmpty()) {
@@ -206,10 +221,13 @@ public class QualifierPolymorphism {
 
     public void annotate(NewClassTree tree, AnnotatedExecutableType type) {
         if (polyQuals.isEmpty()) return;
-        List<AnnotatedTypeMirror> requiredArgs = AnnotatedTypes.expandVarArgs(atypeFactory, type, tree.getArguments());
-        List<AnnotatedTypeMirror> arguments = AnnotatedTypes.getAnnotatedTypes(atypeFactory, requiredArgs, tree.getArguments());
+        List<AnnotatedTypeMirror> requiredArgs =
+                AnnotatedTypes.expandVarArgs(atypeFactory, type, tree.getArguments());
+        List<AnnotatedTypeMirror> arguments =
+                AnnotatedTypes.getAnnotatedTypes(atypeFactory, requiredArgs, tree.getArguments());
 
-        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping = collector.visit(arguments, requiredArgs);
+        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping =
+                collector.visit(arguments, requiredArgs);
         // TODO: poly on receiver for constructors?
         // matchingMapping = collector.reduce(matchingMapping,
         //        collector.visit(factory.getReceiverType(tree), type.getReceiverType()));
@@ -221,7 +239,8 @@ public class QualifierPolymorphism {
         }
     }
 
-    public void annotate(AnnotatedExecutableType functionalInterface, AnnotatedExecutableType memberReference) {
+    public void annotate(
+            AnnotatedExecutableType functionalInterface, AnnotatedExecutableType memberReference) {
         for (AnnotationMirror type : functionalInterface.getReturnType().getAnnotations()) {
             if (isPolymorphicQualified(type)) {
                 // functional interface has a polymorphic qualifier, so they should not be resolved on memberReference.
@@ -231,7 +250,8 @@ public class QualifierPolymorphism {
 
         List<AnnotatedTypeMirror> args = functionalInterface.getParameterTypes();
         List<AnnotatedTypeMirror> requiredArgs = memberReference.getParameterTypes();
-        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping = collector.visit(args, requiredArgs);
+        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping =
+                collector.visit(args, requiredArgs);
 
         if (matchingMapping != null && !matchingMapping.isEmpty()) {
             replacer.visit(memberReference, matchingMapping);
@@ -241,23 +261,28 @@ public class QualifierPolymorphism {
         }
     }
 
-    private final AnnotatedTypeScanner<Void, Map<AnnotationMirror, Set<? extends AnnotationMirror>>> replacer
-    = new AnnotatedTypeScanner<Void, Map<AnnotationMirror, Set<? extends AnnotationMirror>>>() {
-        @Override
-        public Void scan(AnnotatedTypeMirror type, Map<AnnotationMirror, Set<? extends AnnotationMirror>> matches) {
-            if (type != null) {
-                for (Map.Entry<AnnotationMirror, Set<? extends AnnotationMirror>> pqentry : matches.entrySet()) {
-                    AnnotationMirror poly = pqentry.getKey();
-                    if (poly != null && type.hasAnnotation(poly)) {
-                        type.removeAnnotation(poly);
-                        Set<? extends AnnotationMirror> quals = pqentry.getValue();
-                        type.replaceAnnotations(quals);
-                    }
-                }
-            }
-            return super.scan(type, matches);
-        }
-    };
+    private final AnnotatedTypeScanner<Void, Map<AnnotationMirror, Set<? extends AnnotationMirror>>>
+            replacer =
+                    new AnnotatedTypeScanner<
+                            Void, Map<AnnotationMirror, Set<? extends AnnotationMirror>>>() {
+                        @Override
+                        public Void scan(
+                                AnnotatedTypeMirror type,
+                                Map<AnnotationMirror, Set<? extends AnnotationMirror>> matches) {
+                            if (type != null) {
+                                for (Map.Entry<AnnotationMirror, Set<? extends AnnotationMirror>>
+                                        pqentry : matches.entrySet()) {
+                                    AnnotationMirror poly = pqentry.getKey();
+                                    if (poly != null && type.hasAnnotation(poly)) {
+                                        type.removeAnnotation(poly);
+                                        Set<? extends AnnotationMirror> quals = pqentry.getValue();
+                                        type.replaceAnnotations(quals);
+                                    }
+                                }
+                            }
+                            return super.scan(type, matches);
+                        }
+                    };
 
     /**
      * Completes a type by removing any unresolved polymorphic qualifiers,
@@ -276,8 +301,8 @@ public class QualifierPolymorphism {
                         if (top == null) {
                             // poly is PolyAll -> add all tops not explicitly given
                             type.addMissingAnnotations(topQuals);
-                        } else if (type.getKind() != TypeKind.TYPEVAR &&
-                                type.getKind() != TypeKind.WILDCARD) {
+                        } else if (type.getKind() != TypeKind.TYPEVAR
+                                && type.getKind() != TypeKind.WILDCARD) {
                             // Do not add the top qualifiers to type variables and wildcards
                             type.addAnnotation(top);
                         }
@@ -287,7 +312,6 @@ public class QualifierPolymorphism {
             return super.scan(type, p);
         }
     }
-
 
     private final PolyCollector collector;
 
@@ -299,9 +323,11 @@ public class QualifierPolymorphism {
      * For the @PolyAll qualifier, this might be a set of qualifiers.
      */
     private class PolyCollector
-    extends SimpleAnnotatedTypeVisitor<Map<AnnotationMirror, Set<? extends AnnotationMirror>>, AnnotatedTypeMirror> {
+            extends SimpleAnnotatedTypeVisitor<
+                    Map<AnnotationMirror, Set<? extends AnnotationMirror>>, AnnotatedTypeMirror> {
 
-        public Map<AnnotationMirror, Set<? extends AnnotationMirror>> reduce(Map<AnnotationMirror, Set<? extends AnnotationMirror>> r1,
+        public Map<AnnotationMirror, Set<? extends AnnotationMirror>> reduce(
+                Map<AnnotationMirror, Set<? extends AnnotationMirror>> r1,
                 Map<AnnotationMirror, Set<? extends AnnotationMirror>> r2) {
 
             if (r1 == null || r1.isEmpty()) {
@@ -322,7 +348,8 @@ public class QualifierPolymorphism {
                 Set<? extends AnnotationMirror> a2Annos = r2.get(key1);
                 if (a2Annos != null && !a2Annos.isEmpty()) {
                     r2remain.remove(key1);
-                    Set<? extends AnnotationMirror> lubs = qualhierarchy.leastUpperBounds(a1Annos, a2Annos);
+                    Set<? extends AnnotationMirror> lubs =
+                            qualhierarchy.leastUpperBounds(a1Annos, a2Annos);
                     res.put(key1, lubs);
                 } else {
                     res.put(key1, a1Annos);
@@ -334,7 +361,8 @@ public class QualifierPolymorphism {
             return res;
         }
 
-        public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visit(Iterable<? extends AnnotatedTypeMirror> types,
+        public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visit(
+                Iterable<? extends AnnotatedTypeMirror> types,
                 Iterable<? extends AnnotatedTypeMirror> actualTypes) {
             Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
                     new HashMap<AnnotationMirror, Set<? extends AnnotationMirror>>();
@@ -360,7 +388,7 @@ public class QualifierPolymorphism {
                 }
                 visited.add(actualType.getUnderlyingType());
                 Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
-                        visit(type, ((AnnotatedTypeVariable)actualType).getUpperBound());
+                        visit(type, ((AnnotatedTypeVariable) actualType).getUpperBound());
                 visited.remove(actualType.getUnderlyingType());
                 return result;
             }
@@ -369,7 +397,7 @@ public class QualifierPolymorphism {
                 if (visited.contains(actualType.getUnderlyingType())) {
                     return Collections.emptyMap();
                 }
-                AnnotatedWildcardType wctype = (AnnotatedWildcardType)actualType;
+                AnnotatedWildcardType wctype = (AnnotatedWildcardType) actualType;
 
                 visited.add(actualType.getUnderlyingType());
 
@@ -391,17 +419,19 @@ public class QualifierPolymorphism {
             }
 
             assert actualType.getKind() == type.getKind();
-            type = (AnnotatedDeclaredType) AnnotatedTypes.asSuper(types, atypeFactory, type, actualType);
+            type =
+                    (AnnotatedDeclaredType)
+                            AnnotatedTypes.asSuper(types, atypeFactory, type, actualType);
             // TODO: type is null if type is an intersection type
             // assert type != null;
             if (type == null) {
                 return Collections.emptyMap();
             }
 
-            AnnotatedDeclaredType dcType = (AnnotatedDeclaredType)actualType;
+            AnnotatedDeclaredType dcType = (AnnotatedDeclaredType) actualType;
 
             Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
-                new HashMap<AnnotationMirror, Set<? extends AnnotationMirror>>();
+                    new HashMap<AnnotationMirror, Set<? extends AnnotationMirror>>();
 
             for (Map.Entry<AnnotationMirror, AnnotationMirror> kv : polyQuals.entrySet()) {
                 AnnotationMirror top = kv.getKey();
@@ -424,8 +454,8 @@ public class QualifierPolymorphism {
         }
 
         @Override
-        public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visitPrimitive(AnnotatedPrimitiveType type,
-                AnnotatedTypeMirror actualType) {
+        public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visitPrimitive(
+                AnnotatedPrimitiveType type, AnnotatedTypeMirror actualType) {
             Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
                     new HashMap<AnnotationMirror, Set<? extends AnnotationMirror>>();
 
@@ -476,7 +506,8 @@ public class QualifierPolymorphism {
                 AnnotatedArrayType type, AnnotatedTypeMirror actualType) {
 
             if (actualType.getKind() == TypeKind.DECLARED) {
-                return visit(AnnotatedTypes.asSuper(types, atypeFactory, type, actualType), actualType);
+                return visit(
+                        AnnotatedTypes.asSuper(types, atypeFactory, type, actualType), actualType);
             }
             if (actualType.getKind() == TypeKind.TYPEVAR) {
                 if (visited.contains(actualType.getUnderlyingType())) {
@@ -484,7 +515,7 @@ public class QualifierPolymorphism {
                 }
                 visited.add(actualType.getUnderlyingType());
                 Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
-                        visit(type, ((AnnotatedTypeVariable)actualType).getUpperBound());
+                        visit(type, ((AnnotatedTypeVariable) actualType).getUpperBound());
                 visited.remove(actualType.getUnderlyingType());
                 return result;
             }
@@ -494,16 +525,16 @@ public class QualifierPolymorphism {
                 }
                 visited.add(actualType.getUnderlyingType());
                 Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
-                        visit(type, ((AnnotatedWildcardType)actualType).getExtendsBound());
+                        visit(type, ((AnnotatedWildcardType) actualType).getExtendsBound());
                 visited.remove(actualType.getUnderlyingType());
                 return result;
             }
 
             assert type.getKind() == actualType.getKind() : actualType;
-            AnnotatedArrayType arType = (AnnotatedArrayType)actualType;
+            AnnotatedArrayType arType = (AnnotatedArrayType) actualType;
 
             Map<AnnotationMirror, Set<? extends AnnotationMirror>> result =
-                new HashMap<AnnotationMirror, Set<? extends AnnotationMirror>>();
+                    new HashMap<AnnotationMirror, Set<? extends AnnotationMirror>>();
 
             for (Map.Entry<AnnotationMirror, AnnotationMirror> kv : polyQuals.entrySet()) {
                 AnnotationMirror top = kv.getKey();
@@ -541,11 +572,11 @@ public class QualifierPolymorphism {
             }
 
             if (typeSuper.getKind() == actualType.getKind()
-             && type.getKind() == actualType.getKind()) {
+                    && type.getKind() == actualType.getKind()) {
                 // I've preserved the old logic here, I am not sure the actual reasoning
                 // however, please see the else case as to where it fails
 
-                AnnotatedTypeVariable tvType = (AnnotatedTypeVariable)typeSuper;
+                AnnotatedTypeVariable tvType = (AnnotatedTypeVariable) typeSuper;
                 if (visited.contains(actualType.getUnderlyingType())) {
                     return Collections.emptyMap();
                 }
@@ -564,7 +595,6 @@ public class QualifierPolymorphism {
                 // For an example of this see framework/tests/all-system/PolyCollectorTypeVars.java
                 return visit(type.getUpperBound(), actualType);
             }
-
         }
 
         @Override
@@ -576,17 +606,19 @@ public class QualifierPolymorphism {
             }
             // TODO: hack against unbound wildcard introduced by
             // separate compilation. Test against Issue 257 test.
-            if (((com.sun.tools.javac.code.Type.WildcardType) typeSuper.getUnderlyingType()).isUnbound()) {
+            if (((com.sun.tools.javac.code.Type.WildcardType) typeSuper.getUnderlyingType())
+                    .isUnbound()) {
                 return Collections.emptyMap();
             }
 
-            if (actualType.getKind() != TypeKind.WILDCARD && actualType.getKind() != TypeKind.TYPEVAR) {
+            if (actualType.getKind() != TypeKind.WILDCARD
+                    && actualType.getKind() != TypeKind.TYPEVAR) {
                 // currently because the default action of inferTypeArgs is to use a wildcard when we fail
                 // to infer a type, the actualType might not be a wildcard
                 return Collections.emptyMap();
             }
 
-            AnnotatedWildcardType wcType = (AnnotatedWildcardType)typeSuper;
+            AnnotatedWildcardType wcType = (AnnotatedWildcardType) typeSuper;
 
             if (visited.contains(actualType.getUnderlyingType())) {
                 return Collections.emptyMap();
@@ -605,12 +637,13 @@ public class QualifierPolymorphism {
             return result;
         }
 
-        private AnnotatedTypeMirror findType(AnnotatedTypeMirror type, AnnotatedTypeMirror actualType) {
-            AnnotatedTypeMirror result = AnnotatedTypes.asSuper(types, atypeFactory, type, actualType);
+        private AnnotatedTypeMirror findType(
+                AnnotatedTypeMirror type, AnnotatedTypeMirror actualType) {
+            AnnotatedTypeMirror result =
+                    AnnotatedTypes.asSuper(types, atypeFactory, type, actualType);
             // result shouldn't be null, will test this hypothesis later
             // assert result != null;
             return (result != null ? result : type);
         }
     }
-
 }

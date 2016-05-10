@@ -20,8 +20,11 @@ import org.checkerframework.javacutil.Pair;
  *                           Format String Checker
  * @author Siwakorn Srisakaokul
  */
-public class I18nFormatterAnalysis extends CFAbstractAnalysis<CFValue, CFStore, I18nFormatterTransfer> {
-    public I18nFormatterAnalysis(BaseTypeChecker checker, I18nFormatterAnnotatedTypeFactory factory,
+public class I18nFormatterAnalysis
+        extends CFAbstractAnalysis<CFValue, CFStore, I18nFormatterTransfer> {
+    public I18nFormatterAnalysis(
+            BaseTypeChecker checker,
+            I18nFormatterAnnotatedTypeFactory factory,
             List<Pair<VariableElement, CFValue>> fieldValues) {
         super(checker, factory, fieldValues);
     }

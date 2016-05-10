@@ -14,9 +14,9 @@ import org.checkerframework.framework.qual.SubtypeOf;
  *
  * @checker_framework.manual #constant-value-checker Constant Value Checker
  */
-@SubtypeOf({ UnknownVal.class })
+@SubtypeOf({UnknownVal.class})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE })
+@Target({ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
 public @interface BoolVal {
     boolean[] value();
 }

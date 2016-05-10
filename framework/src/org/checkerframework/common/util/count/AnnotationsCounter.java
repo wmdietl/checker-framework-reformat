@@ -36,8 +36,7 @@ public class AnnotationsCounter extends AbstractProcessor {
     }
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations,
-            RoundEnvironment roundEnv) {
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
         if (roundEnv.processingOver()) {
             System.out.println("Found annotations: ");
@@ -48,7 +47,7 @@ public class AnnotationsCounter extends AbstractProcessor {
         } else {
             for (TypeElement elem : ElementFilter.typesIn(roundEnv.getRootElements())) {
                 ClassTree tree = Trees.instance(processingEnv).getTree(elem);
-                if (tree!=null) {
+                if (tree != null) {
                     tree.accept(scanner, null);
                 }
             }
@@ -56,13 +55,14 @@ public class AnnotationsCounter extends AbstractProcessor {
         }
     }
 
-    private final TreeScanner<?,?> scanner = new TreeScanner<Void, Void>() {
-        @Override
-        public Void visitAnnotation(AnnotationTree node, Void p) {
-            JCAnnotation anno = (JCAnnotation) node;
-            Name annoName = anno.annotationType.type.tsym.name;
-            incrementCount(annoName);
-            return super.visitAnnotation(node, p);
-        }
-    };
+    private final TreeScanner<?, ?> scanner =
+            new TreeScanner<Void, Void>() {
+                @Override
+                public Void visitAnnotation(AnnotationTree node, Void p) {
+                    JCAnnotation anno = (JCAnnotation) node;
+                    Name annoName = anno.annotationType.type.tsym.name;
+                    incrementCount(annoName);
+                    return super.visitAnnotation(node, p);
+                }
+            };
 }

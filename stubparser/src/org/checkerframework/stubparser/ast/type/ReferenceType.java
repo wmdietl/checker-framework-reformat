@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -38,8 +38,7 @@ public final class ReferenceType extends Type {
 
     private List<List<AnnotationExpr>> arrayAnnotations;
 
-    public ReferenceType() {
-    }
+    public ReferenceType() {}
 
     public ReferenceType(Type type) {
         this.type = type;
@@ -50,7 +49,14 @@ public final class ReferenceType extends Type {
         this.arrayCount = arrayCount;
     }
 
-    public ReferenceType(int beginLine, int beginColumn, int endLine, int endColumn, Type type, int arrayCount, List<List<AnnotationExpr>> arrayAnnotations) {
+    public ReferenceType(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Type type,
+            int arrayCount,
+            List<List<AnnotationExpr>> arrayAnnotations) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.type = type;
         this.arrayCount = arrayCount;
@@ -99,5 +105,4 @@ public final class ReferenceType extends Type {
     public void setType(Type type) {
         this.type = type;
     }
-
 }

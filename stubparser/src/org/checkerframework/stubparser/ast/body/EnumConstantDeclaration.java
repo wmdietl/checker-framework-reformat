@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -39,21 +39,34 @@ public final class EnumConstantDeclaration extends BodyDeclaration {
 
     private List<BodyDeclaration> classBody;
 
-    public EnumConstantDeclaration() {
-    }
+    public EnumConstantDeclaration() {}
 
     public EnumConstantDeclaration(String name) {
         this.name = name;
     }
 
-    public EnumConstantDeclaration(JavadocComment javaDoc, List<AnnotationExpr> annotations, String name, List<Expression> args, List<BodyDeclaration> classBody) {
+    public EnumConstantDeclaration(
+            JavadocComment javaDoc,
+            List<AnnotationExpr> annotations,
+            String name,
+            List<Expression> args,
+            List<BodyDeclaration> classBody) {
         super(annotations, javaDoc);
         this.name = name;
         this.args = args;
         this.classBody = classBody;
     }
 
-    public EnumConstantDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, List<AnnotationExpr> annotations, String name, List<Expression> args, List<BodyDeclaration> classBody) {
+    public EnumConstantDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            List<AnnotationExpr> annotations,
+            String name,
+            List<Expression> args,
+            List<BodyDeclaration> classBody) {
         super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
         this.name = name;
         this.args = args;

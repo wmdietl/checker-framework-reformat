@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -31,15 +31,20 @@ public final class SingleMemberAnnotationExpr extends AnnotationExpr {
 
     private Expression memberValue;
 
-    public SingleMemberAnnotationExpr() {
-    }
+    public SingleMemberAnnotationExpr() {}
 
     public SingleMemberAnnotationExpr(NameExpr name, Expression memberValue) {
         this.name = name;
         this.memberValue = memberValue;
     }
 
-    public SingleMemberAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name, Expression memberValue) {
+    public SingleMemberAnnotationExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            NameExpr name,
+            Expression memberValue) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.memberValue = memberValue;
@@ -62,5 +67,4 @@ public final class SingleMemberAnnotationExpr extends AnnotationExpr {
     public void setMemberValue(Expression memberValue) {
         this.memberValue = memberValue;
     }
-
 }

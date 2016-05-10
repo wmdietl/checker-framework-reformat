@@ -43,29 +43,28 @@ public enum ConversionCategory {
      * Character.isValidCodePoint(int) returns true. Applicable for conversions
      * c, C.
      */
-    CHAR(new Class<?>[] { Character.class, Byte.class, Short.class,
-            Integer.class}, "cC"),
+    CHAR(new Class<?>[] {Character.class, Byte.class, Short.class, Integer.class}, "cC"),
 
     /**
      * Use if the parameter is is an integral type: byte, Byte, short, Short,
      * int and Integer, long, Long, and BigInteger. Applicable for conversions d,
      * o, x, X.
      */
-    INT(new Class<?>[] { Byte.class, Short.class, Integer.class, Long.class,
-            BigInteger.class }, "doxX"),
+    INT(
+            new Class<?>[] {Byte.class, Short.class, Integer.class, Long.class, BigInteger.class},
+            "doxX"),
 
     /**
      * Use if the parameter is is a floating-point type: float, Float, double,
      * Double, and BigDecimal. Applicable for conversions e, E, f, g, G, a, A.
      */
-    FLOAT(new Class<?>[] { Float.class, Double.class, BigDecimal.class },
-            "eEfgGaA"),
+    FLOAT(new Class<?>[] {Float.class, Double.class, BigDecimal.class}, "eEfgGaA"),
 
     /**
      * Use if the parameter is is a type which is capable of encoding a date or
      * time: long, Long, Calendar, and Date. Applicable for conversions t, T.
      */
-    TIME(new Class<?>[] { Long.class, Calendar.class, Date.class }, "tT"),
+    TIME(new Class<?>[] {Long.class, Calendar.class, Date.class}, "tT"),
 
     /**
      * In a format string, multiple conversions may be applied to
@@ -90,10 +89,9 @@ public enum ConversionCategory {
      * or NULL, in which case it is illegal to pass object's of any
      * type as parameter.
      */
-    CHAR_AND_INT(new Class<?>[] { Byte.class, Short.class, Integer.class},
-            null),
+    CHAR_AND_INT(new Class<?>[] {Byte.class, Short.class, Integer.class}, null),
 
-    INT_AND_TIME(new Class<?>[] { Long.class }, null),
+    INT_AND_TIME(new Class<?>[] {Long.class}, null),
 
     /**
      * Use if no object of any type can be passed as parameter.
@@ -143,8 +141,7 @@ public enum ConversionCategory {
      * </blockquote>
      */
     public static ConversionCategory fromConversionChar(char c) {
-        for (ConversionCategory v : new ConversionCategory[] { GENERAL, CHAR,
-                INT, FLOAT, TIME }) {
+        for (ConversionCategory v : new ConversionCategory[] {GENERAL, CHAR, INT, FLOAT, TIME}) {
             if (v.chars.contains(String.valueOf(c))) {
                 return v;
             }
@@ -156,8 +153,7 @@ public enum ConversionCategory {
         return new HashSet<E>(Arrays.asList(a));
     }
 
-    public static boolean isSubsetOf(ConversionCategory a,
-            ConversionCategory b) {
+    public static boolean isSubsetOf(ConversionCategory a, ConversionCategory b) {
         return intersect(a, b) == a;
     }
 
@@ -171,8 +167,7 @@ public enum ConversionCategory {
      * </pre>
      * </blockquote>
      */
-    public static ConversionCategory intersect(ConversionCategory a,
-            ConversionCategory b) {
+    public static ConversionCategory intersect(ConversionCategory a, ConversionCategory b) {
         if (a == UNUSED) {
             return b;
         }
@@ -188,9 +183,11 @@ public enum ConversionCategory {
 
         Set<Class<? extends Object>> as = arrayToSet(a.types);
         Set<Class<? extends Object>> bs = arrayToSet(b.types);
-        as.retainAll(bs);  // intersection
-        for (ConversionCategory v : new ConversionCategory[] { CHAR, INT,
-                FLOAT, TIME, CHAR_AND_INT, INT_AND_TIME, NULL }) {
+        as.retainAll(bs); // intersection
+        for (ConversionCategory v :
+                new ConversionCategory[] {
+                    CHAR, INT, FLOAT, TIME, CHAR_AND_INT, INT_AND_TIME, NULL
+                }) {
             Set<Class<? extends Object>> vs = arrayToSet(v.types);
             if (vs.equals(as)) {
                 return v;
@@ -199,7 +196,6 @@ public enum ConversionCategory {
         // this should never happen
         throw new RuntimeException();
     }
-
 
     private String className(Class<?> cls) {
         if (cls == Boolean.class) {

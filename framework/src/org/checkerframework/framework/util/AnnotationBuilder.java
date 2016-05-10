@@ -62,8 +62,7 @@ public class AnnotationBuilder {
     private final DeclaredType annotationType;
     private final Map<ExecutableElement, AnnotationValue> elementValues;
 
-    public AnnotationBuilder(ProcessingEnvironment env,
-            Class<? extends Annotation> anno) {
+    public AnnotationBuilder(ProcessingEnvironment env, Class<? extends Annotation> anno) {
         this(env, anno.getCanonicalName());
     }
 
@@ -125,7 +124,8 @@ public class AnnotationBuilder {
                     if (len > 0) {
                         buf.append('(');
                         boolean first = true;
-                        for (Map.Entry<ExecutableElement, AnnotationValue> pair : elementValues.entrySet()) {
+                        for (Map.Entry<ExecutableElement, AnnotationValue> pair :
+                                elementValues.entrySet()) {
                             if (!first) {
                                 buf.append(", ");
                             }
@@ -149,14 +149,12 @@ public class AnnotationBuilder {
         };
     }
 
-    public AnnotationBuilder setValue(CharSequence elementName,
-            AnnotationMirror value) {
+    public AnnotationBuilder setValue(CharSequence elementName, AnnotationMirror value) {
         setValue(elementName, (Object) value);
         return this;
     }
 
-    public AnnotationBuilder setValue(CharSequence elementName,
-            List<? extends Object> values) {
+    public AnnotationBuilder setValue(CharSequence elementName, List<? extends Object> values) {
         assertNotBuilt();
         List<AnnotationValue> value = new ArrayList<AnnotationValue>(values.size());
         ExecutableElement var = findElement(elementName);
@@ -237,8 +235,7 @@ public class AnnotationBuilder {
             TypeMirror componentType = typeFromClass(clazz.getComponentType());
             return types.getArrayType(componentType);
         } else {
-            TypeElement element = elements.getTypeElement(
-                    clazz.getCanonicalName());
+            TypeElement element = elements.getTypeElement(clazz.getCanonicalName());
             if (element == null) {
                 ErrorReporter.errorAbort("Unrecognized class: " + clazz);
                 return null; // dead code
@@ -257,17 +254,15 @@ public class AnnotationBuilder {
         return setValue(elementName, enumElt);
     }
 
-    public AnnotationBuilder setValue(CharSequence elementName,
-            VariableElement value) {
+    public AnnotationBuilder setValue(CharSequence elementName, VariableElement value) {
         ExecutableElement var = findElement(elementName);
         if (var.getReturnType().getKind() != TypeKind.DECLARED) {
             ErrorReporter.errorAbort("expected a non enum: " + var.getReturnType());
             return null; // dead code
         }
-        if (!((DeclaredType) var.getReturnType()).asElement().equals(
-                value.getEnclosingElement())) {
-            ErrorReporter.errorAbort("expected a different type of enum: "
-                    + value.getEnclosingElement());
+        if (!((DeclaredType) var.getReturnType()).asElement().equals(value.getEnclosingElement())) {
+            ErrorReporter.errorAbort(
+                    "expected a different type of enum: " + value.getEnclosingElement());
             return null; // dead code
         }
         elementValues.put(var, createValue(value));
@@ -294,14 +289,12 @@ public class AnnotationBuilder {
 
         expectedType = ((ArrayType) expectedType).getComponentType();
         if (expectedType.getKind() != TypeKind.DECLARED) {
-            ErrorReporter.errorAbort("expected a non enum component type: "
-                    + var.getReturnType());
+            ErrorReporter.errorAbort("expected a non enum component type: " + var.getReturnType());
             return null; // dead code
         }
-        if (!((DeclaredType) expectedType).asElement().equals(
-                enumElt.getEnclosingElement())) {
-            ErrorReporter.errorAbort("expected a different type of enum: "
-                    + enumElt.getEnclosingElement());
+        if (!((DeclaredType) expectedType).asElement().equals(enumElt.getEnclosingElement())) {
+            ErrorReporter.errorAbort(
+                    "expected a different type of enum: " + enumElt.getEnclosingElement());
             return null; // dead code
         }
 
@@ -319,8 +312,7 @@ public class AnnotationBuilder {
     // Keep this version synchronized with the Enum<?>[] version above.
     // Which one is more useful/general? Unifying adds overhead of creating
     // another array.
-    public AnnotationBuilder setValue(CharSequence elementName,
-            VariableElement[] values) {
+    public AnnotationBuilder setValue(CharSequence elementName, VariableElement[] values) {
         assertNotBuilt();
         ExecutableElement var = findElement(elementName);
 
@@ -332,13 +324,19 @@ public class AnnotationBuilder {
 
         expectedType = ((ArrayType) expectedType).getComponentType();
         if (expectedType.getKind() != TypeKind.DECLARED) {
-            ErrorReporter.errorAbort("expected a declared component type, but found: "
-                    + expectedType + " kind: " + expectedType.getKind());
+            ErrorReporter.errorAbort(
+                    "expected a declared component type, but found: "
+                            + expectedType
+                            + " kind: "
+                            + expectedType.getKind());
             return null; // dead code
         }
         if (!((DeclaredType) expectedType).equals(values[0].asType())) {
-            ErrorReporter.errorAbort("expected a different declared component type: "
-                    + expectedType + " vs. " + values[0]);
+            ErrorReporter.errorAbort(
+                    "expected a different declared component type: "
+                            + expectedType
+                            + " vs. "
+                            + values[0]);
             return null; // dead code
         }
 
@@ -360,8 +358,7 @@ public class AnnotationBuilder {
 
     private VariableElement findEnumElement(Enum<?> value) {
         String enumClass = value.getDeclaringClass().getCanonicalName();
-        TypeElement enumClassElt = elements.getTypeElement(
-                enumClass);
+        TypeElement enumClassElt = elements.getTypeElement(enumClass);
         assert enumClassElt != null;
         for (Element enumElt : enumClassElt.getEnclosedElements()) {
             if (enumElt.getSimpleName().contentEquals(value.name())) {
@@ -387,8 +384,7 @@ public class AnnotationBuilder {
                 return elt;
             }
         }
-        ErrorReporter.errorAbort("Couldn't find " + key + " element in "
-                + annotationElt);
+        ErrorReporter.errorAbort("Couldn't find " + key + " element in " + annotationElt);
         return null; // dead code
     }
 
@@ -401,8 +397,7 @@ public class AnnotationBuilder {
 
         if (expected.getKind() == TypeKind.DECLARED
                 && TypesUtils.isClass(expected)
-                && givenValue instanceof TypeMirror)
-            return true;
+                && givenValue instanceof TypeMirror) return true;
 
         TypeMirror found;
         boolean isSubtype;
@@ -411,8 +406,10 @@ public class AnnotationBuilder {
                 && ((DeclaredType) expected).asElement().getKind() == ElementKind.ANNOTATION_TYPE
                 && givenValue instanceof AnnotationMirror) {
             found = ((AnnotationMirror) givenValue).getAnnotationType();
-            isSubtype = ((DeclaredType) expected).asElement().equals(
-                    ((DeclaredType) found).asElement());
+            isSubtype =
+                    ((DeclaredType) expected)
+                            .asElement()
+                            .equals(((DeclaredType) found).asElement());
         } else if (givenValue instanceof AnnotationMirror) {
             found = ((AnnotationMirror) givenValue).getAnnotationType();
             // TODO: why is this always failing???
@@ -420,27 +417,29 @@ public class AnnotationBuilder {
         } else if (givenValue instanceof VariableElement) {
             found = ((VariableElement) givenValue).asType();
             if (expected.getKind() == TypeKind.DECLARED) {
-                isSubtype = types.isSubtype(types.erasure(found),
-                        types.erasure(expected));
+                isSubtype = types.isSubtype(types.erasure(found), types.erasure(expected));
             } else {
                 isSubtype = false;
             }
         } else {
-            found = elements
-                    .getTypeElement(givenValue.getClass().getCanonicalName())
-                    .asType();
-            isSubtype = types.isSubtype(types.erasure(found),
-                    types.erasure(expected));
+            found = elements.getTypeElement(givenValue.getClass().getCanonicalName()).asType();
+            isSubtype = types.isSubtype(types.erasure(found), types.erasure(expected));
         }
 
         if (!isSubtype) {
             if (found.toString().equals(expected.toString())) {
-                ErrorReporter.errorAbort("given value differs from expected, but same string representation; "
-                        + "this is likely a bootclasspath/classpath issue; "
-                        + "found: " + found);
+                ErrorReporter.errorAbort(
+                        "given value differs from expected, but same string representation; "
+                                + "this is likely a bootclasspath/classpath issue; "
+                                + "found: "
+                                + found);
             } else {
-                ErrorReporter.errorAbort("given value differs from expected; "
-                        + "found: " + found + "; expected: " + expected);
+                ErrorReporter.errorAbort(
+                        "given value differs from expected; "
+                                + "found: "
+                                + found
+                                + "; expected: "
+                                + expected);
             }
             return false; // dead code
         }
@@ -486,8 +485,8 @@ public class AnnotationBuilder {
                         encl = encl + '.';
                     }
                     return encl + var.toString();
-                } else if (value instanceof TypeMirror &&
-                           InternalUtils.isClassType((TypeMirror)value)) {
+                } else if (value instanceof TypeMirror
+                        && InternalUtils.isClassType((TypeMirror) value)) {
                     return value.toString() + ".class";
                 } else {
                     return value.toString();

@@ -19,8 +19,7 @@ import com.sun.source.util.Trees;
  * An AST visitor that provides a variety of compiler utilities and interfaces
  * to facilitate type-checking.
  */
-public abstract class SourceVisitor<R, P>
-        extends TreePathScanner<R, P> {
+public abstract class SourceVisitor<R, P> extends TreePathScanner<R, P> {
 
     /** The {@link Trees} instance to use for scanning. */
     protected final Trees trees;
@@ -33,7 +32,6 @@ public abstract class SourceVisitor<R, P>
 
     /** The root of the AST that this {@link SourceVisitor} will scan. */
     protected CompilationUnitTree root;
-
 
     /**
      * Creates a {@link SourceVisitor} to use for scanning a source tree.

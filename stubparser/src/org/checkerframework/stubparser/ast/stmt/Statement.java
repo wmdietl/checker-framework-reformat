@@ -28,11 +28,9 @@ import org.checkerframework.stubparser.ast.Node;
  */
 public abstract class Statement extends Node {
 
-    public Statement() {
-    }
+    public Statement() {}
 
     public Statement(int beginLine, int beginColumn, int endLine, int endColumn) {
         super(beginLine, beginColumn, endLine, endColumn);
     }
-
 }

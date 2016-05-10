@@ -44,8 +44,12 @@ public class ImmutableTestConfiguration implements TestConfiguration {
 
     private final boolean shouldEmitDebugInfo;
 
-    public ImmutableTestConfiguration(List<File> diagnosticFiles, List<File> testSourceFiles, List<String> processors,
-                                      Map<String, String> options, boolean shouldEmitDebugInfo) {
+    public ImmutableTestConfiguration(
+            List<File> diagnosticFiles,
+            List<File> testSourceFiles,
+            List<String> processors,
+            Map<String, String> options,
+            boolean shouldEmitDebugInfo) {
         this.diagnosticFiles = Collections.unmodifiableList(diagnosticFiles);
         this.testSourceFiles = Collections.unmodifiableList(new ArrayList<>(testSourceFiles));
         this.processors = Collections.unmodifiableList(new ArrayList<>(processors));
@@ -85,9 +89,16 @@ public class ImmutableTestConfiguration implements TestConfiguration {
 
     public String toString() {
         return "TestConfigurationBuilder:\n"
-            + "testSourceFiles="  + ( testSourceFiles == null ? "null" : PluginUtil.join(" ", testSourceFiles)  ) + "\n"
-            + "processors="       + ( processors == null      ? "null" : PluginUtil.join(", ", processors)      ) + "\n"
-            + "options="          + ( options == null         ? "null" : PluginUtil.join(", ", getFlatOptions())) + "\n"
-            + "shouldEmitDebugInfo=" + shouldEmitDebugInfo;
+                + "testSourceFiles="
+                + (testSourceFiles == null ? "null" : PluginUtil.join(" ", testSourceFiles))
+                + "\n"
+                + "processors="
+                + (processors == null ? "null" : PluginUtil.join(", ", processors))
+                + "\n"
+                + "options="
+                + (options == null ? "null" : PluginUtil.join(", ", getFlatOptions()))
+                + "\n"
+                + "shouldEmitDebugInfo="
+                + shouldEmitDebugInfo;
     }
 }

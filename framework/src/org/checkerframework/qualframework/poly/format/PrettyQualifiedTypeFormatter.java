@@ -23,7 +23,8 @@ import java.util.Set;
  * PrettyQualifiedTypeFormatter prints the primary qualifier of a QualParams before a
  * declared type's name, and the map of qualifier parameters after the declared type's name.
  */
-public class PrettyQualifiedTypeFormatter<Q> extends DefaultQualifiedTypeFormatter<QualParams<Q>, PrettyQualParamsFormatter<Q>> {
+public class PrettyQualifiedTypeFormatter<Q>
+        extends DefaultQualifiedTypeFormatter<QualParams<Q>, PrettyQualParamsFormatter<Q>> {
 
     public PrettyQualifiedTypeFormatter(
             TypeMirrorConverter<QualParams<Q>> converter,
@@ -31,13 +32,22 @@ public class PrettyQualifiedTypeFormatter<Q> extends DefaultQualifiedTypeFormatt
             boolean useOldFormat,
             boolean defaultPrintInvisibleQualifiers) {
 
-        super(new PrettyQualParamsFormatter<Q>(invisibleQualifiers), converter, useOldFormat, defaultPrintInvisibleQualifiers);
+        super(
+                new PrettyQualParamsFormatter<Q>(invisibleQualifiers),
+                converter,
+                useOldFormat,
+                defaultPrintInvisibleQualifiers);
     }
 
     @Override
-    protected AnnotatedTypeFormatter createAnnotatedTypeFormatter(AnnotationFormatter annotationFormatter) {
-        return new QualParamsAnnoTypeFormatter<Q>(converter, qualFormatter,
-                annotationFormatter, useOldFormat, defaultPrintInvisibleQualifiers);
+    protected AnnotatedTypeFormatter createAnnotatedTypeFormatter(
+            AnnotationFormatter annotationFormatter) {
+        return new QualParamsAnnoTypeFormatter<Q>(
+                converter,
+                qualFormatter,
+                annotationFormatter,
+                useOldFormat,
+                defaultPrintInvisibleQualifiers);
     }
 
     /**
@@ -52,10 +62,17 @@ public class PrettyQualifiedTypeFormatter<Q> extends DefaultQualifiedTypeFormatt
                 org.checkerframework.framework.util.AnnotationFormatter annoFormatter,
                 boolean printVerboseGenerics,
                 boolean defaultPrintInvisibleQualifier) {
-            super(new FormattingVisitor<Q>(converter, annoFormatter, formatter, printVerboseGenerics, defaultPrintInvisibleQualifier));
+            super(
+                    new FormattingVisitor<Q>(
+                            converter,
+                            annoFormatter,
+                            formatter,
+                            printVerboseGenerics,
+                            defaultPrintInvisibleQualifier));
         }
 
-        protected static class FormattingVisitor<Q> extends DefaultAnnotatedTypeFormatter.FormattingVisitor {
+        protected static class FormattingVisitor<Q>
+                extends DefaultAnnotatedTypeFormatter.FormattingVisitor {
 
             private final TypeMirrorConverter<QualParams<Q>> converter;
             private final QualParamsFormatter<Q> formatter;
@@ -63,7 +80,7 @@ public class PrettyQualifiedTypeFormatter<Q> extends DefaultQualifiedTypeFormatt
             public FormattingVisitor(
                     TypeMirrorConverter<QualParams<Q>> converter,
                     org.checkerframework.framework.util.AnnotationFormatter annoFormatter,
-                    QualParamsFormatter<Q>  formatter,
+                    QualParamsFormatter<Q> formatter,
                     boolean printVerboseGenerics,
                     boolean defaultInvisiblesSetting) {
 
@@ -77,7 +94,8 @@ public class PrettyQualifiedTypeFormatter<Q> extends DefaultQualifiedTypeFormatt
              * and the qualifier parameters inside double chevrons after the class name.
              */
             @Override
-            public String visitDeclared(AnnotatedDeclaredType type, Set<AnnotatedTypeMirror> visiting) {
+            public String visitDeclared(
+                    AnnotatedDeclaredType type, Set<AnnotatedTypeMirror> visiting) {
                 StringBuilder sb = new StringBuilder();
                 if (type.isDeclaration()) {
                     sb.append("/*DECL*/ ");

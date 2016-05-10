@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,15 +34,20 @@ public final class MemberValuePair extends Node {
 
     private Expression value;
 
-    public MemberValuePair() {
-    }
+    public MemberValuePair() {}
 
     public MemberValuePair(String name, Expression value) {
         this.name = name;
         this.value = value;
     }
 
-    public MemberValuePair(int beginLine, int beginColumn, int endLine, int endColumn, String name, Expression value) {
+    public MemberValuePair(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            String name,
+            Expression value) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.value = value;
@@ -73,5 +78,4 @@ public final class MemberValuePair extends Node {
     public void setValue(Expression value) {
         this.value = value;
     }
-
 }

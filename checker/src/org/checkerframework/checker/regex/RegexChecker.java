@@ -1,6 +1,5 @@
 package org.checkerframework.checker.regex;
 
-
 import org.checkerframework.checker.experimental.regex_qual.Regex;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -28,14 +27,13 @@ public class RegexChecker extends CheckerAdapter<QualParams<Regex>> {
     @Override
     public void setupDefaults(QualifierDefaults defaults) {
         defaults.addCheckedCodeDefault(
-                getTypeMirrorConverter().getAnnotation(
-                        new QualParams<>(new GroundQual<>(Regex.BOTTOM))),
+                getTypeMirrorConverter()
+                        .getAnnotation(new QualParams<>(new GroundQual<>(Regex.BOTTOM))),
                 TypeUseLocation.LOWER_BOUND);
 
         defaults.addCheckedCodeDefault(
-                getTypeMirrorConverter().getAnnotation(
-                        new QualParams<>(new GroundQual<>(Regex.TOP))),
+                getTypeMirrorConverter()
+                        .getAnnotation(new QualParams<>(new GroundQual<>(Regex.TOP))),
                 TypeUseLocation.LOCAL_VARIABLE);
     }
-
 }

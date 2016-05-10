@@ -39,6 +39,5 @@ import org.checkerframework.framework.qual.InheritedAnnotation;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @InheritedAnnotation
-@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR })
-public @interface ReleasesNoLocks {
-}
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
+public @interface ReleasesNoLocks {}

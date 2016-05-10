@@ -58,26 +58,25 @@ public class ValueVisitor extends BaseTypeVisitor<ValueAnnotatedTypeFactory> {
         if (!(element.toString().equals(ArrayLen.class.getName())
                 || element.toString().equals(BoolVal.class.getName())
                 || element.toString().equals(DoubleVal.class.getName())
-                || element.toString().equals(IntVal.class.getName()) || element
-                .toString().equals(StringVal.class.getName()))) {
+                || element.toString().equals(IntVal.class.getName())
+                || element.toString().equals(StringVal.class.getName()))) {
             return super.visitAnnotation(node, p);
         }
 
         if (node.getArguments().size() > 0
                 && node.getArguments().get(0).getKind() == Kind.ASSIGNMENT) {
-            AssignmentTree argument = (AssignmentTree) node.getArguments().get(
-                    0);
+            AssignmentTree argument = (AssignmentTree) node.getArguments().get(0);
             if (argument.getExpression().getKind() == Tree.Kind.NEW_ARRAY) {
-                int numArgs = ((NewArrayTree) argument.getExpression())
-                        .getInitializers().size();
+                int numArgs = ((NewArrayTree) argument.getExpression()).getInitializers().size();
 
                 if (numArgs > ValueAnnotatedTypeFactory.MAX_VALUES) {
-                    checker.report(Result.warning("too.many.values.given",
-                            ValueAnnotatedTypeFactory.MAX_VALUES), node);
+                    checker.report(
+                            Result.warning(
+                                    "too.many.values.given", ValueAnnotatedTypeFactory.MAX_VALUES),
+                            node);
                     return null;
                 }
             }
-
         }
         return super.visitAnnotation(node, p);
     }
@@ -89,5 +88,4 @@ public class ValueVisitor extends BaseTypeVisitor<ValueAnnotatedTypeFactory> {
         }
         return super.visitTypeCast(node, p);
     }
-
 }

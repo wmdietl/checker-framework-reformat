@@ -32,6 +32,5 @@ import java.util.Locale;
  *
  * </ol>
  */
-@SupportedOptions( {"propfiles", "bundlenames"} )
-public class LocalizableKeyChecker extends PropertyKeyChecker {
-}
+@SupportedOptions({"propfiles", "bundlenames"})
+public class LocalizableKeyChecker extends PropertyKeyChecker {}

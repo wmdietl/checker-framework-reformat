@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,15 +34,20 @@ public final class SynchronizedStmt extends Statement {
 
     private BlockStmt block;
 
-    public SynchronizedStmt() {
-    }
+    public SynchronizedStmt() {}
 
     public SynchronizedStmt(Expression expr, BlockStmt block) {
         this.expr = expr;
         this.block = block;
     }
 
-    public SynchronizedStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr, BlockStmt block) {
+    public SynchronizedStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression expr,
+            BlockStmt block) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.expr = expr;
         this.block = block;
@@ -73,5 +78,4 @@ public final class SynchronizedStmt extends Statement {
     public void setExpr(Expression expr) {
         this.expr = expr;
     }
-
 }

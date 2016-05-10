@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -42,8 +42,8 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  *       ( {@link AnnotationExpr} )* "package" {@link NameExpr} ) ";"
  *   </td>
  * </tr>
- * </table> 
- * 
+ * </table>
+ *
  * @author Julio Vilmar Gesser
  */
 public final class PackageDeclaration extends Node {
@@ -52,8 +52,7 @@ public final class PackageDeclaration extends Node {
 
     private NameExpr name;
 
-    public PackageDeclaration() {
-    }
+    public PackageDeclaration() {}
 
     public PackageDeclaration(NameExpr name) {
         this.name = name;
@@ -64,7 +63,13 @@ public final class PackageDeclaration extends Node {
         this.name = name;
     }
 
-    public PackageDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, List<AnnotationExpr> annotations, NameExpr name) {
+    public PackageDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            List<AnnotationExpr> annotations,
+            NameExpr name) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.annotations = annotations;
         this.name = name;
@@ -83,7 +88,7 @@ public final class PackageDeclaration extends Node {
     /**
      * Retrieves the list of annotations declared before the package
      * declaration. Return <code>null</code> if there are no annotations.
-     * 
+     *
      * @return list of annotations or <code>null</code>
      */
     public List<AnnotationExpr> getAnnotations() {
@@ -92,7 +97,7 @@ public final class PackageDeclaration extends Node {
 
     /**
      * Return the name of the package.
-     * 
+     *
      * @return the name of the package
      */
     public NameExpr getName() {
@@ -109,12 +114,11 @@ public final class PackageDeclaration extends Node {
 
     /**
      * Sets the name of this package declaration.
-     * 
+     *
      * @param name
      *            the name to set
      */
     public void setName(NameExpr name) {
         this.name = name;
     }
-
 }

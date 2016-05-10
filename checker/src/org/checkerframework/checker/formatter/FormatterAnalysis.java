@@ -16,9 +16,9 @@ import org.checkerframework.javacutil.Pair;
  *
  * @author Konstantin Weitz
  */
-public class FormatterAnalysis extends
-        CFAbstractAnalysis<CFValue, CFStore, FormatterTransfer> {
-    public FormatterAnalysis(BaseTypeChecker checker,
+public class FormatterAnalysis extends CFAbstractAnalysis<CFValue, CFStore, FormatterTransfer> {
+    public FormatterAnalysis(
+            BaseTypeChecker checker,
             FormatterAnnotatedTypeFactory factory,
             List<Pair<VariableElement, CFValue>> fieldValues) {
         super(checker, factory, fieldValues);
@@ -26,7 +26,7 @@ public class FormatterAnalysis extends
 
     @Override
     public FormatterTransfer createTransferFunction() {
-        return new FormatterTransfer(this,(FormatterChecker)checker);
+        return new FormatterTransfer(this, (FormatterChecker) checker);
     }
 
     @Override

@@ -38,7 +38,9 @@ import java.util.List;
  * @see org.checkerframework.framework.type.AnnotatedTypeReplacer
  *
  */
-public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMirror, IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror>> {
+public class AnnotatedTypeCopier
+        implements AnnotatedTypeVisitor<
+                AnnotatedTypeMirror, IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror>> {
 
     /**
      * This is a hack to handle the curious behavior of substitution on an AnnotatedExecutableType.
@@ -83,20 +85,26 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
     }
 
     @Override
-    public AnnotatedTypeMirror visit(AnnotatedTypeMirror type,
-                                     IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visit(
+            AnnotatedTypeMirror type,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         return type.accept(this, originalToCopy);
     }
 
     @Override
-    public AnnotatedTypeMirror visitDeclared(AnnotatedDeclaredType original,
-                                             IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitDeclared(
+            AnnotatedDeclaredType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedDeclaredType copy =  (AnnotatedDeclaredType) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedDeclaredType copy =
+                (AnnotatedDeclaredType)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
         originalToCopy.put(original, copy);
 
@@ -105,7 +113,8 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
         }
 
         if (copy.enclosingType != null) {
-            copy.enclosingType = (AnnotatedDeclaredType) visit(original.enclosingType, originalToCopy);
+            copy.enclosingType =
+                    (AnnotatedDeclaredType) visit(original.enclosingType, originalToCopy);
         }
 
         if (original.typeArgs != null) {
@@ -113,7 +122,7 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
             for (final AnnotatedTypeMirror typeArg : original.typeArgs) {
                 copyTypeArgs.add(visit(typeArg, originalToCopy));
             }
-            copy.typeArgs = Collections.unmodifiableList( copyTypeArgs );
+            copy.typeArgs = Collections.unmodifiableList(copyTypeArgs);
         }
 
         if (original.supertypes != null) {
@@ -121,74 +130,92 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
             for (final AnnotatedDeclaredType supertype : original.supertypes) {
                 copySupertypes.add((AnnotatedDeclaredType) visit(supertype, originalToCopy));
             }
-            copy.supertypes = Collections.unmodifiableList( copySupertypes );
+            copy.supertypes = Collections.unmodifiableList(copySupertypes);
         }
 
         return copy;
     }
 
     @Override
-    public AnnotatedTypeMirror visitIntersection(AnnotatedIntersectionType original,
-                                                 IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitIntersection(
+            AnnotatedIntersectionType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedIntersectionType copy =  (AnnotatedIntersectionType) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedIntersectionType copy =
+                (AnnotatedIntersectionType)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
         originalToCopy.put(original, copy);
 
         if (original.supertypes != null) {
-            final List<AnnotatedDeclaredType> copySupertypes = new ArrayList<AnnotatedDeclaredType>();
+            final List<AnnotatedDeclaredType> copySupertypes =
+                    new ArrayList<AnnotatedDeclaredType>();
             for (final AnnotatedDeclaredType supertype : original.supertypes) {
                 copySupertypes.add((AnnotatedDeclaredType) visit(supertype, originalToCopy));
             }
-            copy.supertypes = Collections.unmodifiableList( copySupertypes );
+            copy.supertypes = Collections.unmodifiableList(copySupertypes);
         }
 
         return copy;
     }
 
     @Override
-    public AnnotatedTypeMirror visitUnion(AnnotatedUnionType original,
-                                          IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitUnion(
+            AnnotatedUnionType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedUnionType copy =  (AnnotatedUnionType) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedUnionType copy =
+                (AnnotatedUnionType)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
         originalToCopy.put(original, copy);
 
         if (original.alternatives != null) {
-            final List<AnnotatedDeclaredType> copyAlternatives = new ArrayList<AnnotatedDeclaredType>();
+            final List<AnnotatedDeclaredType> copyAlternatives =
+                    new ArrayList<AnnotatedDeclaredType>();
             for (final AnnotatedDeclaredType supertype : original.alternatives) {
                 copyAlternatives.add((AnnotatedDeclaredType) visit(supertype, originalToCopy));
             }
-            copy.alternatives = Collections.unmodifiableList( copyAlternatives );
+            copy.alternatives = Collections.unmodifiableList(copyAlternatives);
         }
 
         return copy;
     }
 
     @Override
-    public AnnotatedTypeMirror visitExecutable(AnnotatedExecutableType original,
-                                               IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitExecutable(
+            AnnotatedExecutableType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedExecutableType copy =  (AnnotatedExecutableType) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedExecutableType copy =
+                (AnnotatedExecutableType)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
         originalToCopy.put(original, copy);
 
         copy.setElement(original.getElement());
 
         if (original.receiverType != null) {
-            copy.receiverType = (AnnotatedDeclaredType) visit(original.receiverType, originalToCopy);
+            copy.receiverType =
+                    (AnnotatedDeclaredType) visit(original.receiverType, originalToCopy);
         }
 
         for (final AnnotatedTypeMirror param : original.paramTypes) {
@@ -216,14 +243,19 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
     }
 
     @Override
-    public AnnotatedTypeMirror visitArray(AnnotatedArrayType original,
-                                          IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitArray(
+            AnnotatedArrayType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedArrayType copy =  (AnnotatedArrayType) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedArrayType copy =
+                (AnnotatedArrayType)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
         originalToCopy.put(original, copy);
 
@@ -233,14 +265,19 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
     }
 
     @Override
-    public AnnotatedTypeMirror visitTypeVariable(AnnotatedTypeVariable original,
-                                                 IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitTypeVariable(
+            AnnotatedTypeVariable original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedTypeVariable copy =  (AnnotatedTypeVariable) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedTypeVariable copy =
+                (AnnotatedTypeVariable)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
         originalToCopy.put(original, copy);
 
@@ -256,32 +293,40 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
     }
 
     @Override
-    public AnnotatedTypeMirror visitPrimitive(AnnotatedPrimitiveType original,
-                                              IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitPrimitive(
+            AnnotatedPrimitiveType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         return makeCopy(original);
     }
 
     @Override
-    public AnnotatedTypeMirror visitNoType(AnnotatedNoType original,
-                                           IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitNoType(
+            AnnotatedNoType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         return makeCopy(original);
     }
 
     @Override
-    public AnnotatedTypeMirror visitNull(AnnotatedNullType original,
-                                         IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitNull(
+            AnnotatedNullType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         return makeOrReturnCopy(original, originalToCopy);
     }
 
     @Override
-    public AnnotatedTypeMirror visitWildcard(AnnotatedWildcardType original,
-                                             IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
+    public AnnotatedTypeMirror visitWildcard(
+            AnnotatedWildcardType original,
+            IdentityHashMap<AnnotatedTypeMirror, AnnotatedTypeMirror> originalToCopy) {
         if (originalToCopy.containsKey(original)) {
             return originalToCopy.get(original);
         }
 
-        final AnnotatedWildcardType copy =  (AnnotatedWildcardType) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final AnnotatedWildcardType copy =
+                (AnnotatedWildcardType)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         if (original.isTypeArgHack()) {
             copy.setTypeArgHack();
         }
@@ -293,7 +338,7 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
             copy.setExtendsBound(visit(original.getExtendsBoundField(), originalToCopy));
         }
 
-        if ( original.getSuperBoundField() != null) {
+        if (original.getSuperBoundField() != null) {
             copy.setSuperBound(visit(original.getSuperBoundField(), originalToCopy));
         }
 
@@ -330,8 +375,12 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
     @SuppressWarnings("unchecked")
     protected <T extends AnnotatedTypeMirror> T makeCopy(T original) {
 
-        final T copy = (T) AnnotatedTypeMirror.createType(
-                original.getUnderlyingType(), original.atypeFactory, original.isDeclaration());
+        final T copy =
+                (T)
+                        AnnotatedTypeMirror.createType(
+                                original.getUnderlyingType(),
+                                original.atypeFactory,
+                                original.isDeclaration());
         maybeCopyPrimaryAnnotations(original, copy);
 
         return copy;
@@ -344,7 +393,8 @@ public class AnnotatedTypeCopier implements AnnotatedTypeVisitor<AnnotatedTypeMi
      * @param source the type whose primary annotations are being copied
      * @param dest a copy of source that should receive its primary annotations
      */
-    protected void maybeCopyPrimaryAnnotations(final AnnotatedTypeMirror source, final AnnotatedTypeMirror dest) {
+    protected void maybeCopyPrimaryAnnotations(
+            final AnnotatedTypeMirror source, final AnnotatedTypeMirror dest) {
         if (copyAnnotations) {
             dest.addAnnotations(source.getAnnotationsField());
         }

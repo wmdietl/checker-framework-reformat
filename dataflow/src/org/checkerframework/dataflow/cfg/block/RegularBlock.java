@@ -34,5 +34,4 @@ public interface RegularBlock extends SingleSuccessorBlock {
      * Is this block empty (i.e., does it not contain any contents).
      */
     boolean isEmpty();
-
 }

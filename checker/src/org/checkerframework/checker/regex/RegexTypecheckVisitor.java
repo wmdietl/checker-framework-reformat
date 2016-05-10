@@ -75,11 +75,16 @@ public class RegexTypecheckVisitor extends TypecheckVisitorAdapter<QualParams<Re
                 int paramGroups = (Integer) literal.getValue();
                 ExpressionTree receiver = TreeUtils.getReceiverTree(node);
                 int annoGroups = 0;
-                QualifiedTypeMirror<QualParams<Regex>> receiverType = context.getTypeFactory().getQualifiedType(receiver);
+                QualifiedTypeMirror<QualParams<Regex>> receiverType =
+                        context.getTypeFactory().getQualifiedType(receiver);
                 Regex regex = receiverType.getQualifier().getPrimary().getMaximum();
-                if (paramGroups > 0 &&
-                        (!regex.isRegexVal() || ((Regex.RegexVal) regex).getCount() < paramGroups)) {
-                    checker.report(Result.failure("group.count.invalid", paramGroups, annoGroups, receiver), group);
+                if (paramGroups > 0
+                        && (!regex.isRegexVal()
+                                || ((Regex.RegexVal) regex).getCount() < paramGroups)) {
+                    checker.report(
+                            Result.failure(
+                                    "group.count.invalid", paramGroups, annoGroups, receiver),
+                            group);
                 }
             } else {
                 checker.report(Result.warning("group.count.unknown"), group);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -29,14 +29,14 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  */
 public final class MarkerAnnotationExpr extends AnnotationExpr {
 
-    public MarkerAnnotationExpr() {
-    }
+    public MarkerAnnotationExpr() {}
 
     public MarkerAnnotationExpr(NameExpr name) {
         this.name = name;
     }
 
-    public MarkerAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name) {
+    public MarkerAnnotationExpr(
+            int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
     }
@@ -50,5 +50,4 @@ public final class MarkerAnnotationExpr extends AnnotationExpr {
     public <A> void accept(VoidVisitor<A> v, A arg) {
         v.visit(this, arg);
     }
-
 }

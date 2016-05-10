@@ -44,11 +44,11 @@ public class LinearVisitor extends BaseTypeVisitor<LinearAnnotatedTypeFactory> {
         Element elem = TreeUtils.elementFromUse(node);
         if (elem == null) return false;
         switch (elem.getKind()) {
-        case PARAMETER:
-        case LOCAL_VARIABLE:
-            return true;
-        default:
-            return false;
+            case PARAMETER:
+            case LOCAL_VARIABLE:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -58,8 +58,8 @@ public class LinearVisitor extends BaseTypeVisitor<LinearAnnotatedTypeFactory> {
     private void checkLegality(ExpressionTree node) {
         if (isLocalVarOrParam(node)) {
             if (atypeFactory.getAnnotatedType(node).hasAnnotation(Unusable.class)) {
-                checker.report(Result.failure("use.unsafe",
-                        TreeUtils.elementFromUse(node), node), node);
+                checker.report(
+                        Result.failure("use.unsafe", TreeUtils.elementFromUse(node), node), node);
             }
         }
     }
@@ -81,7 +81,6 @@ public class LinearVisitor extends BaseTypeVisitor<LinearAnnotatedTypeFactory> {
      */
     // Premature optimization:  Don't check method invocability
     @Override
-    protected void checkMethodInvocability(AnnotatedExecutableType method,
-            MethodInvocationTree node) {
-    }
+    protected void checkMethodInvocability(
+            AnnotatedExecutableType method, MethodInvocationTree node) {}
 }

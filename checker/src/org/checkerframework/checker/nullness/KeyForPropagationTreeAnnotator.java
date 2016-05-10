@@ -53,11 +53,12 @@ public class KeyForPropagationTreeAnnotator extends TreeAnnotator {
     private final KeyForPropagator keyForPropagator;
     private final ExecutableElement keySetMethod;
 
-    public KeyForPropagationTreeAnnotator(AnnotatedTypeFactory atypeFactory,
-                                          KeyForPropagator propagationTreeAnnotator) {
+    public KeyForPropagationTreeAnnotator(
+            AnnotatedTypeFactory atypeFactory, KeyForPropagator propagationTreeAnnotator) {
         super(atypeFactory);
         this.keyForPropagator = propagationTreeAnnotator;
-        keySetMethod = TreeUtils.getMethod("java.util.Map", "keySet", 0, atypeFactory.getProcessingEnv());
+        keySetMethod =
+                TreeUtils.getMethod("java.util.Map", "keySet", 0, atypeFactory.getProcessingEnv());
     }
 
     /**
@@ -65,11 +66,11 @@ public class KeyForPropagationTreeAnnotator extends TreeAnnotator {
      */
     public boolean isCallToKeyset(ExpressionTree expression) {
         if (expression instanceof MethodInvocationTree) {
-            return TreeUtils.isMethodInvocation(expression, keySetMethod, atypeFactory.getProcessingEnv());
+            return TreeUtils.isMethodInvocation(
+                    expression, keySetMethod, atypeFactory.getProcessingEnv());
         }
         return false;
     }
-
 
     /** Transfers annotations to the variableTree if the right side is a call to java.util.Map.KeySet. */
     @Override
@@ -82,13 +83,17 @@ public class KeyForPropagationTreeAnnotator extends TreeAnnotator {
 
             if (isCallToKeyset(initializer)) {
                 final AnnotatedDeclaredType variableType = (AnnotatedDeclaredType) type;
-                final AnnotatedTypeMirror initializerType = atypeFactory.getAnnotatedType(initializer);
+                final AnnotatedTypeMirror initializerType =
+                        atypeFactory.getAnnotatedType(initializer);
 
                 // array types and boxed primitives etc don't require propagation
                 if (variableType.getKind() == TypeKind.DECLARED) {
-                    keyForPropagator.propagate((AnnotatedDeclaredType) initializerType, variableType, PropagationDirection.TO_SUPERTYPE, atypeFactory);
+                    keyForPropagator.propagate(
+                            (AnnotatedDeclaredType) initializerType,
+                            variableType,
+                            PropagationDirection.TO_SUPERTYPE,
+                            atypeFactory);
                 }
-
             }
         }
 
@@ -98,19 +103,24 @@ public class KeyForPropagationTreeAnnotator extends TreeAnnotator {
     /** Transfers annotations to type if the left hand side is a variable declaration. */
     @Override
     public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror type) {
-        Pair<Tree, AnnotatedTypeMirror> context = atypeFactory.getVisitorState().getAssignmentContext();
+        Pair<Tree, AnnotatedTypeMirror> context =
+                atypeFactory.getVisitorState().getAssignmentContext();
 
         if (type.getKind() == TypeKind.DECLARED && context != null && context.first != null) {
-            AnnotatedTypeMirror assignedTo = TypeArgInferenceUtil.assignedTo(atypeFactory, atypeFactory.getPath(node));
+            AnnotatedTypeMirror assignedTo =
+                    TypeArgInferenceUtil.assignedTo(atypeFactory, atypeFactory.getPath(node));
 
             if (assignedTo != null) {
 
                 // array types and boxed primitives etc don't require propagation
                 if (assignedTo.getKind() == TypeKind.DECLARED) {
                     final AnnotatedDeclaredType newClassType = (AnnotatedDeclaredType) type;
-                    keyForPropagator.propagate(newClassType, (AnnotatedDeclaredType) assignedTo, PropagationDirection.TO_SUBTYPE, atypeFactory);
+                    keyForPropagator.propagate(
+                            newClassType,
+                            (AnnotatedDeclaredType) assignedTo,
+                            PropagationDirection.TO_SUBTYPE,
+                            atypeFactory);
                 }
-
             }
         }
 

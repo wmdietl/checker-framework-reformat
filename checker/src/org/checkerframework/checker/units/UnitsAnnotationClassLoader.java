@@ -33,7 +33,8 @@ public class UnitsAnnotationClassLoader extends AnnotationClassLoader {
         AnnotationMirror initialResult = builder.build();
 
         // further refine to see if the annotation is an alias of some other SI Unit annotation
-        for (AnnotationMirror metaAnno : initialResult.getAnnotationType().asElement().getAnnotationMirrors() ) {
+        for (AnnotationMirror metaAnno :
+                initialResult.getAnnotationType().asElement().getAnnotationMirrors()) {
             // TODO : special treatment of invisible qualifiers?
 
             // if the annotation is a SI prefix multiple of some base unit, then return false

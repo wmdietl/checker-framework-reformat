@@ -76,5 +76,4 @@ public abstract class ValueLiteralNode extends Node {
     public Collection<Node> getOperands() {
         return Collections.emptyList();
     }
-
 }

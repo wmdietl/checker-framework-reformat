@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -32,14 +32,14 @@ public final class TypeDeclarationStmt extends Statement {
 
     private TypeDeclaration typeDecl;
 
-    public TypeDeclarationStmt() {
-    }
+    public TypeDeclarationStmt() {}
 
     public TypeDeclarationStmt(TypeDeclaration typeDecl) {
         this.typeDecl = typeDecl;
     }
 
-    public TypeDeclarationStmt(int beginLine, int beginColumn, int endLine, int endColumn, TypeDeclaration typeDecl) {
+    public TypeDeclarationStmt(
+            int beginLine, int beginColumn, int endLine, int endColumn, TypeDeclaration typeDecl) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.typeDecl = typeDecl;
     }

@@ -15,7 +15,6 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVari
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
 
-
 /**
  * A TypeVisitor that visits all the child tree nodes. To visit types
  * of a particular type, just override the corresponding visitXYZ
@@ -67,7 +66,7 @@ public class AnnotatedTypeScanner<R, P> implements AnnotatedTypeVisitor<R, P> {
 
     // To prevent infinite loops
     protected final Map<AnnotatedTypeMirror, R> visitedNodes =
-        new IdentityHashMap<AnnotatedTypeMirror, R>();
+            new IdentityHashMap<AnnotatedTypeMirror, R>();
 
     /**
      * Reset the scanner to allow reuse of the same instance.

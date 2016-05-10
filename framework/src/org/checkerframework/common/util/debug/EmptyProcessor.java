@@ -17,8 +17,7 @@ import javax.lang.model.element.TypeElement;
 public class EmptyProcessor extends AbstractProcessor {
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations,
-            RoundEnvironment roundEnv) {
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         System.out.println("Empty Processor run!");
         return false;
     }

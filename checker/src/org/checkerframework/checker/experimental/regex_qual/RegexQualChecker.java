@@ -13,5 +13,4 @@ public class RegexQualChecker extends Checker<Regex> {
     protected RegexQualifiedTypeFactory createTypeFactory() {
         return new RegexQualifiedTypeFactory(this);
     }
-
 }

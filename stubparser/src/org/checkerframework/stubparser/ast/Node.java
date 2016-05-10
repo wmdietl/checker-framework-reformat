@@ -51,8 +51,7 @@ public abstract class Node {
      */
     private Object data;
 
-    public Node() {
-    }
+    public Node() {}
 
     public Node(int beginLine, int beginColumn, int endLine, int endColumn) {
         this.beginLine = beginLine;
@@ -201,5 +200,4 @@ public abstract class Node {
     public boolean equals(Object obj) {
         return EqualsVisitor.equals(this, (Node) obj);
     }
-
 }

@@ -19,11 +19,13 @@ import java.lang.annotation.Target;
  * @see Unique
  * @checker_framework.manual #aliasing-checker Aliasing Checker
  */
-
 @Documented
 @DefaultQualifierInHierarchy
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE })
-@ImplicitFor(literals = { LiteralKind.NULL }, typeNames = { java.lang.Void.class })
+@Target({ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+@ImplicitFor(
+    literals = {LiteralKind.NULL},
+    typeNames = {java.lang.Void.class}
+)
 @SubtypeOf({})
 public @interface MaybeAliased {}

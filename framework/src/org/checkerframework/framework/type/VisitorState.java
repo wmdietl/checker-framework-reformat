@@ -113,7 +113,8 @@ public class VisitorState {
     @SideEffectFree
     @Override
     public String toString() {
-        return String.format("method %s (%s) / class %s (%s)",
+        return String.format(
+                "method %s (%s) / class %s (%s)",
                 (mt != null ? mt.getName() : "null"),
                 mrt,
                 (ct != null ? ct.getSimpleName() : "null"),

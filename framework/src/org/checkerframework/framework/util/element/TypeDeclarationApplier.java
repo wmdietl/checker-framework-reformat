@@ -33,7 +33,10 @@ import com.sun.tools.javac.code.TargetType;
  */
 public class TypeDeclarationApplier extends TargetedElementAnnotationApplier {
 
-    public static void apply(final AnnotatedTypeMirror type, final Element element, final AnnotatedTypeFactory typeFactory) {
+    public static void apply(
+            final AnnotatedTypeMirror type,
+            final Element element,
+            final AnnotatedTypeFactory typeFactory) {
         new TypeDeclarationApplier(type, element, typeFactory).extractAndApply();
     }
 
@@ -47,15 +50,17 @@ public class TypeDeclarationApplier extends TargetedElementAnnotationApplier {
      * @return true if type is an annotated declared type and element is a ClassSymbol
      */
     public static boolean accepts(final AnnotatedTypeMirror type, final Element element) {
-        return type instanceof AnnotatedDeclaredType &&
-               element instanceof Symbol.ClassSymbol;
+        return type instanceof AnnotatedDeclaredType && element instanceof Symbol.ClassSymbol;
     }
 
     private final AnnotatedTypeFactory typeFactory;
     private final Symbol.ClassSymbol typeSymbol;
     private final AnnotatedDeclaredType declaredType;
 
-    TypeDeclarationApplier(final AnnotatedTypeMirror type, final Element element, final AnnotatedTypeFactory typeFactory) {
+    TypeDeclarationApplier(
+            final AnnotatedTypeMirror type,
+            final Element element,
+            final AnnotatedTypeFactory typeFactory) {
         super(type, element);
         this.typeFactory = typeFactory;
         this.typeSymbol = (Symbol.ClassSymbol) element;
@@ -64,17 +69,26 @@ public class TypeDeclarationApplier extends TargetedElementAnnotationApplier {
 
     @Override
     protected TargetType[] validTargets() {
-        return new TargetType[]{
-            RESOURCE_VARIABLE, EXCEPTION_PARAMETER, NEW, CAST, INSTANCEOF, METHOD_INVOCATION_TYPE_ARGUMENT,
-            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT, METHOD_REFERENCE, CONSTRUCTOR_REFERENCE,
-            METHOD_REFERENCE_TYPE_ARGUMENT, CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT,
-            CLASS_TYPE_PARAMETER, CLASS_TYPE_PARAMETER_BOUND
+        return new TargetType[] {
+            RESOURCE_VARIABLE,
+            EXCEPTION_PARAMETER,
+            NEW,
+            CAST,
+            INSTANCEOF,
+            METHOD_INVOCATION_TYPE_ARGUMENT,
+            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT,
+            METHOD_REFERENCE,
+            CONSTRUCTOR_REFERENCE,
+            METHOD_REFERENCE_TYPE_ARGUMENT,
+            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT,
+            CLASS_TYPE_PARAMETER,
+            CLASS_TYPE_PARAMETER_BOUND
         };
     }
 
     @Override
     protected TargetType[] annotatedTargets() {
-        return new TargetType[]{ CLASS_EXTENDS };
+        return new TargetType[] {CLASS_EXTENDS};
     }
 
     /**
@@ -92,7 +106,7 @@ public class TypeDeclarationApplier extends TargetedElementAnnotationApplier {
      * @param extendsAndImplementsAnnos annotations with a TargetType of CLASS_EXTENDS
      */
     @Override
-    protected void handleTargeted(List<Attribute.TypeCompound> extendsAndImplementsAnnos ) {
+    protected void handleTargeted(List<Attribute.TypeCompound> extendsAndImplementsAnnos) {
         for (final Attribute.TypeCompound anno : extendsAndImplementsAnnos) {
 
             if (anno.position.type_index >= SUPERCLASS_INDEX && anno.position.location.isEmpty()) {
@@ -112,7 +126,8 @@ public class TypeDeclarationApplier extends TargetedElementAnnotationApplier {
         // Annotate raw types //TODO: ASK WERNER WHAT THIS MIGHT MEAN?  WHAT ACTUALLY GOES HERE?
         type.addAnnotations(typeSymbol.getAnnotationMirrors());
 
-        applyAllElementAnnotations(declaredType.getTypeArguments(), typeSymbol.getTypeParameters(), typeFactory);
+        applyAllElementAnnotations(
+                declaredType.getTypeArguments(), typeSymbol.getTypeParameters(), typeFactory);
     }
 
     @Override

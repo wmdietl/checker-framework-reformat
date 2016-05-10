@@ -33,24 +33,44 @@ public class SystemGetPropertyHandler {
     protected final ExecutableElement systemGetProperty;
 
     // This list is from the Javadoc of System.getProperties.
-    Collection<String> systemProperties = new HashSet<>(Arrays.asList(
-            "java.version", "java.vendor", "java.vendor.url", "java.home",
-            "java.vm.specification.version", "java.vm.specification.vendor",
-            "java.vm.specification.name", "java.vm.version", "java.vm.vendor",
-            "java.vm.name", "java.specification.version",
-            "java.specification.vendor", "java.specification.name",
-            "java.class.version", "java.class.path", "java.library.path",
-            "java.io.tmpdir", "java.compiler", "java.ext.dirs", "os.name",
-            "os.arch", "os.version", "file.separator", "path.separator",
-            "line.separator", "user.name", "user.home", "user.dir"));
+    Collection<String> systemProperties =
+            new HashSet<>(
+                    Arrays.asList(
+                            "java.version",
+                            "java.vendor",
+                            "java.vendor.url",
+                            "java.home",
+                            "java.vm.specification.version",
+                            "java.vm.specification.vendor",
+                            "java.vm.specification.name",
+                            "java.vm.version",
+                            "java.vm.vendor",
+                            "java.vm.name",
+                            "java.specification.version",
+                            "java.specification.vendor",
+                            "java.specification.name",
+                            "java.class.version",
+                            "java.class.path",
+                            "java.library.path",
+                            "java.io.tmpdir",
+                            "java.compiler",
+                            "java.ext.dirs",
+                            "os.name",
+                            "os.arch",
+                            "os.version",
+                            "file.separator",
+                            "path.separator",
+                            "line.separator",
+                            "user.name",
+                            "user.home",
+                            "user.dir"));
 
-    public SystemGetPropertyHandler(ProcessingEnvironment env,
-            NullnessAnnotatedTypeFactory factory) {
+    public SystemGetPropertyHandler(
+            ProcessingEnvironment env, NullnessAnnotatedTypeFactory factory) {
         this.env = env;
         this.factory = factory;
 
-        systemGetProperty = TreeUtils.getMethod("java.lang.System",
-                "getProperty", 1, env);
+        systemGetProperty = TreeUtils.getMethod("java.lang.System", "getProperty", 1, env);
     }
 
     public void handle(MethodInvocationTree tree, AnnotatedExecutableType method) {
@@ -67,5 +87,4 @@ public class SystemGetPropertyHandler {
             }
         }
     }
-
 }

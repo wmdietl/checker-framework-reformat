@@ -61,8 +61,10 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * Handle invocations of {@link org.checkerframework.checker.regex.RegexUtil} methods.
      */
     @Override
-    public TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> visitMethodInvocation(
-            MethodInvocationNode n, TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
+    public TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+            visitMethodInvocation(
+                    MethodInvocationNode n,
+                    TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
 
         TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> result;
         result = super.visitMethodInvocation(n, in);
@@ -89,9 +91,12 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * @param resultIn the input {@link org.checkerframework.dataflow.analysis.TransferResult}
      * @return the possibly refined output {@link org.checkerframework.dataflow.analysis.TransferResult}
      */
-    private TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> handleRegexUtil(
-            MethodInvocationNode n, ExecutableElement method,
-            TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> resultIn) {
+    private TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+            handleRegexUtil(
+                    MethodInvocationNode n,
+                    ExecutableElement method,
+                    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+                            resultIn) {
         if (ElementUtils.matchesElement(method, IS_REGEX_METHOD_NAME, String.class, int.class)) {
             // RegexUtil.isRegex(s, groups) method
             // (No special case is needed for isRegex(String) because of
@@ -99,15 +104,20 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
 
             QualStore<QualParams<Regex>> thenStore = resultIn.getRegularStore();
             QualStore<QualParams<Regex>> elseStore = thenStore.copy();
-            ConditionalTransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> newResult =
-                    new ConditionalTransferResult<>(resultIn.getResultValue(), thenStore, elseStore);
-            FlowExpressionContext context = FlowExpressionParseUtil.buildFlowExprContextForUse(n,
-                    analysis.getContext());
+            ConditionalTransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+                    newResult =
+                            new ConditionalTransferResult<>(
+                                    resultIn.getResultValue(), thenStore, elseStore);
+            FlowExpressionContext context =
+                    FlowExpressionParseUtil.buildFlowExprContextForUse(n, analysis.getContext());
             Receiver firstParam;
             try {
                 // TODO: is this the easiest way to do this?
-                firstParam = FlowExpressionParseUtil.parse("#1", context,
-                        analysis.getContext().getTypeFactory().getPath(n.getTree()));
+                firstParam =
+                        FlowExpressionParseUtil.parse(
+                                "#1",
+                                context,
+                                analysis.getContext().getTypeFactory().getPath(n.getTree()));
             } catch (FlowExpressionParseException e) {
                 firstParam = null;
                 assert false;
@@ -119,7 +129,8 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
             Regex regex = new RegexVal(groupCount);
             thenStore.insertValue(firstParam, new QualParams<>(new GroundQual<>(regex)));
             return newResult;
-        } else if (ElementUtils.matchesElement(method, AS_REGEX_METHOD_NAME, String.class, int.class)) {
+        } else if (ElementUtils.matchesElement(
+                method, AS_REGEX_METHOD_NAME, String.class, int.class)) {
             // RegexUtil.asRegex(s, groups) method
             // (No special case is needed for asRegex(String) because of
             // the annotation on that method's definition.)
@@ -127,9 +138,15 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
             // add annotation with correct group count (if possible,
             // regex annotation without count otherwise)
             int groupCount = determineIntValue(n.getArgument(1));
-            QualParams<Regex> regex = new QualParams<>(new GroundQual<Regex>(new RegexVal(groupCount)));
-            QualValue<QualParams<Regex>> newResultValue = analysis.createSingleAnnotationValue(regex,
-                    resultIn.getResultValue().getType().getUnderlyingType().getOriginalType());
+            QualParams<Regex> regex =
+                    new QualParams<>(new GroundQual<Regex>(new RegexVal(groupCount)));
+            QualValue<QualParams<Regex>> newResultValue =
+                    analysis.createSingleAnnotationValue(
+                            regex,
+                            resultIn.getResultValue()
+                                    .getType()
+                                    .getUnderlyingType()
+                                    .getOriginalType());
             return new RegularTransferResult<>(newResultValue, resultIn.getRegularStore());
         }
         return resultIn;
@@ -140,7 +157,6 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * @param num input Node
      * @return the int value of num. 0 if num is not an int literal.
      */
-
     private int determineIntValue(Node num) {
         int groupCount;
         if (num instanceof IntegerLiteralNode) {
@@ -159,7 +175,6 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
         return receiver.equals("RegexUtil") || receiver.endsWith(".RegexUtil");
     }
 
-
     /**
      * {@inheritDoc}
      *
@@ -167,9 +182,8 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * annotate {@code matcher} as {@code @Regex(constant + 1)}
      */
     @Override
-    public
-    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
-    visitLessThan(LessThanNode n,
+    public TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> visitLessThan(
+            LessThanNode n,
             TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
         TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> res;
         res = super.visitLessThan(n, in);
@@ -184,10 +198,10 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * annotate {@code matcher} as {@code @Regex(constant)}
      */
     @Override
-    public
-    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
-    visitLessThanOrEqual(LessThanOrEqualNode n,
-            TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
+    public TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+            visitLessThanOrEqual(
+                    LessThanOrEqualNode n,
+                    TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
         TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> res;
         res = super.visitLessThanOrEqual(n, in);
         res = handleMatcherGroupCount(n.getRightOperand(), n.getLeftOperand(), true, in, res);
@@ -201,10 +215,10 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * annotate {@code matcher} as {@code @Regex(constant + 1)}
      */
     @Override
-    public
-    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
-    visitGreaterThan(GreaterThanNode n,
-            TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
+    public TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+            visitGreaterThan(
+                    GreaterThanNode n,
+                    TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
         TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> res;
         res = super.visitGreaterThan(n, in);
         res = handleMatcherGroupCount(n.getLeftOperand(), n.getRightOperand(), false, in, res);
@@ -218,10 +232,10 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * annotate {@code matcher} as {@code @Regex(constant)}
      */
     @Override
-    public
-    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
-    visitGreaterThanOrEqual(GreaterThanOrEqualNode n,
-            TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
+    public TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+            visitGreaterThanOrEqual(
+                    GreaterThanOrEqualNode n,
+                    TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in) {
         TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> res;
         res = super.visitGreaterThanOrEqual(n, in);
         res = handleMatcherGroupCount(n.getLeftOperand(), n.getRightOperand(), true, in, res);
@@ -241,12 +255,14 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
      * @param in the input {@link org.checkerframework.dataflow.analysis.TransferResult}
      * @return the possibly refined output {@link org.checkerframework.dataflow.analysis.TransferResult}
      */
-    private
-    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
-    handleMatcherGroupCount(
-            Node possibleMatcher, Node possibleConstant, boolean isAlsoEqual,
-            TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in,
-            TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> resultIn) {
+    private TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+            handleMatcherGroupCount(
+                    Node possibleMatcher,
+                    Node possibleConstant,
+                    boolean isAlsoEqual,
+                    TransferInput<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> in,
+                    TransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+                            resultIn) {
         if (!(possibleMatcher instanceof MethodInvocationNode)) {
             return resultIn;
         }
@@ -281,7 +297,8 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
                 return resultIn;
             }
             DeclaredType matcherDT = (DeclaredType) matcherType;
-            if (!TypesUtils.getQualifiedName(matcherDT).contentEquals(java.util.regex.Matcher.class.getCanonicalName())) {
+            if (!TypesUtils.getQualifiedName(matcherDT)
+                    .contentEquals(java.util.regex.Matcher.class.getCanonicalName())) {
                 return resultIn;
             }
         }
@@ -296,13 +313,14 @@ public class RegexQualifiedTransfer extends QualTransfer<QualParams<Regex>> {
 
         QualStore<QualParams<Regex>> thenStore = resultIn.getRegularStore();
         QualStore<QualParams<Regex>> elseStore = thenStore.copy();
-        ConditionalTransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>> newResult =
-                new ConditionalTransferResult<>(resultIn.getResultValue(), thenStore, elseStore);
+        ConditionalTransferResult<QualValue<QualParams<Regex>>, QualStore<QualParams<Regex>>>
+                newResult =
+                        new ConditionalTransferResult<>(
+                                resultIn.getResultValue(), thenStore, elseStore);
 
         Regex regex = new RegexVal(groupCount);
         thenStore.insertValue(matcherReceiver, new QualParams<>(new GroundQual<>(regex)));
 
         return newResult;
     }
-
 }

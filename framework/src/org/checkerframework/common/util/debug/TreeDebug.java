@@ -105,9 +105,9 @@ public class TreeDebug extends AbstractProcessor {
 
         @Override
         public Void visitNewArray(NewArrayTree node, Void p) {
-            insert(((JCNewArray)node).annotations);
+            insert(((JCNewArray) node).annotations);
             insert("|");
-            insert(((JCNewArray)node).dimAnnotations);
+            insert(((JCNewArray) node).dimAnnotations);
             return super.visitNewArray(node, p);
         }
 
@@ -119,8 +119,7 @@ public class TreeDebug extends AbstractProcessor {
     }
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations,
-            RoundEnvironment roundEnv) {
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (TypeElement element : ElementFilter.typesIn(roundEnv.getRootElements())) {
             TreePath path = Trees.instance(processingEnv).getPath(element);
             new Visitor().scan(path, null);

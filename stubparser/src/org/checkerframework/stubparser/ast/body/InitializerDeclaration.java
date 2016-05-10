@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,8 +34,7 @@ public final class InitializerDeclaration extends BodyDeclaration {
 
     private BlockStmt block;
 
-    public InitializerDeclaration() {
-    }
+    public InitializerDeclaration() {}
 
     public InitializerDeclaration(boolean isStatic, BlockStmt block) {
         this.isStatic = isStatic;
@@ -48,7 +47,14 @@ public final class InitializerDeclaration extends BodyDeclaration {
         this.block = block;
     }
 
-    public InitializerDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, boolean isStatic, BlockStmt block) {
+    public InitializerDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            boolean isStatic,
+            BlockStmt block) {
         super(beginLine, beginColumn, endLine, endColumn, null, javaDoc);
         this.isStatic = isStatic;
         this.block = block;

@@ -35,37 +35,48 @@ public class Resolver2 {
     private final Method FIND_IDENT_IN_TYPE;
 
     public Resolver2(ProcessingEnvironment env) {
-        Context context = ((JavacProcessingEnvironment)env).getContext();
+        Context context = ((JavacProcessingEnvironment) env).getContext();
         this.resolve = Resolve.instance(context);
         this.names = Names.instance(context);
         this.trees = Trees.instance(env);
         Method fi, fiip, fmt, fiit;
         fi = fiip = fmt = fiit = null;
         try {
-            fi = Resolve.class.getDeclaredMethod(
-                    "findIdent",
-                    Env.class, Name.class, int.class);
+            fi = Resolve.class.getDeclaredMethod("findIdent", Env.class, Name.class, int.class);
             fi.setAccessible(true);
 
-            fiip = Resolve.class.getDeclaredMethod(
-                    "findIdentInPackage",
-                    Env.class, TypeSymbol.class, Name.class, int.class);
+            fiip =
+                    Resolve.class
+                            .getDeclaredMethod(
+                                    "findIdentInPackage",
+                                    Env.class,
+                                    TypeSymbol.class,
+                                    Name.class,
+                                    int.class);
             fiip.setAccessible(true);
 
-            fmt = Resolve.class.getDeclaredMethod(
-                    "findMemberType",
-                    Env.class,
-                    Type.class,
-                    Name.class,
-                    TypeSymbol.class);
+            fmt =
+                    Resolve.class
+                            .getDeclaredMethod(
+                                    "findMemberType",
+                                    Env.class,
+                                    Type.class,
+                                    Name.class,
+                                    TypeSymbol.class);
             fmt.setAccessible(true);
 
-            fiit = Resolve.class.getDeclaredMethod(
-                    "findIdentInType",
-                    Env.class, Type.class, Name.class, int.class);
+            fiit =
+                    Resolve.class
+                            .getDeclaredMethod(
+                                    "findIdentInType",
+                                    Env.class,
+                                    Type.class,
+                                    Name.class,
+                                    int.class);
             fiit.setAccessible(true);
         } catch (Exception e) {
-            ErrorReporter.errorAbort("Compiler 'Resolve' class doesn't contain required 'findXXX' method", e);
+            ErrorReporter.errorAbort(
+                    "Compiler 'Resolve' class doesn't contain required 'findXXX' method", e);
             // Need the local fi, fiip, fmt, and fiit variables to keep def assignment happy
         }
         this.FIND_IDENT = fi;
@@ -96,9 +107,7 @@ public class Resolver2 {
 
         if (!reference.contains(".")) {
             // Simple variable
-            return wrapInvocation(
-                    FIND_IDENT,
-                    env, names.fromString(reference), Kinds.VAR);
+            return wrapInvocation(FIND_IDENT, env, names.fromString(reference), Kinds.VAR);
         } else {
             int lastDot = reference.lastIndexOf('.');
             String expr = reference.substring(0, lastDot);
@@ -107,46 +116,38 @@ public class Resolver2 {
             Element site = findType(expr, env);
             Name ident = names.fromString(name);
 
-            return wrapInvocation(
-                    FIND_IDENT_IN_TYPE,
-                    env, site.asType(), ident, VAR);
+            return wrapInvocation(FIND_IDENT_IN_TYPE, env, site.asType(), ident, VAR);
         }
-
     }
 
     private Element findType(String reference, Env<AttrContext> env) {
         if (!reference.contains(".")) {
             // Simple variable
             return wrapInvocation(
-                    FIND_IDENT,
-                    env, names.fromString(reference), Kinds.TYP | Kinds.PCK);
+                    FIND_IDENT, env, names.fromString(reference), Kinds.TYP | Kinds.PCK);
         } else {
             int lastDot = reference.lastIndexOf(".");
             String expr = reference.substring(0, lastDot);
             String idnt = reference.substring(lastDot + 1);
 
-            Symbol site = (Symbol)findType(expr, env);
+            Symbol site = (Symbol) findType(expr, env);
             if (site.kind == ERR) {
                 return site;
             }
             Name name = names.fromString(idnt);
             if (site.kind == PCK) {
-                env.toplevel.packge = (PackageSymbol)site;
-                return wrapInvocation(
-                        FIND_IDENT_IN_PACKAGE,
-                        env, site, name, TYP | PCK);
+                env.toplevel.packge = (PackageSymbol) site;
+                return wrapInvocation(FIND_IDENT_IN_PACKAGE, env, site, name, TYP | PCK);
             } else {
-                env.enclClass.sym = (ClassSymbol)site;
-                return wrapInvocation(
-                        FIND_MEMBER_TYPE,
-                        env, site.asType(), name, site);
+                env.enclClass.sym = (ClassSymbol) site;
+                return wrapInvocation(FIND_MEMBER_TYPE, env, site.asType(), name, site);
             }
         }
     }
 
     private Symbol wrapInvocation(Method method, Object... args) {
         try {
-            return (Symbol)method.invoke(resolve, args);
+            return (Symbol) method.invoke(resolve, args);
         } catch (IllegalAccessException e) {
             ErrorReporter.errorAbort("Resolver.wrapInvocation: unexpected Reflection error", e);
         } catch (IllegalArgumentException e) {

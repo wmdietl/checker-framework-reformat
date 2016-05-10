@@ -16,12 +16,12 @@ import java.lang.annotation.Target;
  * @checker_framework.manual #formatter-checker Format String Checker
  * @author Konstantin Weitz
  */
-@SubtypeOf({Format.class,InvalidFormat.class})
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-@TargetLocations({ TypeUseLocation.EXPLICIT_LOWER_BOUND,
-    TypeUseLocation.EXPLICIT_UPPER_BOUND })
-@ImplicitFor(literals = { LiteralKind.NULL },
-  typeNames = {java.lang.Void.class})
-@DefaultFor(value = { TypeUseLocation.LOWER_BOUND })
-public @interface FormatBottom {
-}
+@SubtypeOf({Format.class, InvalidFormat.class})
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+@TargetLocations({TypeUseLocation.EXPLICIT_LOWER_BOUND, TypeUseLocation.EXPLICIT_UPPER_BOUND})
+@ImplicitFor(
+    literals = {LiteralKind.NULL},
+    typeNames = {java.lang.Void.class}
+)
+@DefaultFor(value = {TypeUseLocation.LOWER_BOUND})
+public @interface FormatBottom {}

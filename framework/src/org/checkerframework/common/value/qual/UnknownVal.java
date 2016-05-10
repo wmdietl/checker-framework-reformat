@@ -16,7 +16,6 @@ import org.checkerframework.framework.qual.SubtypeOf;
  */
 @SubtypeOf({})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE })
+@Target({ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
 @DefaultQualifierInHierarchy
-public @interface UnknownVal {
-}
+public @interface UnknownVal {}

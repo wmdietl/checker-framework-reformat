@@ -61,11 +61,9 @@ public class TypeAnnotator<Q> implements ExtendedTypeVisitor<QualifiedTypeMirror
         this.adapter = adapter;
     }
 
-
     public AnnotationConverter<Q> getAnnotationConverter() {
         return annotationConverter;
     }
-
 
     public QualifiedTypeMirror<Q> visit(ExtendedTypeMirror type, Void p) {
         if (type == null) {
@@ -117,17 +115,14 @@ public class TypeAnnotator<Q> implements ExtendedTypeVisitor<QualifiedTypeMirror
     @Override
     public QualifiedTypeMirror<Q> visitArray(ExtendedArrayType type, Void p) {
         return new QualifiedArrayType<Q>(
-                type,
-                getQualifier(type),
-                this.visit(type.getComponentType(), null));
+                type, getQualifier(type), this.visit(type.getComponentType(), null));
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitDeclared(ExtendedDeclaredType type, Void p) {
-        QualifiedTypeMirror<Q> result = new QualifiedDeclaredType<Q>(
-                type,
-                getQualifier(type),
-                this.mapVisit(type.getTypeArguments(), null));
+        QualifiedTypeMirror<Q> result =
+                new QualifiedDeclaredType<Q>(
+                        type, getQualifier(type), this.mapVisit(type.getTypeArguments(), null));
 
         return result;
     }
@@ -144,7 +139,7 @@ public class TypeAnnotator<Q> implements ExtendedTypeVisitor<QualifiedTypeMirror
         List<QualifiedParameterDeclaration<Q>> qualifiedParameters = new ArrayList<>();
         for (ExtendedParameterDeclaration typeVar : type.getTypeParameters()) {
             QualifiedParameterDeclaration<Q> qualifiedParam =
-                (QualifiedParameterDeclaration<Q>)this.visit(typeVar, null);
+                    (QualifiedParameterDeclaration<Q>) this.visit(typeVar, null);
             qualifiedParameters.add(qualifiedParam);
         }
 
@@ -160,45 +155,33 @@ public class TypeAnnotator<Q> implements ExtendedTypeVisitor<QualifiedTypeMirror
     @Override
     public QualifiedTypeMirror<Q> visitIntersection(ExtendedIntersectionType type, Void p) {
         return new QualifiedIntersectionType<Q>(
-                type,
-                getQualifier(type),
-                this.mapVisit(type.getBounds(), null));
+                type, getQualifier(type), this.mapVisit(type.getBounds(), null));
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitNoType(ExtendedNoType type, Void p) {
-        return new QualifiedNoType<Q>(
-                type,
-                getQualifier(type));
+        return new QualifiedNoType<Q>(type, getQualifier(type));
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitNull(ExtendedNullType type, Void p) {
-        return new QualifiedNullType<Q>(
-                type,
-                getQualifier(type));
+        return new QualifiedNullType<Q>(type, getQualifier(type));
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitPrimitive(ExtendedPrimitiveType type, Void p) {
-        return new QualifiedPrimitiveType<Q>(
-                type,
-                getQualifier(type));
+        return new QualifiedPrimitiveType<Q>(type, getQualifier(type));
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitTypeVariable(ExtendedTypeVariable type, Void p) {
-        return new QualifiedTypeVariable<Q>(
-                type,
-                getQualifier(type));
+        return new QualifiedTypeVariable<Q>(type, getQualifier(type));
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitUnion(ExtendedUnionType type, Void p) {
         return new QualifiedUnionType<Q>(
-                type,
-                getQualifier(type),
-                this.mapVisit(type.getAlternatives(), null));
+                type, getQualifier(type), this.mapVisit(type.getAlternatives(), null));
     }
 
     @Override
@@ -210,22 +193,20 @@ public class TypeAnnotator<Q> implements ExtendedTypeVisitor<QualifiedTypeMirror
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitParameterDeclaration(ExtendedParameterDeclaration type, Void p) {
-        return new QualifiedParameterDeclaration<Q>(
-                type);
+    public QualifiedTypeMirror<Q> visitParameterDeclaration(
+            ExtendedParameterDeclaration type, Void p) {
+        return new QualifiedParameterDeclaration<Q>(type);
     }
 
     @Override
     public QualifiedTypeMirror<Q> visitTypeDeclaration(ExtendedTypeDeclaration type, Void p) {
         @SuppressWarnings("unchecked")
         List<? extends QualifiedParameterDeclaration<Q>> params =
-            (List<? extends QualifiedParameterDeclaration<Q>>)(List<?>)
-            this.mapVisit(type.getTypeParameters(), null);
+                (List<? extends QualifiedParameterDeclaration<Q>>)
+                        (List<?>) this.mapVisit(type.getTypeParameters(), null);
 
-        QualifiedTypeMirror<Q> result = new QualifiedTypeDeclaration<Q>(
-                type,
-                getQualifier(type),
-                params);
+        QualifiedTypeMirror<Q> result =
+                new QualifiedTypeDeclaration<Q>(type, getQualifier(type), params);
 
         return result;
     }

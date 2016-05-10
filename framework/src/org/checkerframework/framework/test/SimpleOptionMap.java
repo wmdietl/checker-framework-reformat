@@ -79,7 +79,6 @@ public class SimpleOptionMap {
         this.options.put(option, value);
     }
 
-
     /**
      * Adds the option only if value is a non-null, non-empty String
      */
@@ -102,14 +101,16 @@ public class SimpleOptionMap {
             String opt = optIter.next();
             if (this.options.get(opt) != null) {
                 if (!optIter.hasNext()) {
-                    throw new RuntimeException("Expected a value for option: " + opt
-                            + " in option list: " + PluginUtil.join(", ", newOptions));
+                    throw new RuntimeException(
+                            "Expected a value for option: "
+                                    + opt
+                                    + " in option list: "
+                                    + PluginUtil.join(", ", newOptions));
                 }
                 this.options.put(opt, optIter.next());
 
             } else {
                 this.options.put(opt, null);
-
             }
         }
     }

@@ -68,8 +68,7 @@ public class MethodAccessNode extends Node {
             return false;
         }
         MethodAccessNode other = (MethodAccessNode) obj;
-        return getReceiver().equals(other.getReceiver())
-                && getMethod().equals(other.getMethod());
+        return getReceiver().equals(other.getReceiver()) && getMethod().equals(other.getMethod());
     }
 
     @Override

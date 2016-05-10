@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -33,15 +33,20 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
 
     private List<MemberValuePair> pairs;
 
-    public NormalAnnotationExpr() {
-    }
+    public NormalAnnotationExpr() {}
 
     public NormalAnnotationExpr(NameExpr name, List<MemberValuePair> pairs) {
         this.name = name;
         this.pairs = pairs;
     }
 
-    public NormalAnnotationExpr(int beginLine, int beginColumn, int endLine, int endColumn, NameExpr name, List<MemberValuePair> pairs) {
+    public NormalAnnotationExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            NameExpr name,
+            List<MemberValuePair> pairs) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.pairs = pairs;
@@ -64,5 +69,4 @@ public final class NormalAnnotationExpr extends AnnotationExpr {
     public void setPairs(List<MemberValuePair> pairs) {
         this.pairs = pairs;
     }
-
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -37,8 +37,7 @@ public final class TryStmt extends Statement {
 
     private BlockStmt finallyBlock;
 
-    public TryStmt() {
-    }
+    public TryStmt() {}
 
     public TryStmt(BlockStmt tryBlock, List<CatchClause> catchs, BlockStmt finallyBlock) {
         this.tryBlock = tryBlock;
@@ -46,7 +45,14 @@ public final class TryStmt extends Statement {
         this.finallyBlock = finallyBlock;
     }
 
-    public TryStmt(int beginLine, int beginColumn, int endLine, int endColumn, BlockStmt tryBlock, List<CatchClause> catchs, BlockStmt finallyBlock) {
+    public TryStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            BlockStmt tryBlock,
+            List<CatchClause> catchs,
+            BlockStmt finallyBlock) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.tryBlock = tryBlock;
         this.catchs = catchs;

@@ -18,7 +18,7 @@ import org.checkerframework.javacutil.Pair;
  * @author Stefan Heule
  */
 public class BaseAnnotatedTypeFactory
-    extends GenericAnnotatedTypeFactory<CFValue, CFStore, CFTransfer, CFAnalysis> {
+        extends GenericAnnotatedTypeFactory<CFValue, CFStore, CFTransfer, CFAnalysis> {
 
     public BaseAnnotatedTypeFactory(BaseTypeChecker checker, boolean useFlow) {
         super(checker, useFlow);

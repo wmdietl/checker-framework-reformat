@@ -24,8 +24,10 @@ public class ComboLog {
 
     private static class Agreement {
         public Agreement(
-                final String checker, final String compilationUnit,
-                final String type1Atm,    final String type2Atm) {
+                final String checker,
+                final String compilationUnit,
+                final String type1Atm,
+                final String type2Atm) {
             this.compilationUnit = compilationUnit;
             this.checker = checker;
             this.type1Atm = type1Atm;
@@ -61,7 +63,7 @@ public class ComboLog {
     }
 
     private static Agreement parseAgreement(final String line) {
-        final String [] tokens = line.split(del_r);
+        final String[] tokens = line.split(del_r);
         if (tokens.length != 4) {
             throw new RuntimeException("Could not parseAgreement from: " + line);
         }
@@ -79,7 +81,8 @@ public class ComboLog {
         return atm.getClass().getSimpleName().toString();
     }
 
-    public static void writeCombo(AnnotatedTypeMirror rhs, AnnotatedTypeMirror lhs, String checker) {
+    public static void writeCombo(
+            AnnotatedTypeMirror rhs, AnnotatedTypeMirror lhs, String checker) {
         if (subtypeFile.length() > 100000) {
             return;
         }
@@ -89,7 +92,11 @@ public class ComboLog {
         }
 
         final Agreement agr =
-                new Agreement(root.getSourceFile().getName(), checker.getClass().getSimpleName(), atmToClassStr(rhs), atmToClassStr(lhs));
+                new Agreement(
+                        root.getSourceFile().getName(),
+                        checker.getClass().getSimpleName(),
+                        atmToClassStr(rhs),
+                        atmToClassStr(lhs));
         if (!foundCombos.contains(agr)) {
             foundCombos.add(agr);
             writeCombo(agr);
@@ -101,10 +108,12 @@ public class ComboLog {
             initialize();
         }
 
-        List<String> tokens = Arrays.asList(agreement.compilationUnit,
-                agreement.checker,
-                agreement.type1Atm,
-                agreement.type2Atm);
+        List<String> tokens =
+                Arrays.asList(
+                        agreement.compilationUnit,
+                        agreement.checker,
+                        agreement.type1Atm,
+                        agreement.type2Atm);
         final String line = PluginUtil.join(del, tokens);
         try {
             comboWriter.write(line);
@@ -135,7 +144,8 @@ public class ComboLog {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("Exception reading file " + subtypeFile.getAbsolutePath(), e);
+            throw new RuntimeException(
+                    "Exception reading file " + subtypeFile.getAbsolutePath(), e);
         }
 
         try {
@@ -145,4 +155,3 @@ public class ComboLog {
         }
     }
 }
-

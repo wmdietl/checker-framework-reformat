@@ -45,17 +45,25 @@ import javax.lang.model.type.TypeKind;
  * @checker_framework.manual #nullness-checker Nullness Checker
  */
 @SubtypeOf(MonotonicNonNull.class)
-@ImplicitFor(types = { TypeKind.PACKAGE,
-                       TypeKind.INT, TypeKind.BOOLEAN, TypeKind.CHAR,
-                       TypeKind.DOUBLE, TypeKind.FLOAT, TypeKind.LONG,
-                       TypeKind.SHORT, TypeKind.BYTE },
+@ImplicitFor(
+    types = {
+        TypeKind.PACKAGE,
+        TypeKind.INT,
+        TypeKind.BOOLEAN,
+        TypeKind.CHAR,
+        TypeKind.DOUBLE,
+        TypeKind.FLOAT,
+        TypeKind.LONG,
+        TypeKind.SHORT,
+        TypeKind.BYTE
+    },
     // All literals except NULL_LITERAL:
-    literals = { LiteralKind.STRING })
+    literals = {LiteralKind.STRING}
+)
 @DefaultQualifierInHierarchy
-@DefaultFor({ TypeUseLocation.EXCEPTION_PARAMETER })
-@DefaultInUncheckedCodeFor({ TypeUseLocation.PARAMETER, TypeUseLocation.LOWER_BOUND })
+@DefaultFor({TypeUseLocation.EXCEPTION_PARAMETER})
+@DefaultInUncheckedCodeFor({TypeUseLocation.PARAMETER, TypeUseLocation.LOWER_BOUND})
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-public @interface NonNull {
-}
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+public @interface NonNull {}

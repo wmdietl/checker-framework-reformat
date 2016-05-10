@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -86,7 +86,6 @@ public final class ModifierSet {
      * A set of accessors that indicate whether the specified modifier is in the
      * set.
      */
-
     public static boolean isPublic(int modifiers) {
         return (modifiers & PUBLIC) != 0;
     }
@@ -118,6 +117,5 @@ public final class ModifierSet {
         return modifiers & ~mod;
     }
 
-    private ModifierSet() {
-    }
+    private ModifierSet() {}
 }

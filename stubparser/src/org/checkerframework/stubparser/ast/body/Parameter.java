@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -44,8 +44,7 @@ public final class Parameter extends Node {
 
     private VariableDeclaratorId id;
 
-    public Parameter() {
-    }
+    public Parameter() {}
 
     public Parameter(Type type, VariableDeclaratorId id) {
         this.type = type;
@@ -58,7 +57,16 @@ public final class Parameter extends Node {
         this.id = id;
     }
 
-    public Parameter(int beginLine, int beginColumn, int endLine, int endColumn, int modifiers, List<AnnotationExpr> annotations, Type type, boolean isVarArgs, VariableDeclaratorId id) {
+    public Parameter(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            Type type,
+            boolean isVarArgs,
+            VariableDeclaratorId id) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.modifiers = modifiers;
         this.annotations = annotations;
@@ -87,7 +95,7 @@ public final class Parameter extends Node {
 
     /**
      * Return the modifiers of this parameter declaration.
-     * 
+     *
      * @see ModifierSet
      * @return modifiers
      */

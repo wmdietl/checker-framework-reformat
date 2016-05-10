@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -30,19 +30,26 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
 public final class PrimitiveType extends Type {
 
     public enum Primitive {
-        Boolean, Char, Byte, Short, Int, Long, Float, Double
+        Boolean,
+        Char,
+        Byte,
+        Short,
+        Int,
+        Long,
+        Float,
+        Double
     }
 
     private Primitive type;
 
-    public PrimitiveType() {
-    }
+    public PrimitiveType() {}
 
     public PrimitiveType(Primitive type) {
         this.type = type;
     }
 
-    public PrimitiveType(int beginLine, int beginColumn, int endLine, int endColumn, Primitive type) {
+    public PrimitiveType(
+            int beginLine, int beginColumn, int endLine, int endColumn, Primitive type) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.type = type;
     }
@@ -64,5 +71,4 @@ public final class PrimitiveType extends Type {
     public void setType(Primitive type) {
         this.type = type;
     }
-
 }

@@ -19,7 +19,7 @@ import org.checkerframework.framework.qual.SubtypeOf;
  */
 @SubtypeOf(I18nUnknownFormat.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface I18nInvalidFormat {
     /**
      * Using a value of the annotated type as the first argument to

@@ -9,7 +9,8 @@ import com.sun.source.util.SimpleTreeVisitor;
  * {@link DefaultQualifiedTypeFactory} component for computing the qualified
  * type of a {@link Tree}.
  */
-public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, ExtendedTypeMirror> {
+public class TreeAnnotator<Q>
+        extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, ExtendedTypeMirror> {
     private TreeAnnotatorAdapter<Q> adapter;
 
     void setAdapter(TreeAnnotatorAdapter<Q> adapter) {
@@ -77,17 +78,20 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitCompilationUnit(CompilationUnitTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitCompilationUnit(
+            CompilationUnitTree node, ExtendedTypeMirror type) {
         return adapter.superVisitCompilationUnit(node, type);
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitCompoundAssignment(CompoundAssignmentTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitCompoundAssignment(
+            CompoundAssignmentTree node, ExtendedTypeMirror type) {
         return adapter.superVisitCompoundAssignment(node, type);
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitConditionalExpression(ConditionalExpressionTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitConditionalExpression(
+            ConditionalExpressionTree node, ExtendedTypeMirror type) {
         return adapter.superVisitConditionalExpression(node, type);
     }
 
@@ -102,12 +106,14 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitEmptyStatement(EmptyStatementTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitEmptyStatement(
+            EmptyStatementTree node, ExtendedTypeMirror type) {
         return adapter.superVisitEmptyStatement(node, type);
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitEnhancedForLoop(EnhancedForLoopTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitEnhancedForLoop(
+            EnhancedForLoopTree node, ExtendedTypeMirror type) {
         return adapter.superVisitEnhancedForLoop(node, type);
     }
 
@@ -117,7 +123,8 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitExpressionStatement(ExpressionStatementTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitExpressionStatement(
+            ExpressionStatementTree node, ExtendedTypeMirror type) {
         return adapter.superVisitExpressionStatement(node, type);
     }
 
@@ -147,7 +154,8 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitLabeledStatement(LabeledStatementTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitLabeledStatement(
+            LabeledStatementTree node, ExtendedTypeMirror type) {
         return adapter.superVisitLabeledStatement(node, type);
     }
 
@@ -157,7 +165,8 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitMemberSelect(MemberSelectTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitMemberSelect(
+            MemberSelectTree node, ExtendedTypeMirror type) {
         return adapter.superVisitMemberSelect(node, type);
     }
 
@@ -167,7 +176,8 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitMethodInvocation(MethodInvocationTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitMethodInvocation(
+            MethodInvocationTree node, ExtendedTypeMirror type) {
         return adapter.superVisitMethodInvocation(node, type);
     }
 
@@ -192,17 +202,20 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitParameterizedType(ParameterizedTypeTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitParameterizedType(
+            ParameterizedTypeTree node, ExtendedTypeMirror type) {
         return adapter.superVisitParameterizedType(node, type);
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitParenthesized(ParenthesizedTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitParenthesized(
+            ParenthesizedTree node, ExtendedTypeMirror type) {
         return adapter.superVisitParenthesized(node, type);
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitPrimitiveType(PrimitiveTypeTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitPrimitiveType(
+            PrimitiveTypeTree node, ExtendedTypeMirror type) {
         return adapter.superVisitPrimitiveType(node, type);
     }
 
@@ -217,7 +230,8 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitSynchronized(SynchronizedTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitSynchronized(
+            SynchronizedTree node, ExtendedTypeMirror type) {
         return adapter.superVisitSynchronized(node, type);
     }
 
@@ -237,7 +251,8 @@ public class TreeAnnotator<Q> extends SimpleTreeVisitor<QualifiedTypeMirror<Q>, 
     }
 
     @Override
-    public QualifiedTypeMirror<Q> visitTypeParameter(TypeParameterTree node, ExtendedTypeMirror type) {
+    public QualifiedTypeMirror<Q> visitTypeParameter(
+            TypeParameterTree node, ExtendedTypeMirror type) {
         return adapter.superVisitTypeParameter(node, type);
     }
 

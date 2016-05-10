@@ -34,8 +34,11 @@ public class MethodInvocationNode extends Node {
     protected List<Node> arguments;
     protected TreePath treePath;
 
-    public MethodInvocationNode(MethodInvocationTree tree,
-            MethodAccessNode target, List<Node> arguments, TreePath treePath) {
+    public MethodInvocationNode(
+            MethodInvocationTree tree,
+            MethodAccessNode target,
+            List<Node> arguments,
+            TreePath treePath) {
         super(tree != null ? InternalUtils.typeOf(tree) : target.getMethod().getReturnType());
         this.tree = tree;
         this.target = target;
@@ -50,8 +53,7 @@ public class MethodInvocationNode extends Node {
         }
     }
 
-    public MethodInvocationNode(MethodAccessNode target, List<Node> arguments,
-            TreePath treePath) {
+    public MethodInvocationNode(MethodAccessNode target, List<Node> arguments, TreePath treePath) {
         this(null, target, arguments, treePath);
     }
 
@@ -105,8 +107,7 @@ public class MethodInvocationNode extends Node {
         }
         MethodInvocationNode other = (MethodInvocationNode) obj;
 
-        return getTarget().equals(other.getTarget())
-                && getArguments().equals(other.getArguments());
+        return getTarget().equals(other.getTarget()) && getArguments().equals(other.getArguments());
     }
 
     @Override

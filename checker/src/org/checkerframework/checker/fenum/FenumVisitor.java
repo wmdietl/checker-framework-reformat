@@ -32,7 +32,7 @@ public class FenumVisitor extends BaseTypeVisitor<FenumAnnotatedTypeFactory> {
             AnnotatedTypeMirror lhs = atypeFactory.getAnnotatedType(node.getLeftOperand());
             AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(node.getRightOperand());
             if (!(atypeFactory.getTypeHierarchy().isSubtype(lhs, rhs)
-                  || atypeFactory.getTypeHierarchy().isSubtype(rhs, lhs))) {
+                    || atypeFactory.getTypeHierarchy().isSubtype(rhs, lhs))) {
                 checker.report(Result.failure("binary.type.incompatible", lhs, rhs), node);
             }
         }
@@ -49,16 +49,16 @@ public class FenumVisitor extends BaseTypeVisitor<FenumAnnotatedTypeFactory> {
             if (realCaseExpr != null) {
                 AnnotatedTypeMirror caseType = atypeFactory.getAnnotatedType(realCaseExpr);
 
-                this.commonAssignmentCheck(exprType, caseType, caseExpr,
-                        "switch.type.incompatible");
+                this.commonAssignmentCheck(
+                        exprType, caseType, caseExpr, "switch.type.incompatible");
             }
         }
         return super.visitSwitch(node, p);
     }
 
     @Override
-    protected boolean checkConstructorInvocation(AnnotatedDeclaredType dt,
-            AnnotatedExecutableType constructor, Tree src) {
+    protected boolean checkConstructorInvocation(
+            AnnotatedDeclaredType dt, AnnotatedExecutableType constructor, Tree src) {
         // Ignore the default annotation on the constructor
         return true;
     }
@@ -71,14 +71,12 @@ public class FenumVisitor extends BaseTypeVisitor<FenumAnnotatedTypeFactory> {
     // TODO: should we require a match between switch expression and cases?
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType,
-                             AnnotatedDeclaredType useType,
-                             Tree tree) {
+    public boolean isValidUse(
+            AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType, Tree tree) {
         // The checker calls this method to compare the annotation used in a
         // type to the modifier it adds to the class declaration. As our default
         // modifier is Unqualified, this results in an error when a non-subtype
         // is used. Can we use FenumTop as default instead?
         return true;
     }
-
 }

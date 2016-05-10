@@ -26,13 +26,12 @@ import org.checkerframework.framework.qual.SubtypeOf;
  * implemented.
  */
 
-
 // This is a type qualifier because of a checker framework limitation (Issue 383), but its
 // hierarchy is ignored. Once the stub parser gets updated to read non-type-qualifers
 // annotations on stub files, this annotation won't be a type qualifier anymore.
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE })
+@Target({ElementType.TYPE_USE})
 @SubtypeOf({NonLeaked.class})
 public @interface LeakedToResult {}

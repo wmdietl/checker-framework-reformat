@@ -56,13 +56,21 @@ import org.checkerframework.framework.qual.TypeUseLocation;
 @DefaultQualifierInHierarchy
 @DefaultFor({TypeUseLocation.EXCEPTION_PARAMETER, TypeUseLocation.UPPER_BOUND})
 @DefaultInUncheckedCodeFor({TypeUseLocation.PARAMETER})
-@ImplicitFor(types = { TypeKind.BOOLEAN, TypeKind.BYTE,
-                       TypeKind.CHAR, TypeKind.DOUBLE,
-                       TypeKind.FLOAT, TypeKind.INT,
-                       TypeKind.LONG, TypeKind.SHORT },
-             typeNames = { java.lang.String.class })
+@ImplicitFor(
+    types = {
+        TypeKind.BOOLEAN,
+        TypeKind.BYTE,
+        TypeKind.CHAR,
+        TypeKind.DOUBLE,
+        TypeKind.FLOAT,
+        TypeKind.INT,
+        TypeKind.LONG,
+        TypeKind.SHORT
+    },
+    typeNames = {java.lang.String.class}
+)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface GuardedBy {
     /**
      * The Java value expressions that need to be held.

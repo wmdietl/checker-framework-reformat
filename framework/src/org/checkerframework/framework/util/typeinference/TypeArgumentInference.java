@@ -48,14 +48,16 @@ public interface TypeArgumentInference {
      * two uses of an AnnotatedTypeVariable may be uses of the same declaration but are not .equals to each other.
      *
      */
-    public Map<TypeVariable, AnnotatedTypeMirror> inferTypeArgs(final AnnotatedTypeFactory typeFactory,
-                                                                final ExpressionTree invocation,
-                                                                final ExecutableElement methodElem,
-                                                                final AnnotatedExecutableType methodType);
+    public Map<TypeVariable, AnnotatedTypeMirror> inferTypeArgs(
+            final AnnotatedTypeFactory typeFactory,
+            final ExpressionTree invocation,
+            final ExecutableElement methodElem,
+            final AnnotatedExecutableType methodType);
 
-    public void adaptMethodType(final AnnotatedTypeFactory typeFactory,
-                                final ExpressionTree invocation,
-                                final AnnotatedExecutableType methodType);
+    public void adaptMethodType(
+            final AnnotatedTypeFactory typeFactory,
+            final ExpressionTree invocation,
+            final AnnotatedExecutableType methodType);
     // TODO: THIS IS A BIG VIOLATION OF Single Responsibility and SHOULD BE FIXED, IT IS SOLELY HERE
     // TODO: AS A TEMPORARY KLUDGE BEFORE A RELEASE/SPARTA ENGAGEMENT
 }

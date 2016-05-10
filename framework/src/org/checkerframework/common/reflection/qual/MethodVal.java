@@ -20,9 +20,9 @@ import org.checkerframework.framework.qual.SubtypeOf;
  *
  * @checker_framework.manual #methodval-and-classval-checkers MethodVal Checker
  */
-@SubtypeOf({ UnknownMethod.class })
+@SubtypeOf({UnknownMethod.class})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
 public @interface MethodVal {
     /** The <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-13.html#jls-13.1">binary name</a>
      * of the class that declares this method. */
@@ -35,4 +35,3 @@ public @interface MethodVal {
     /** The number of parameters to the method. */
     int[] params();
 }
-

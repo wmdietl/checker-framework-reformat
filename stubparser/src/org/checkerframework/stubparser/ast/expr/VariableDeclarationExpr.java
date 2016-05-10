@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -42,8 +42,7 @@ public final class VariableDeclarationExpr extends Expression {
 
     private List<VariableDeclarator> vars;
 
-    public VariableDeclarationExpr() {
-    }
+    public VariableDeclarationExpr() {}
 
     public VariableDeclarationExpr(Type type, List<VariableDeclarator> vars) {
         this.type = type;
@@ -56,7 +55,15 @@ public final class VariableDeclarationExpr extends Expression {
         this.vars = vars;
     }
 
-    public VariableDeclarationExpr(int beginLine, int beginColumn, int endLine, int endColumn, int modifiers, List<AnnotationExpr> annotations, Type type, List<VariableDeclarator> vars) {
+    public VariableDeclarationExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            Type type,
+            List<VariableDeclarator> vars) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.modifiers = modifiers;
         this.annotations = annotations;
@@ -80,7 +87,7 @@ public final class VariableDeclarationExpr extends Expression {
 
     /**
      * Return the modifiers of this variable declaration.
-     * 
+     *
      * @see ModifierSet
      * @return modifiers
      */

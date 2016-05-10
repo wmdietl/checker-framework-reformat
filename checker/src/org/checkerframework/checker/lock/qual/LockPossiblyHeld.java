@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 @DefaultQualifierInHierarchy
 @DefaultFor({TypeUseLocation.LOWER_BOUND})
 @DefaultQualifierInHierarchyInUncheckedCode
-@DefaultInUncheckedCodeFor({ TypeUseLocation.PARAMETER, TypeUseLocation.LOWER_BOUND })
+@DefaultInUncheckedCodeFor({TypeUseLocation.PARAMETER, TypeUseLocation.LOWER_BOUND})
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
 public @interface LockPossiblyHeld {}

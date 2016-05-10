@@ -26,7 +26,8 @@ public class SynchronizedNode extends Node {
     protected Node expression;
     protected boolean startOfBlock;
 
-    public SynchronizedNode(/*@Nullable*/ Tree tree, Node expression, boolean startOfBlock, Types types) {
+    public SynchronizedNode(
+            /*@Nullable*/ Tree tree, Node expression, boolean startOfBlock, Types types) {
         super(types.getNoType(TypeKind.NONE));
         this.tree = tree;
         this.expression = expression;

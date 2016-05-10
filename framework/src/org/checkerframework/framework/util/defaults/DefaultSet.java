@@ -13,12 +13,12 @@ import java.util.TreeSet;
 class DefaultSet extends TreeSet<Default> {
 
     private static final Comparator<Default> comparator =
-        new Comparator<Default>() {
-            @Override
-            public int compare(Default d1, Default d2) {
-                return d1.compareTo(d2);
-            }
-        };
+            new Comparator<Default>() {
+                @Override
+                public int compare(Default d1, Default d2) {
+                    return d1.compareTo(d2);
+                }
+            };
 
     public DefaultSet() {
         super(comparator);

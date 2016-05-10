@@ -40,8 +40,7 @@ import javax.lang.model.util.Types;
  * @author Stefan Heule
  *
  */
-public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
-        AbstractValue<V> {
+public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements AbstractValue<V> {
 
     /**
      * The analysis class this store belongs to.
@@ -55,10 +54,9 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      */
     protected final AnnotatedTypeMirror type;
 
-    public CFAbstractValue(CFAbstractAnalysis<V, ?, ?> analysis,
-            AnnotatedTypeMirror type) {
-        assert AnnotatedTypes.isValidType(analysis.qualifierHierarchy, type) : "Encountered invalid type: "
-                + type.toString(true);
+    public CFAbstractValue(CFAbstractAnalysis<V, ?, ?> analysis, AnnotatedTypeMirror type) {
+        assert AnnotatedTypes.isValidType(analysis.qualifierHierarchy, type)
+                : "Encountered invalid type: " + type.toString(true);
         this.analysis = analysis;
         this.type = type;
         this.typeHierarchy = analysis.getTypeHierarchy();
@@ -81,21 +79,21 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
 
         GenericAnnotatedTypeFactory<V, ?, ?, ?> factory = analysis.getTypeFactory();
         ProcessingEnvironment processingEnv = factory.getProcessingEnv();
-        AnnotatedTypeMirror lubAnnotatedType = AnnotatedTypes.leastUpperBound(processingEnv, factory,
-                type, otherType);
+        AnnotatedTypeMirror lubAnnotatedType =
+                AnnotatedTypes.leastUpperBound(processingEnv, factory, type, otherType);
 
         return analysis.createAbstractValue(lubAnnotatedType);
     }
 
-    private static void copyArrayComponentAnnotations(AnnotatedArrayType source,
-            AnnotatedArrayType dest) {
+    private static void copyArrayComponentAnnotations(
+            AnnotatedArrayType source, AnnotatedArrayType dest) {
         AnnotatedTypeMirror destComp = dest.getComponentType();
         AnnotatedTypeMirror sourceComp = source.getComponentType();
         destComp.addAnnotations(sourceComp.getAnnotations());
         if (sourceComp instanceof AnnotatedArrayType) {
             assert dest instanceof AnnotatedArrayType;
-            copyArrayComponentAnnotations((AnnotatedArrayType) sourceComp,
-                    (AnnotatedArrayType) destComp);
+            copyArrayComponentAnnotations(
+                    (AnnotatedArrayType) sourceComp, (AnnotatedArrayType) destComp);
         }
     }
 
@@ -103,17 +101,14 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      * Returns the annotations on the upper bound of type {@code t}.
      */
     //TODO_JB: INTERSECTIONS AREN'T TAKEN CARE OF
-    private static Collection<AnnotationMirror> getUpperBound(
-            AnnotatedTypeMirror t) {
+    private static Collection<AnnotationMirror> getUpperBound(AnnotatedTypeMirror t) {
         if (t.getKind() == TypeKind.WILDCARD) {
-            AnnotatedTypeMirror extendsBound = ((AnnotatedWildcardType) t)
-                    .getExtendsBound();
+            AnnotatedTypeMirror extendsBound = ((AnnotatedWildcardType) t).getExtendsBound();
             if (extendsBound != null) {
                 return extendsBound.getEffectiveAnnotations();
             }
         } else if (t.getKind() == TypeKind.TYPEVAR) {
-            AnnotatedTypeMirror upperBound = ((AnnotatedTypeVariable) t)
-                    .getUpperBound();
+            AnnotatedTypeMirror upperBound = ((AnnotatedTypeVariable) t).getUpperBound();
             if (upperBound != null) {
                 return upperBound.getEffectiveAnnotations();
             }
@@ -158,12 +153,17 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
         }
         // Create new full type (with the same underlying type), and then add
         // the appropriate annotations.
-        TypeMirror underlyingType = InternalUtils.greatestLowerBound(analysis
-                .getEnv(), getType().getUnderlyingType(), other.getType()
-                .getUnderlyingType());
+        TypeMirror underlyingType =
+                InternalUtils.greatestLowerBound(
+                        analysis.getEnv(),
+                        getType().getUnderlyingType(),
+                        other.getType().getUnderlyingType());
 
-        underlyingType = handleTypeVarIntersections(
-                getType().getUnderlyingType(), other.getType().getUnderlyingType(), underlyingType);
+        underlyingType =
+                handleTypeVarIntersections(
+                        getType().getUnderlyingType(),
+                        other.getType().getUnderlyingType(),
+                        underlyingType);
 
         if (underlyingType.getKind() == TypeKind.ERROR
                 || underlyingType.getKind() == TypeKind.NONE) {
@@ -174,12 +174,16 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
                 underlyingType = this.getType().getUnderlyingType();
             }
         }
-        AnnotatedTypeMirror result = AnnotatedTypeMirror.createType(
-                underlyingType, analysis.getTypeFactory(), false);
+        AnnotatedTypeMirror result =
+                AnnotatedTypeMirror.createType(underlyingType, analysis.getTypeFactory(), false);
         AnnotatedTypeMirror otherType = other.getType();
 
-        if (mostSpecific(analysis.getTypeFactory(), getType(), otherType,
-                backup == null ? null : backup.getType(), result)) {
+        if (mostSpecific(
+                analysis.getTypeFactory(),
+                getType(),
+                otherType,
+                backup == null ? null : backup.getType(),
+                result)) {
             return analysis.createAbstractValue(result);
         } else {
             return backup;
@@ -203,12 +207,13 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      * Since t must be a type T, it is useful just to use T itself as the mostSpecific type,
      * so we will use it for now.
      */
-    private static TypeMirror handleTypeVarIntersections(TypeMirror thisType, TypeMirror other, TypeMirror glbType) {
+    private static TypeMirror handleTypeVarIntersections(
+            TypeMirror thisType, TypeMirror other, TypeMirror glbType) {
 
         TypeMirror typeVar = null;
-        if (  thisType.getKind() == TypeKind.TYPEVAR ) {
+        if (thisType.getKind() == TypeKind.TYPEVAR) {
             typeVar = thisType;
-        } else if ( other.getKind() == TypeKind.TYPEVAR ) {
+        } else if (other.getKind() == TypeKind.TYPEVAR) {
             typeVar = other;
         }
 
@@ -229,27 +234,34 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      *
      * @return true iff result could be set to a uniquely most specific type
      */
-    private static boolean mostSpecific(AnnotatedTypeFactory typeFactory,
-                                        AnnotatedTypeMirror a, AnnotatedTypeMirror b,
-                                        AnnotatedTypeMirror backup, AnnotatedTypeMirror result) {
-        boolean canContainEmpty = QualifierHierarchy.canHaveEmptyAnnotationSet(a)
-                && QualifierHierarchy.canHaveEmptyAnnotationSet(b)
-                && QualifierHierarchy.canHaveEmptyAnnotationSet(result);
+    private static boolean mostSpecific(
+            AnnotatedTypeFactory typeFactory,
+            AnnotatedTypeMirror a,
+            AnnotatedTypeMirror b,
+            AnnotatedTypeMirror backup,
+            AnnotatedTypeMirror result) {
+        boolean canContainEmpty =
+                QualifierHierarchy.canHaveEmptyAnnotationSet(a)
+                        && QualifierHierarchy.canHaveEmptyAnnotationSet(b)
+                        && QualifierHierarchy.canHaveEmptyAnnotationSet(result);
 
         final TypeKind resultKind = result.getKind();
-        if (resultKind == TypeKind.TYPEVAR ) {
-            return mostSpecificTypeVariable(typeFactory, a, b, backup, (AnnotatedTypeVariable) result);
+        if (resultKind == TypeKind.TYPEVAR) {
+            return mostSpecificTypeVariable(
+                    typeFactory, a, b, backup, (AnnotatedTypeVariable) result);
 
         } else {
             final QualifierHierarchy qualHierarchy = typeFactory.getQualifierHierarchy();
             for (AnnotationMirror top : qualHierarchy.getTopAnnotations()) {
                 AnnotationMirror aAnno =
-                        canContainEmpty ? a.getAnnotationInHierarchy(top)
-                                        : a.getEffectiveAnnotationInHierarchy(top);
+                        canContainEmpty
+                                ? a.getAnnotationInHierarchy(top)
+                                : a.getEffectiveAnnotationInHierarchy(top);
 
                 AnnotationMirror bAnno =
-                        canContainEmpty ? b.getAnnotationInHierarchy(top)
-                                        : b.getEffectiveAnnotationInHierarchy(top);
+                        canContainEmpty
+                                ? b.getAnnotationInHierarchy(top)
+                                : b.getEffectiveAnnotationInHierarchy(top);
 
                 if (qualHierarchy.isSubtype(a, b, aAnno, bAnno)) {
                     if (aAnno == null) {
@@ -278,8 +290,7 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
                 Collection<AnnotationMirror> extendsBound2 = getUpperBound(b);
                 wResult.addAnnotations(mostSpecific(qualHierarchy, extendsBound1, extendsBound2));
 
-            } else if (a.getKind() == TypeKind.ARRAY
-                    && b.getKind() == TypeKind.ARRAY) {
+            } else if (a.getKind() == TypeKind.ARRAY && b.getKind() == TypeKind.ARRAY) {
                 AnnotatedArrayType aLubAnnotatedType = (AnnotatedArrayType) result;
                 // for arrays, we have:
                 // ms(@A1 A @A2[],@B1 A @B2[]) = ms(@A1,@B1) A
@@ -287,8 +298,11 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
                 AnnotatedArrayType aa = (AnnotatedArrayType) a;
                 AnnotatedArrayType bb = (AnnotatedArrayType) b;
 
-                return mostSpecific(typeFactory, aa.getComponentType(),
-                        bb.getComponentType(), null,
+                return mostSpecific(
+                        typeFactory,
+                        aa.getComponentType(),
+                        bb.getComponentType(),
+                        null,
                         aLubAnnotatedType.getComponentType());
             } else if (resultKind == TypeKind.ARRAY) {
                 AnnotatedArrayType aLubAnnotatedType = (AnnotatedArrayType) result;
@@ -309,25 +323,21 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      * Returns the set of annotations that is most specific from 'a' and 'b'.
      */
     private static Set<AnnotationMirror> mostSpecific(
-            QualifierHierarchy qualHierarchy, Collection<AnnotationMirror> a,
+            QualifierHierarchy qualHierarchy,
+            Collection<AnnotationMirror> a,
             Collection<AnnotationMirror> b) {
         Set<AnnotationMirror> result = AnnotationUtils.createAnnotationSet();
         for (AnnotationMirror top : qualHierarchy.getTopAnnotations()) {
-            AnnotationMirror aAnno = qualHierarchy.findCorrespondingAnnotation(
-                    top, a);
-            AnnotationMirror bAnno = qualHierarchy.findCorrespondingAnnotation(
-                    top, b);
-            assert aAnno != null : "Did not find an annotation for '" + top
-                    + "' in '" + a + "'.";
-            assert bAnno != null : "Did not find an annotation for '" + top
-                    + "' in '" + b + "'.";
+            AnnotationMirror aAnno = qualHierarchy.findCorrespondingAnnotation(top, a);
+            AnnotationMirror bAnno = qualHierarchy.findCorrespondingAnnotation(top, b);
+            assert aAnno != null : "Did not find an annotation for '" + top + "' in '" + a + "'.";
+            assert bAnno != null : "Did not find an annotation for '" + top + "' in '" + b + "'.";
             if (qualHierarchy.isSubtype(aAnno, bAnno)) {
                 result.add(aAnno);
             } else if (qualHierarchy.isSubtype(bAnno, aAnno)) {
                 result.add(bAnno);
             } else {
-                assert false : "Neither of the two values is more specific: "
-                        + a + ", " + b + ".";
+                assert false : "Neither of the two values is more specific: " + a + ", " + b + ".";
             }
         }
         return result;
@@ -338,37 +348,42 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      * @return true if the result was annotated in all hierarchy, false if the result could not be
      *         annotated in one or more annotation hierarchies
      */
-    public static boolean mostSpecificTypeVariable(final AnnotatedTypeFactory typeFactory,
-                                                   final AnnotatedTypeMirror type1, final AnnotatedTypeMirror type2,
-                                                   final AnnotatedTypeMirror backup,
-                                                   final AnnotatedTypeVariable result) {
+    public static boolean mostSpecificTypeVariable(
+            final AnnotatedTypeFactory typeFactory,
+            final AnnotatedTypeMirror type1,
+            final AnnotatedTypeMirror type2,
+            final AnnotatedTypeMirror backup,
+            final AnnotatedTypeVariable result) {
         final Types types = typeFactory.getProcessingEnv().getTypeUtils();
         final TypeHierarchy typeHierarchy = typeFactory.getTypeHierarchy();
         final QualifierHierarchy qualifierHierarchy = typeFactory.getQualifierHierarchy();
 
         final AnnotatedTypeVariable declaredType =
-           (AnnotatedTypeVariable) typeFactory.getAnnotatedType(result.getUnderlyingType().asElement());
+                (AnnotatedTypeVariable)
+                        typeFactory.getAnnotatedType(result.getUnderlyingType().asElement());
         AnnotatedTypeMerger.merge(declaredType, result);
-
 
         // see issue422: Intersections can happen when we have a
         // if ( T instanceof String && T instanceof Integer )
         AnnotatedTypeMirror fixedType1;
         if (type1.getKind() == TypeKind.INTERSECTION) {
-            fixedType1  = result.deepCopy();
-            fixedType1.addAnnotations(AnnotatedTypes.glbOfBounds((AnnotatedIntersectionType) type1, qualifierHierarchy));
+            fixedType1 = result.deepCopy();
+            fixedType1.addAnnotations(
+                    AnnotatedTypes.glbOfBounds(
+                            (AnnotatedIntersectionType) type1, qualifierHierarchy));
         } else {
             fixedType1 = type1;
         }
 
         AnnotatedTypeMirror fixedType2;
         if (type2.getKind() == TypeKind.INTERSECTION) {
-            fixedType2  = result.deepCopy();
-            fixedType2.addAnnotations(AnnotatedTypes.glbOfBounds((AnnotatedIntersectionType) type2, qualifierHierarchy));
+            fixedType2 = result.deepCopy();
+            fixedType2.addAnnotations(
+                    AnnotatedTypes.glbOfBounds(
+                            (AnnotatedIntersectionType) type2, qualifierHierarchy));
         } else {
             fixedType2 = type2;
         }
-
 
         boolean annotated = true;
         for (final AnnotationMirror top : qualifierHierarchy.getTopAnnotations()) {
@@ -395,21 +410,26 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      * a template.  Note, if mostSpecific is a type variable, wildcard, or intersection
      * the annotation may come from the bounds of that type.
      */
-    private static void annotateTypeVarResult(final QualifierHierarchy qualifierHierarchy,
-                                              final Types types,
-                                              final AnnotatedTypeVariable result,
-                                              final AnnotatedTypeMirror mostSpecific,
-                                              final AnnotationMirror top) {
-        final AnnotatedTypeMirror source = findSourceAtm(types, qualifierHierarchy, result, mostSpecific, top);
+    private static void annotateTypeVarResult(
+            final QualifierHierarchy qualifierHierarchy,
+            final Types types,
+            final AnnotatedTypeVariable result,
+            final AnnotatedTypeMirror mostSpecific,
+            final AnnotationMirror top) {
+        final AnnotatedTypeMirror source =
+                findSourceAtm(types, qualifierHierarchy, result, mostSpecific, top);
         final AnnotationMirror sourcePrimaryAnno = source.getAnnotationInHierarchy(top);
 
         // Indicates that source is a non-primary-annotated type variable declared by the same type parameter of result
         // in this case, source is equivalent to the declared type of that type variable and we copy its bounds
-        if (types.isSameType(source.getUnderlyingType(), result.getUnderlyingType()) && sourcePrimaryAnno == null) {
+        if (types.isSameType(source.getUnderlyingType(), result.getUnderlyingType())
+                && sourcePrimaryAnno == null) {
             final AnnotatedTypeVariable resultDecl = (AnnotatedTypeVariable) source;
 
-            final AnnotationMirror declUpperBoundAnno = resultDecl.getUpperBound().getAnnotationInHierarchy(top);
-            final AnnotationMirror declLowerBoundAnno = resultDecl.getLowerBound().getAnnotationInHierarchy(top);
+            final AnnotationMirror declUpperBoundAnno =
+                    resultDecl.getUpperBound().getAnnotationInHierarchy(top);
+            final AnnotationMirror declLowerBoundAnno =
+                    resultDecl.getLowerBound().getAnnotationInHierarchy(top);
 
             if (declUpperBoundAnno != null) {
                 result.getUpperBound().addAnnotation(declUpperBoundAnno);
@@ -436,14 +456,15 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      *
      * @return the annotated type mirror that contains the upper bound primary annotation of toSearch
      */
-    private static AnnotatedTypeMirror findSourceAtm(final Types types,
-                                                     final QualifierHierarchy qualifierHierarchy,
-                                                     final AnnotatedTypeVariable result,
-                                                     final AnnotatedTypeMirror toSearch,
-                                                     final AnnotationMirror top) {
+    private static AnnotatedTypeMirror findSourceAtm(
+            final Types types,
+            final QualifierHierarchy qualifierHierarchy,
+            final AnnotatedTypeVariable result,
+            final AnnotatedTypeMirror toSearch,
+            final AnnotationMirror top) {
         AnnotatedTypeMirror source = toSearch;
-        while (source.getAnnotationInHierarchy(top) == null &&
-                !types.isSameType(result.getUnderlyingType(), source.getUnderlyingType())) {
+        while (source.getAnnotationInHierarchy(top) == null
+                && !types.isSameType(result.getUnderlyingType(), source.getUnderlyingType())) {
 
             switch (source.getKind()) {
                 case TYPEVAR:
@@ -455,21 +476,30 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
                     break;
 
                 case INTERSECTION:
-                    source = mostSpecificSupertype(qualifierHierarchy, (AnnotatedIntersectionType) source, top);
+                    source =
+                            mostSpecificSupertype(
+                                    qualifierHierarchy, (AnnotatedIntersectionType) source, top);
 
                     if (source == null) {
-                        ErrorReporter.errorAbort("AnnotatedIntersectionType has no annotation in hierarchy"
-                                + "on any of its supertypes!\n"
-                                + "intersectionType=" + source);
+                        ErrorReporter.errorAbort(
+                                "AnnotatedIntersectionType has no annotation in hierarchy"
+                                        + "on any of its supertypes!\n"
+                                        + "intersectionType="
+                                        + source);
                     }
                     break;
 
                 default:
-                    ErrorReporter.errorAbort("Unexpected AnnotatedTypeMirror with no primary annotation!"
-                            + "result="   + result
-                            + "toSearch=" + toSearch
-                            + "top="      + top
-                            + "source=" + source);
+                    ErrorReporter.errorAbort(
+                            "Unexpected AnnotatedTypeMirror with no primary annotation!"
+                                    + "result="
+                                    + result
+                                    + "toSearch="
+                                    + toSearch
+                                    + "top="
+                                    + top
+                                    + "source="
+                                    + source);
             }
         }
 
@@ -480,14 +510,16 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
      * For the given intersection type in the hierarchy of top, find the direct supertype that has the
      * most specific annotation.
      */
-    private static AnnotatedTypeMirror mostSpecificSupertype(final QualifierHierarchy qualifierHierarchy,
-                                                             final AnnotatedIntersectionType isect,
-                                                             final AnnotationMirror top) {
+    private static AnnotatedTypeMirror mostSpecificSupertype(
+            final QualifierHierarchy qualifierHierarchy,
+            final AnnotatedIntersectionType isect,
+            final AnnotationMirror top) {
         AnnotatedTypeMirror result = null;
         AnnotationMirror anno = null;
         for (final AnnotatedTypeMirror supertype : isect.directSuperTypes()) {
             final AnnotationMirror superAnno = supertype.getAnnotationInHierarchy(top);
-            if (superAnno != null && (anno == null || qualifierHierarchy.isSubtype(superAnno, anno))) {
+            if (superAnno != null
+                    && (anno == null || qualifierHierarchy.isSubtype(superAnno, anno))) {
                 anno = superAnno;
                 result = supertype;
             }
@@ -520,5 +552,4 @@ public abstract class CFAbstractValue<V extends CFAbstractValue<V>> implements
     public String toString() {
         return getType().toString();
     }
-
 }

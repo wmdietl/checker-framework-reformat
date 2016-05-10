@@ -35,6 +35,5 @@ import org.checkerframework.framework.source.SupportedOptions;
  * @checker_framework.manual #propkey-checker Property File Checker
  */
 // Subclasses need something similar to this:
-@SupportedOptions( {"propfiles", "bundlenames"} )
-public class PropertyKeyChecker extends BaseTypeChecker {
-}
+@SupportedOptions({"propfiles", "bundlenames"})
+public class PropertyKeyChecker extends BaseTypeChecker {}

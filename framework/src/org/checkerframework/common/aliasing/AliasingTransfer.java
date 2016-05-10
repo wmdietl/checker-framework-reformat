@@ -48,13 +48,11 @@ import com.sun.source.tree.Tree.Kind;
  * argument in a method call or constructor invocation, and the method's return
  * value is discarded.
  */
-
 public class AliasingTransfer extends CFTransfer {
 
     private AnnotatedTypeFactory factory;
 
-    public AliasingTransfer(
-            CFAbstractAnalysis<CFValue, CFStore, CFTransfer> analysis) {
+    public AliasingTransfer(CFAbstractAnalysis<CFValue, CFStore, CFTransfer> analysis) {
         super(analysis);
         factory = analysis.getTypeFactory();
     }
@@ -64,8 +62,8 @@ public class AliasingTransfer extends CFTransfer {
      * {@literal @}Unique and is a method invocation or a new class instance.
      */
     @Override
-    public TransferResult<CFValue, CFStore> visitAssignment(AssignmentNode n,
-            TransferInput<CFValue, CFStore> in) {
+    public TransferResult<CFValue, CFStore> visitAssignment(
+            AssignmentNode n, TransferInput<CFValue, CFStore> in) {
         Node rhs = n.getExpression();
         Tree treeRhs = rhs.getTree();
         AnnotatedTypeMirror rhsType = factory.getAnnotatedType(treeRhs);
@@ -91,8 +89,8 @@ public class AliasingTransfer extends CFTransfer {
      * {@literal @}LeakedToResult, <code>visitMethodInvocation()</code> handles it.
      */
     @Override
-    protected void processPostconditions(MethodInvocationNode n, CFStore store,
-            ExecutableElement methodElement, Tree tree) {
+    protected void processPostconditions(
+            MethodInvocationNode n, CFStore store, ExecutableElement methodElement, Tree tree) {
         super.processPostconditions(n, store, methodElement, tree);
         if (TreeUtils.isEnumSuper(n.getTree())) {
             // Skipping the init() method for enums.
@@ -100,10 +98,13 @@ public class AliasingTransfer extends CFTransfer {
         }
         List<Node> args = n.getArguments();
         List<? extends VariableElement> params = methodElement.getParameters();
-        assert (args.size() == params.size()) : "Number of arguments in " +
-                "the method call " + n.toString() + " is different from the" +
-                " number of parameters for the method declaration: "
-                + methodElement.getSimpleName().toString();
+        assert (args.size() == params.size())
+                : "Number of arguments in "
+                        + "the method call "
+                        + n.toString()
+                        + " is different from the"
+                        + " number of parameters for the method declaration: "
+                        + methodElement.getSimpleName().toString();
 
         AnnotatedExecutableType annotatedType = factory.getAnnotatedType(methodElement);
         List<AnnotatedTypeMirror> paramTypes = annotatedType.getParameterTypes();
@@ -119,7 +120,8 @@ public class AliasingTransfer extends CFTransfer {
         // Now, doing the same as above for the receiver parameter
         Node receiver = n.getTarget().getReceiver();
         AnnotatedDeclaredType receiverType = annotatedType.getReceiverType();
-        if (receiverType != null && !receiverType.hasAnnotation(LeakedToResult.class)
+        if (receiverType != null
+                && !receiverType.hasAnnotation(LeakedToResult.class)
                 && !receiverType.hasAnnotation(NonLeaked.class)) {
             store.clearValue(FlowExpressions.internalReprOf(factory, receiver));
         }
@@ -141,12 +143,14 @@ public class AliasingTransfer extends CFTransfer {
 
             ExecutableElement methodElement = TreeUtils.elementFromUse(n.getTree());
             List<Node> args = n.getArguments();
-            List<? extends VariableElement> params = methodElement
-                    .getParameters();
-            assert (args.size() == params.size()) : "Number of arguments in " +
-                    "the method call " + n.toString() + " is different from the" +
-                    " number of parameters for the method declaration: "
-                    + methodElement.getSimpleName().toString();
+            List<? extends VariableElement> params = methodElement.getParameters();
+            assert (args.size() == params.size())
+                    : "Number of arguments in "
+                            + "the method call "
+                            + n.toString()
+                            + " is different from the"
+                            + " number of parameters for the method declaration: "
+                            + methodElement.getSimpleName().toString();
             CFStore store = in.getRegularStore();
 
             for (int i = 0; i < args.size(); i++) {
@@ -155,8 +159,7 @@ public class AliasingTransfer extends CFTransfer {
                 if (factory.getAnnotatedType(param).hasAnnotation(LeakedToResult.class)) {
                     // If argument can leak to result, and parent is not a
                     // single statement, remove that node from store.
-                    store.clearValue(FlowExpressions.internalReprOf(factory,
-                            arg));
+                    store.clearValue(FlowExpressions.internalReprOf(factory, arg));
                 }
             }
 
@@ -167,7 +170,6 @@ public class AliasingTransfer extends CFTransfer {
             if (receiverType != null && receiverType.hasAnnotation(LeakedToResult.class)) {
                 store.clearValue(FlowExpressions.internalReprOf(factory, receiver));
             }
-
         }
         // If parent is a statement, processPostconditions will handle the
         // pseudo-assignments.

@@ -42,13 +42,17 @@ public class ReturnNode extends Node {
         result.setAssignmentContext(new MethodReturnContext(methodTree));
     }
 
-    public ReturnNode(ReturnTree t, /*@Nullable*/ Node result, Types types, LambdaExpressionTree lambda, MethodSymbol methodSymbol) {
+    public ReturnNode(
+            ReturnTree t, /*@Nullable*/
+            Node result,
+            Types types,
+            LambdaExpressionTree lambda,
+            MethodSymbol methodSymbol) {
         super(types.getNoType(TypeKind.NONE));
         this.result = result;
         tree = t;
         result.setAssignmentContext(new LambdaReturnContext(methodSymbol));
     }
-
 
     public Node getResult() {
         return result;
@@ -97,5 +101,4 @@ public class ReturnNode extends Node {
             return Collections.singletonList(result);
         }
     }
-
 }

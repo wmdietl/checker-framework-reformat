@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -32,8 +32,7 @@ public final class ReturnStmt extends Statement {
 
     private Expression expr;
 
-    public ReturnStmt() {
-    }
+    public ReturnStmt() {}
 
     public ReturnStmt(Expression expr) {
         this.expr = expr;

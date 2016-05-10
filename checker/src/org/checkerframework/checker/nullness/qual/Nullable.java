@@ -27,10 +27,12 @@ import java.lang.annotation.Target;
  * @checker_framework.manual #nullness-checker Nullness Checker
  */
 @SubtypeOf({})
-@ImplicitFor(literals = { LiteralKind.NULL }, typeNames = { java.lang.Void.class })
-@DefaultInUncheckedCodeFor({ TypeUseLocation.RETURN, TypeUseLocation.UPPER_BOUND })
+@ImplicitFor(
+    literals = {LiteralKind.NULL},
+    typeNames = {java.lang.Void.class}
+)
+@DefaultInUncheckedCodeFor({TypeUseLocation.RETURN, TypeUseLocation.UPPER_BOUND})
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-public @interface Nullable {
-}
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+public @interface Nullable {}

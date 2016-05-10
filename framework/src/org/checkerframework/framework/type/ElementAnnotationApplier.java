@@ -25,7 +25,6 @@ import com.sun.source.tree.Tree.Kind;
 import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.code.Symbol;
 
-
 /**
  * Utility methods for adding the annotations that are stored in an Element to the
  * type that represents that element (or a use of that Element).
@@ -71,38 +70,46 @@ public class ElementAnnotationApplier {
      * @param element an element that possibly contains annotations
      * @param typeFactory the typeFactory used to create the given type
      */
-    public static void apply(final AnnotatedTypeMirror type, final Element element,
-                             final AnnotatedTypeFactory typeFactory) {
-        if ( element == null ) {
+    public static void apply(
+            final AnnotatedTypeMirror type,
+            final Element element,
+            final AnnotatedTypeFactory typeFactory) {
+        if (element == null) {
             ErrorReporter.errorAbort("ElementAnnotationUtil.apply: element cannot be null");
 
-        } else if ( TypeVarUseApplier.accepts(type, element) ) {
+        } else if (TypeVarUseApplier.accepts(type, element)) {
             TypeVarUseApplier.apply(type, element, typeFactory);
 
-        } else if ( VariableApplier.accepts(type, element) ) {
+        } else if (VariableApplier.accepts(type, element)) {
             VariableApplier.apply(type, element);
 
-        } else if ( MethodApplier.accepts(type, element) ) {
+        } else if (MethodApplier.accepts(type, element)) {
             MethodApplier.apply(type, element, typeFactory);
 
-        } else if ( TypeDeclarationApplier.accepts(type, element) ) {
+        } else if (TypeDeclarationApplier.accepts(type, element)) {
             TypeDeclarationApplier.apply(type, element, typeFactory);
 
-        } else if ( ClassTypeParamApplier.accepts(type, element) ) {
+        } else if (ClassTypeParamApplier.accepts(type, element)) {
             ClassTypeParamApplier.apply((AnnotatedTypeVariable) type, element, typeFactory);
 
-        } else if ( MethodTypeParamApplier.accepts(type, element)) {
+        } else if (MethodTypeParamApplier.accepts(type, element)) {
             MethodTypeParamApplier.apply((AnnotatedTypeVariable) type, element, typeFactory);
 
-        } else if ( ParamApplier.accepts(type, element) ) {
+        } else if (ParamApplier.accepts(type, element)) {
             ParamApplier.apply(type, element, typeFactory);
 
-        } else if ( isCaptureConvertedTypeVar(element) ) {
+        } else if (isCaptureConvertedTypeVar(element)) {
             // Types resulting from capture conversion cannot have explicit annotations
 
         } else {
-            ErrorReporter.errorAbort("ElementAnnotationUtil.apply: illegal argument: " +
-                    element + " [" + element.getKind() + "]" + " with type " + type);
+            ErrorReporter.errorAbort(
+                    "ElementAnnotationUtil.apply: illegal argument: "
+                            + element
+                            + " ["
+                            + element.getKind()
+                            + "]"
+                            + " with type "
+                            + type);
         }
     }
 
@@ -111,7 +118,8 @@ public class ElementAnnotationApplier {
      * @param supertypes types representing supertype declarations of TypeElement
      * @param subtypeElement an element representing the declaration of the class which is a subtype of supertypes
      */
-    public static void annotateSupers(List<AnnotatedDeclaredType> supertypes, TypeElement subtypeElement ) {
+    public static void annotateSupers(
+            List<AnnotatedDeclaredType> supertypes, TypeElement subtypeElement) {
         SuperTypeApplier.annotateSupers(supertypes, subtypeElement);
     }
 
@@ -124,8 +132,8 @@ public class ElementAnnotationApplier {
      * @return a LambdaExpressionTree if the varEle represents a parameter in a lambda expression, otherwise
      *         null
      */
-    public static Pair<VariableTree, LambdaExpressionTree> getParamAndLambdaTree(VariableElement varEle,
-                                                                        AnnotatedTypeFactory typeFactory) {
+    public static Pair<VariableTree, LambdaExpressionTree> getParamAndLambdaTree(
+            VariableElement varEle, AnnotatedTypeFactory typeFactory) {
         VariableTree paramDecl = (VariableTree) typeFactory.declarationFromElement(varEle);
 
         if (paramDecl != null) {
@@ -146,7 +154,6 @@ public class ElementAnnotationApplier {
      */
     private static boolean isCaptureConvertedTypeVar(final Element element) {
         final Element enclosure = element.getEnclosingElement();
-        return (((Symbol)enclosure).kind == com.sun.tools.javac.code.Kinds.NIL);
+        return (((Symbol) enclosure).kind == com.sun.tools.javac.code.Kinds.NIL);
     }
-
 }

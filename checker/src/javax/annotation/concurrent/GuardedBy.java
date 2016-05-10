@@ -11,7 +11,7 @@ import org.checkerframework.framework.qual.PreconditionAnnotation;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.METHOD, ElementType.FIELD})
 @PreconditionAnnotation(qualifier = LockHeld.class)
 public @interface GuardedBy {
     /**

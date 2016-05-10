@@ -13,7 +13,8 @@ import org.checkerframework.javacutil.ErrorReporter;
  *
  * @see AnnotatedTypeScanner
  */
-public abstract class AnnotatedTypeComparer<R> extends AnnotatedTypeScanner<R, AnnotatedTypeMirror> {
+public abstract class AnnotatedTypeComparer<R>
+        extends AnnotatedTypeScanner<R, AnnotatedTypeMirror> {
     /**
      * Compares two annotated type mirrors.
      */
@@ -24,30 +25,34 @@ public abstract class AnnotatedTypeComparer<R> extends AnnotatedTypeScanner<R, A
      */
     protected abstract R combineRs(R r1, R r2);
 
-    protected R scan(Iterable<? extends AnnotatedTypeMirror> types,
-                     Iterable<? extends AnnotatedTypeMirror> p) {
+    protected R scan(
+            Iterable<? extends AnnotatedTypeMirror> types,
+            Iterable<? extends AnnotatedTypeMirror> p) {
         if (types == null) {
             return null;
         }
         R r = null;
         boolean first = true;
-        Iterator<? extends AnnotatedTypeMirror> tIter = types.iterator(),
-            pIter = p.iterator();
+        Iterator<? extends AnnotatedTypeMirror> tIter = types.iterator(), pIter = p.iterator();
         while (tIter.hasNext() && pIter.hasNext()) {
-            r = (first ? scan(tIter.next(), pIter.next())
-                 : scanAndReduce(tIter.next(), pIter.next(), r));
+            r =
+                    (first
+                            ? scan(tIter.next(), pIter.next())
+                            : scanAndReduce(tIter.next(), pIter.next(), r));
             first = false;
         }
         return r;
     }
-
 
     @Override
     protected R reduce(R r1, R r2) {
         return combineRs(r1, r2);
     }
 
-    protected R scanAndReduce(Iterable<? extends AnnotatedTypeMirror> types, Iterable<? extends AnnotatedTypeMirror> p, R r) {
+    protected R scanAndReduce(
+            Iterable<? extends AnnotatedTypeMirror> types,
+            Iterable<? extends AnnotatedTypeMirror> p,
+            R r) {
         return reduce(scan(types, p), r);
     }
 
@@ -57,8 +62,12 @@ public abstract class AnnotatedTypeComparer<R> extends AnnotatedTypeScanner<R, A
     }
 
     @Override
-    protected R scanAndReduce(Iterable<? extends AnnotatedTypeMirror> types, AnnotatedTypeMirror p, R r) {
-        ErrorReporter.errorAbort("AnnotatedTypeComparer.scanAndReduce: " + p + "is not Iterable<? extends AnnotatedTypeMirror>");
+    protected R scanAndReduce(
+            Iterable<? extends AnnotatedTypeMirror> types, AnnotatedTypeMirror p, R r) {
+        ErrorReporter.errorAbort(
+                "AnnotatedTypeComparer.scanAndReduce: "
+                        + p
+                        + "is not Iterable<? extends AnnotatedTypeMirror>");
         return null;
     }
 
@@ -70,16 +79,14 @@ public abstract class AnnotatedTypeComparer<R> extends AnnotatedTypeScanner<R, A
     @Override
     public final R visitDeclared(AnnotatedDeclaredType type, AnnotatedTypeMirror p) {
         assert p instanceof AnnotatedDeclaredType : p;
-        R r = scan(type.getTypeArguments(),
-                   ((AnnotatedDeclaredType)p).getTypeArguments());
+        R r = scan(type.getTypeArguments(), ((AnnotatedDeclaredType) p).getTypeArguments());
         return r;
     }
 
     @Override
     public final R visitArray(AnnotatedArrayType type, AnnotatedTypeMirror p) {
         assert p instanceof AnnotatedArrayType : p;
-        R r = scan(type.getComponentType(),
-                   ((AnnotatedArrayType)p).getComponentType());
+        R r = scan(type.getComponentType(), ((AnnotatedArrayType) p).getComponentType());
         return r;
     }
 
@@ -137,16 +144,14 @@ public abstract class AnnotatedTypeComparer<R> extends AnnotatedTypeScanner<R, A
     }
 
     @Override
-    public R visitIntersection(AnnotatedIntersectionType type,
-            AnnotatedTypeMirror p) {
+    public R visitIntersection(AnnotatedIntersectionType type, AnnotatedTypeMirror p) {
         assert p instanceof AnnotatedIntersectionType : p;
 
         if (visitedNodes.containsKey(type)) {
             return visitedNodes.get(type);
         }
         visitedNodes.put(type, null);
-        R r = scan(type.directSuperTypes(),
-                ((AnnotatedIntersectionType) p).directSuperTypes());
+        R r = scan(type.directSuperTypes(), ((AnnotatedIntersectionType) p).directSuperTypes());
         return r;
     }
 
@@ -157,9 +162,7 @@ public abstract class AnnotatedTypeComparer<R> extends AnnotatedTypeScanner<R, A
             return visitedNodes.get(type);
         }
         visitedNodes.put(type, null);
-        R r = scan(type.getAlternatives(),
-                ((AnnotatedUnionType) p).getAlternatives());
+        R r = scan(type.getAlternatives(), ((AnnotatedUnionType) p).getAlternatives());
         return r;
     }
-
 }

@@ -50,8 +50,9 @@ import com.sun.source.tree.Tree;
  *                           Format String Checker
  * @author Siwakorn Srisakaokul
  */
-public class I18nFormatterAnnotatedTypeFactory extends
-        GenericAnnotatedTypeFactory<CFValue, CFStore, I18nFormatterTransfer, I18nFormatterAnalysis> {
+public class I18nFormatterAnnotatedTypeFactory
+        extends GenericAnnotatedTypeFactory<
+                CFValue, CFStore, I18nFormatterTransfer, I18nFormatterAnalysis> {
 
     private final AnnotationMirror I18NFORMAT;
     private final AnnotationMirror I18NINVALIDFORMAT;
@@ -138,7 +139,8 @@ public class I18nFormatterAnnotatedTypeFactory extends
                         // are not
                         // connected to an AST node?
                         // One cannot use report, because it needs a node.
-                        System.err.println("Exception in PropertyKeyChecker.keysOfPropertyFile: " + e);
+                        System.err.println(
+                                "Exception in PropertyKeyChecker.keysOfPropertyFile: " + e);
                         e.printStackTrace();
                     }
                 }
@@ -155,8 +157,12 @@ public class I18nFormatterAnnotatedTypeFactory extends
                 for (String bundleName : namesArr) {
                     ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
                     if (bundle == null) {
-                        System.err.println("Couldn't find the resource bundle: <" + bundleName + "> for locale <"
-                                + Locale.getDefault() + ">");
+                        System.err.println(
+                                "Couldn't find the resource bundle: <"
+                                        + bundleName
+                                        + "> for locale <"
+                                        + Locale.getDefault()
+                                        + ">");
                         continue;
                     }
 
@@ -178,9 +184,7 @@ public class I18nFormatterAnnotatedTypeFactory extends
     @Override
     public TreeAnnotator createTreeAnnotator() {
         return new ListTreeAnnotator(
-                super.createTreeAnnotator(),
-                new I18nFormatterTreeAnnotator(this)
-        );
+                super.createTreeAnnotator(), new I18nFormatterTreeAnnotator(this));
     }
 
     private class I18nFormatterTreeAnnotator extends TreeAnnotator {
@@ -200,10 +204,15 @@ public class I18nFormatterAnnotatedTypeFactory extends
                 if (format != null) {
                     AnnotationMirror anno;
                     try {
-                        I18nConversionCategory[] cs = I18nFormatUtil.formatParameterCategories(format);
-                        anno = I18nFormatterAnnotatedTypeFactory.this.treeUtil.categoriesToFormatAnnotation(cs);
+                        I18nConversionCategory[] cs =
+                                I18nFormatUtil.formatParameterCategories(format);
+                        anno =
+                                I18nFormatterAnnotatedTypeFactory.this.treeUtil
+                                        .categoriesToFormatAnnotation(cs);
                     } catch (IllegalArgumentException e) {
-                        anno = I18nFormatterAnnotatedTypeFactory.this.treeUtil.exceptionToInvalidFormatAnnotation(e);
+                        anno =
+                                I18nFormatterAnnotatedTypeFactory.this.treeUtil
+                                        .exceptionToInvalidFormatAnnotation(e);
                     }
                     type.addAnnotation(anno);
                 }
@@ -241,8 +250,8 @@ public class I18nFormatterAnnotatedTypeFactory extends
 
             if (AnnotationUtils.areSameIgnoringValues(lhs, I18NINVALIDFORMAT)
                     && AnnotationUtils.areSameIgnoringValues(rhs, I18NINVALIDFORMAT)) {
-                return (AnnotationUtils.getElementValue(rhs, "value", String.class, true)).equals(AnnotationUtils
-                        .getElementValue(lhs, "value", String.class, true));
+                return (AnnotationUtils.getElementValue(rhs, "value", String.class, true))
+                        .equals(AnnotationUtils.getElementValue(lhs, "value", String.class, true));
             }
 
             if (AnnotationUtils.areSameIgnoringValues(lhs, I18NFORMAT)) {

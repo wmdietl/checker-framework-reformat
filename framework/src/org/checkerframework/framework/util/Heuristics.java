@@ -47,16 +47,14 @@ public class Heuristics {
         TreePath parentPath = path.getParentPath();
         boolean result = true;
 
-        LinkedList<Tree.Kind> queue =
-            new LinkedList<Tree.Kind>(Arrays.asList(kinds));
+        LinkedList<Tree.Kind> queue = new LinkedList<Tree.Kind>(Arrays.asList(kinds));
 
         Tree tree;
         while ((tree = parentPath.getLeaf()) != null) {
 
             if (queue.isEmpty()) break;
 
-            if (tree.getKind() == Tree.Kind.BLOCK
-                    || tree.getKind() == Tree.Kind.PARENTHESIZED) {
+            if (tree.getKind() == Tree.Kind.BLOCK || tree.getKind() == Tree.Kind.PARENTHESIZED) {
                 parentPath = parentPath.getParentPath();
                 continue;
             }
@@ -91,6 +89,7 @@ public class Heuristics {
 
     public static class PreceededBy extends Matcher {
         private final Matcher matcher;
+
         public PreceededBy(Matcher matcher) {
             this.matcher = matcher;
         }
@@ -107,7 +106,7 @@ public class Heuristics {
 
             while (p != null && p.getLeaf() instanceof StatementTree) {
                 if (p.getParentPath().getLeaf() instanceof BlockTree) {
-                    BlockTree block = (BlockTree)p.getParentPath().getLeaf();
+                    BlockTree block = (BlockTree) p.getParentPath().getLeaf();
                     for (StatementTree st : block.getStatements()) {
                         if (st == p.getLeaf()) {
                             break;
@@ -127,6 +126,7 @@ public class Heuristics {
 
     public static class WithIn extends Matcher {
         private final Matcher matcher;
+
         public WithIn(Matcher matcher) {
             this.matcher = matcher;
         }
@@ -159,13 +159,12 @@ public class Heuristics {
             TreePath prev = path, p = path.getParentPath();
             while (p != null) {
                 if (p.getLeaf().getKind() == Tree.Kind.IF) {
-                    IfTree ifTree = (IfTree)p.getLeaf();
+                    IfTree ifTree = (IfTree) p.getLeaf();
                     ExpressionTree cond = TreeUtils.skipParens(ifTree.getCondition());
                     if (ifTree.getThenStatement() == prev.getLeaf()
-                        && matcher.match(new TreePath(p, cond)))
-                        return true;
+                            && matcher.match(new TreePath(p, cond))) return true;
                     if (cond.getKind() == Tree.Kind.LOGICAL_COMPLEMENT
-                        && matcher.match(new TreePath(p, ((UnaryTree)cond).getExpression())))
+                            && matcher.match(new TreePath(p, ((UnaryTree) cond).getExpression())))
                         return true;
                 }
                 prev = p;
@@ -179,6 +178,7 @@ public class Heuristics {
     public static class OfKind extends Matcher {
         private final Tree.Kind kind;
         private final Matcher matcher;
+
         public OfKind(Tree.Kind kind, Matcher matcher) {
             this.kind = kind;
             this.matcher = matcher;
@@ -195,12 +195,14 @@ public class Heuristics {
 
     public static class OrMatcher extends Matcher {
         private final Matcher[] matchers;
+
         public OrMatcher(Matcher... matchers) {
             this.matchers = matchers;
         }
+
         @Override
         public boolean match(TreePath path) {
-            for (Matcher matcher: matchers) {
+            for (Matcher matcher : matchers) {
                 if (matcher.match(path)) {
                     return true;
                 }
@@ -213,15 +215,19 @@ public class Heuristics {
         public static Matcher preceededBy(Matcher matcher) {
             return new PreceededBy(matcher);
         }
+
         public static Matcher withIn(Matcher matcher) {
             return new WithIn(matcher);
         }
+
         public static Matcher whenTrue(Matcher conditionMatcher) {
             return new WithinTrueBranch(conditionMatcher);
         }
+
         public static Matcher ofKind(Tree.Kind kind, Matcher matcher) {
             return new OfKind(kind, matcher);
         }
+
         public static Matcher or(Matcher... matchers) {
             return new OrMatcher(matchers);
         }

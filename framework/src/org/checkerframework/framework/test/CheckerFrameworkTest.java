@@ -40,7 +40,7 @@ import static org.checkerframework.framework.test.TestConfigurationBuilder.build
  * <li>
  * {@code @Parameters public static List<File> getTestFiles() }
  * <p>
-
+ *
  * The method returns a List of Java files. There are methods like
  * {@link TestUtilities#findNestedJavaTestFiles} to help you construct this
  * List. The TestSuite will then instantiate the subclass once for each
@@ -76,9 +76,11 @@ public abstract class CheckerFrameworkTest {
      * @param testDir the path to the directory of test inputs
      * @param checkerOptions options to pass to the compiler when running tests
      */
-    public CheckerFrameworkTest(File testFile,
-                                Class<? extends AbstractProcessor> checker,
-                                String testDir, String... checkerOptions) {
+    public CheckerFrameworkTest(
+            File testFile,
+            Class<? extends AbstractProcessor> checker,
+            String testDir,
+            String... checkerOptions) {
         this.testFile = testFile;
         this.checkerName = checker.getName();
         this.testDir = "tests" + File.separator + testDir;
@@ -88,9 +90,11 @@ public abstract class CheckerFrameworkTest {
     @Test
     public void run() {
         boolean shouldEmitDebugInfo = TestUtilities.getShouldEmitDebugInfo();
-        List<String> customizedOptions = customizeOptions(Collections.unmodifiableList(checkerOptions));
-        TestConfiguration config = buildDefaultConfiguration(testDir, testFile, checkerName, customizedOptions,
-                                                             shouldEmitDebugInfo);
+        List<String> customizedOptions =
+                customizeOptions(Collections.unmodifiableList(checkerOptions));
+        TestConfiguration config =
+                buildDefaultConfiguration(
+                        testDir, testFile, checkerName, customizedOptions, shouldEmitDebugInfo);
         TypecheckResult testResult = new TypecheckExecutor().runTest(config);
         TestUtilities.assertResultsAreValid(testResult);
     }
@@ -112,5 +116,4 @@ public abstract class CheckerFrameworkTest {
     public List<String> customizeOptions(List<String> previousOptions) {
         return previousOptions;
     }
-
 }

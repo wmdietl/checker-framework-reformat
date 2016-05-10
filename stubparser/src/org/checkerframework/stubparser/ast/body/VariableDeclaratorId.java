@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -34,14 +34,19 @@ public final class VariableDeclaratorId extends Node {
 
     private int arrayCount;
 
-    public VariableDeclaratorId() {
-    }
+    public VariableDeclaratorId() {}
 
     public VariableDeclaratorId(String name) {
         this.name = name;
     }
 
-    public VariableDeclaratorId(int beginLine, int beginColumn, int endLine, int endColumn, String name, int arrayCount) {
+    public VariableDeclaratorId(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            String name,
+            int arrayCount) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.name = name;
         this.arrayCount = arrayCount;
@@ -72,5 +77,4 @@ public final class VariableDeclaratorId extends Node {
     public void setName(String name) {
         this.name = name;
     }
-
 }

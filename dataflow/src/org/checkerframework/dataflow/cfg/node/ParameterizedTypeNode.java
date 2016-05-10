@@ -26,7 +26,6 @@ import com.sun.source.tree.Tree;
  * @author Charlie Garrett
  *
  */
-
 public class ParameterizedTypeNode extends Node {
 
     protected Tree tree;

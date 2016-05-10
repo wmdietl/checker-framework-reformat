@@ -21,7 +21,8 @@ public class TaintingClassicAnnotatedTypeFactory extends BaseAnnotatedTypeFactor
 
         addAliasedAnnotation(org.checkerframework.checker.tainting.qual.Tainted.class, TAINTED);
         addAliasedAnnotation(org.checkerframework.checker.tainting.qual.Untainted.class, UNTAINTED);
-        addAliasedAnnotation(org.checkerframework.checker.tainting.qual.PolyTainted.class, POLYTAINTED);
+        addAliasedAnnotation(
+                org.checkerframework.checker.tainting.qual.PolyTainted.class, POLYTAINTED);
 
         postInit();
     }

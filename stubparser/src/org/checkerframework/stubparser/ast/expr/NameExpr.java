@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -31,8 +31,7 @@ public class NameExpr extends Expression {
 
     private String name;
 
-    public NameExpr() {
-    }
+    public NameExpr() {}
 
     public NameExpr(String name) {
         this.name = name;
@@ -60,5 +59,4 @@ public class NameExpr extends Expression {
     public final void setName(String name) {
         this.name = name;
     }
-
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -36,15 +36,20 @@ public final class SwitchStmt extends Statement {
 
     private List<SwitchEntryStmt> entries;
 
-    public SwitchStmt() {
-    }
+    public SwitchStmt() {}
 
     public SwitchStmt(Expression selector, List<SwitchEntryStmt> entries) {
         this.selector = selector;
         this.entries = entries;
     }
 
-    public SwitchStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression selector, List<SwitchEntryStmt> entries) {
+    public SwitchStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression selector,
+            List<SwitchEntryStmt> entries) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.selector = selector;
         this.entries = entries;

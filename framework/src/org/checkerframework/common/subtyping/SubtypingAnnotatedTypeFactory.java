@@ -28,7 +28,8 @@ public class SubtypingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         String qualDirectories = checker.getOption("qualDirs");
 
         if (qualNames == null && qualDirectories == null) {
-            checker.userErrorAbort("SubtypingChecker: missing required option. Use -Aquals or -AqualDirs");
+            checker.userErrorAbort(
+                    "SubtypingChecker: missing required option. Use -Aquals or -AqualDirs");
             throw new Error("This can't happen"); // dead code
         }
 
@@ -50,9 +51,15 @@ public class SubtypingAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         for (Class<? extends Annotation> qual : qualSet) {
             Annotation subtypeOfAnnotation = qual.getAnnotation(SubtypeOf.class);
             if (subtypeOfAnnotation != null) {
-                for (Class<? extends Annotation> superqual : qual.getAnnotation(SubtypeOf.class).value()) {
+                for (Class<? extends Annotation> superqual :
+                        qual.getAnnotation(SubtypeOf.class).value()) {
                     if (!qualSet.contains(superqual)) {
-                        checker.userErrorAbort("SubtypingChecker: qualifier " + qual + " was specified via -Aquals but its super-qualifier " + superqual + " was not");
+                        checker.userErrorAbort(
+                                "SubtypingChecker: qualifier "
+                                        + qual
+                                        + " was specified via -Aquals but its super-qualifier "
+                                        + superqual
+                                        + " was not");
                     }
                 }
             }

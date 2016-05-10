@@ -63,7 +63,8 @@ public class DependentTypes {
         return null;
     }
 
-    public void doSubsitution(Element symbol, AnnotatedTypeMirror type, AnnotatedTypeMirror receiver) {
+    public void doSubsitution(
+            Element symbol, AnnotatedTypeMirror type, AnnotatedTypeMirror receiver) {
         AnnotationMirror dependentInfo = findDependent(symbol);
         if (dependentInfo == null) {
             return;
@@ -84,7 +85,7 @@ public class DependentTypes {
         if (!TreeUtils.isExpressionTree(tree)) {
             return;
         }
-        ExpressionTree expr = (ExpressionTree)tree;
+        ExpressionTree expr = (ExpressionTree) tree;
         Element symbol = null;
         if (expr instanceof IdentifierTree) {
             symbol = TreeUtils.elementFromUse(expr);
@@ -93,8 +94,7 @@ public class DependentTypes {
         }
 
         if (symbol == null
-                || (!symbol.getKind().isField()
-                    && symbol.getKind() != ElementKind.LOCAL_VARIABLE))
+                || (!symbol.getKind().isField() && symbol.getKind() != ElementKind.LOCAL_VARIABLE))
             return;
 
         AnnotatedTypeMirror receiver;
@@ -112,7 +112,8 @@ public class DependentTypes {
         }
     }
 
-    public void handleConstructor(NewClassTree tree, AnnotatedTypeMirror ctr, AnnotatedExecutableType type) {
+    public void handleConstructor(
+            NewClassTree tree, AnnotatedTypeMirror ctr, AnnotatedExecutableType type) {
         ExecutableElement constructorElt = InternalUtils.constructor(tree);
         for (int i = 0; i < constructorElt.getParameters().size(); ++i) {
             Element parameter = constructorElt.getParameters().get(i);

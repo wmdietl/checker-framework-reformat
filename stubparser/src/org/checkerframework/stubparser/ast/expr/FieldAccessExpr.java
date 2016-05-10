@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -38,15 +38,21 @@ public final class FieldAccessExpr extends Expression {
 
     private String field;
 
-    public FieldAccessExpr() {
-    }
+    public FieldAccessExpr() {}
 
     public FieldAccessExpr(Expression scope, String field) {
         this.scope = scope;
         this.field = field;
     }
 
-    public FieldAccessExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope, List<Type> typeArgs, String field) {
+    public FieldAccessExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression scope,
+            List<Type> typeArgs,
+            String field) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.scope = scope;
         this.typeArgs = typeArgs;
@@ -86,5 +92,4 @@ public final class FieldAccessExpr extends Expression {
     public void setTypeArgs(List<Type> typeArgs) {
         this.typeArgs = typeArgs;
     }
-
 }

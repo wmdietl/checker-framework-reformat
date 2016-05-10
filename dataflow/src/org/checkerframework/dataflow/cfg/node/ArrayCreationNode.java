@@ -35,7 +35,8 @@ public class ArrayCreationNode extends Node {
     protected List<Node> dimensions;
     protected List<Node> initializers;
 
-    public ArrayCreationNode(/*@Nullable*/ NewArrayTree tree,
+    public ArrayCreationNode(
+            /*@Nullable*/ NewArrayTree tree,
             TypeMirror type,
             List<Node> dimensions,
             List<Node> initializers) {

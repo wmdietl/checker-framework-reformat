@@ -20,7 +20,8 @@ public interface AnnotationFormatter {
      * @return a string representation of annos
      */
     @SideEffectFree
-    public String formatAnnotationString(Collection<? extends AnnotationMirror> annos, boolean printInvisible);
+    public String formatAnnotationString(
+            Collection<? extends AnnotationMirror> annos, boolean printInvisible);
 
     /**
      * Converts an individual annotation mirror into a String

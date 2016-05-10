@@ -54,7 +54,8 @@ import com.sun.source.util.TreePath;
  * QualifierHierarchy}.
  */
 public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFactory<Q> {
-    private final IdentityHashMap<ExtendedParameterDeclaration, QualifiedTypeParameterBounds<Q>> paramBoundsMap = new IdentityHashMap<>();
+    private final IdentityHashMap<ExtendedParameterDeclaration, QualifiedTypeParameterBounds<Q>>
+            paramBoundsMap = new IdentityHashMap<>();
 
     private QualifiedTypes<Q> qualifiedTypes;
     private QualifierHierarchy<Q> qualifierHierarchy;
@@ -86,9 +87,9 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
         return adapter.superGetAnnotatedTypeFromTypeTree(typeTree);
     }
 
-
     @Override
-    public final QualifiedTypeParameterBounds<Q> getQualifiedTypeParameterBounds(ExtendedParameterDeclaration etm) {
+    public final QualifiedTypeParameterBounds<Q> getQualifiedTypeParameterBounds(
+            ExtendedParameterDeclaration etm) {
         if (!paramBoundsMap.containsKey(etm)) {
             QualifiedTypeParameterBounds<Q> bounds = computeQualifiedTypeParameterBounds(etm);
             paramBoundsMap.put(etm, bounds);
@@ -101,18 +102,20 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
      * processes the type annotations of the upper and lower bounds using the
      * {@link TypeAnnotator}.
      */
-    protected QualifiedTypeParameterBounds<Q> computeQualifiedTypeParameterBounds(ExtendedParameterDeclaration etm) {
+    protected QualifiedTypeParameterBounds<Q> computeQualifiedTypeParameterBounds(
+            ExtendedParameterDeclaration etm) {
         TypeAnnotator<Q> annotator = getTypeAnnotator();
 
-        WrappedAnnotatedTypeVariable watv = (WrappedAnnotatedTypeVariable)etm;
-        WrappedAnnotatedTypeMirror rawUpper = WrappedAnnotatedTypeMirror.wrap(watv.unwrap().getUpperBound());
-        WrappedAnnotatedTypeMirror rawLower = WrappedAnnotatedTypeMirror.wrap(watv.unwrap().getLowerBound());
+        WrappedAnnotatedTypeVariable watv = (WrappedAnnotatedTypeVariable) etm;
+        WrappedAnnotatedTypeMirror rawUpper =
+                WrappedAnnotatedTypeMirror.wrap(watv.unwrap().getUpperBound());
+        WrappedAnnotatedTypeMirror rawLower =
+                WrappedAnnotatedTypeMirror.wrap(watv.unwrap().getLowerBound());
         QualifiedTypeMirror<Q> upper = annotator.visit(rawUpper, null);
         QualifiedTypeMirror<Q> lower = annotator.visit(rawLower, null);
 
         return new QualifiedTypeParameterBounds<Q>(upper, lower);
     }
-
 
     // This method has package access so it can be called from QTFAdapter.  It
     // should be made private once the adapter is no longer needed.
@@ -133,7 +136,6 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
         return new TreeAnnotator<Q>();
     }
 
-
     // This method has package access so it can be called from QTFAdapter.  It
     // should be made private once the adapter is no longer needed.
     TypeAnnotator<Q> getTypeAnnotator() {
@@ -152,10 +154,9 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
     protected TypeAnnotator<Q> createTypeAnnotator() {
         // Construct a new TypeAnnotator using the TOP qualifier as the
         // default.
-        return new TypeAnnotator<Q>(context, getAnnotationConverter(),
-                getQualifierHierarchy().getTop());
+        return new TypeAnnotator<Q>(
+                context, getAnnotationConverter(), getQualifierHierarchy().getTop());
     }
-
 
     @Override
     public final QualifiedTypes<Q> getQualifiedTypes() {
@@ -168,7 +169,6 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
     protected QualifiedTypes<Q> createQualifiedTypes() {
         return new AdapterQualifiedTypes<Q>(adapter);
     }
-
 
     @Override
     public QualifierHierarchy<Q> getQualifierHierarchy() {
@@ -184,7 +184,6 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
      * QualifierHierarchy} subclass for that checker.
      */
     protected abstract QualifierHierarchy<Q> createQualifierHierarchy();
-
 
     @Override
     public TypeHierarchy<Q> getTypeHierarchy() {
@@ -205,7 +204,6 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
         return new DefaultTypeHierarchy<Q>();
     }
 
-
     /**
      * Gets the {@link AnnotationConverter} for the current type system.
      */
@@ -223,36 +221,42 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
      */
     protected abstract AnnotationConverter<Q> createAnnotationConverter();
 
-
     @Override
-    public List<QualifiedTypeMirror<Q>> postDirectSuperTypes(QualifiedTypeMirror<Q> subtype, List<? extends QualifiedTypeMirror<Q>> supertypes) {
+    public List<QualifiedTypeMirror<Q>> postDirectSuperTypes(
+            QualifiedTypeMirror<Q> subtype, List<? extends QualifiedTypeMirror<Q>> supertypes) {
         return adapter.superPostDirectSuperTypes(subtype, supertypes);
     }
 
     @Override
-    public QualifiedTypeMirror<Q> postAsMemberOf(QualifiedTypeMirror<Q> memberType, QualifiedTypeMirror<Q> receiverType, Element memberElement) {
+    public QualifiedTypeMirror<Q> postAsMemberOf(
+            QualifiedTypeMirror<Q> memberType,
+            QualifiedTypeMirror<Q> receiverType,
+            Element memberElement) {
         return adapter.superPostAsMemberOf(memberType, receiverType, memberElement);
     }
 
     @Override
-    public Pair<QualifiedExecutableType<Q>, List<QualifiedTypeMirror<Q>>> methodFromUse(MethodInvocationTree tree) {
+    public Pair<QualifiedExecutableType<Q>, List<QualifiedTypeMirror<Q>>> methodFromUse(
+            MethodInvocationTree tree) {
         return adapter.superMethodFromUse(tree);
     }
 
     @Override
-    public Pair<QualifiedExecutableType<Q>, List<QualifiedTypeMirror<Q>>> methodFromUse(ExpressionTree tree,
-            ExecutableElement methodElt, QualifiedTypeMirror<Q> receiverType) {
+    public Pair<QualifiedExecutableType<Q>, List<QualifiedTypeMirror<Q>>> methodFromUse(
+            ExpressionTree tree, ExecutableElement methodElt, QualifiedTypeMirror<Q> receiverType) {
 
         return adapter.superMethodFromUse(tree, methodElt, receiverType);
     }
 
     @Override
-    public Pair<QualifiedExecutableType<Q>, List<QualifiedTypeMirror<Q>>> constructorFromUse(NewClassTree tree) {
+    public Pair<QualifiedExecutableType<Q>, List<QualifiedTypeMirror<Q>>> constructorFromUse(
+            NewClassTree tree) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public QualAnalysis<Q> createFlowAnalysis(List<Pair<VariableElement, QualValue<Q>>> fieldValues) {
+    public QualAnalysis<Q> createFlowAnalysis(
+            List<Pair<VariableElement, QualValue<Q>>> fieldValues) {
         return new QualAnalysis<Q>(this.getContext());
     }
 
@@ -271,7 +275,9 @@ public abstract class DefaultQualifiedTypeFactory<Q> implements QualifiedTypeFac
 
     @Override
     public QualifiedTypeMirror<Q> getReceiverType(ExpressionTree expression) {
-        return adapter.getCheckerAdapter().getTypeMirrorConverter().getQualifiedType(adapter.getReceiverType(expression));
+        return adapter.getCheckerAdapter()
+                .getTypeMirrorConverter()
+                .getQualifiedType(adapter.getReceiverType(expression));
     }
 
     @Override

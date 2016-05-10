@@ -134,9 +134,9 @@ public class PrettyQualParamsFormatter<Q> implements QualParamsFormatter<Q> {
             if (lower == null && upper == null) {
                 return qualVar.getName();
             } else {
-                lower = lower == null? "" : lower;
-                upper = upper == null? "" : upper;
-                return qualVar.getName()+ " ∈ [" + lower + ".." + upper + "])";
+                lower = lower == null ? "" : lower;
+                upper = upper == null ? "" : upper;
+                return qualVar.getName() + " ∈ [" + lower + ".." + upper + "])";
             }
 
         } else {
@@ -158,8 +158,8 @@ public class PrettyQualParamsFormatter<Q> implements QualParamsFormatter<Q> {
             if (upper == null && lower == null) {
                 return "?";
             } else {
-                lower = lower == null? "" : lower;
-                upper = upper == null? "" : upper;
+                lower = lower == null ? "" : lower;
+                upper = upper == null ? "" : upper;
                 return "? ∈ [" + lower + ".." + upper + "]";
             }
         }

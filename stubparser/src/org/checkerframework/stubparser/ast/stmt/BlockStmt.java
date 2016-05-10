@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -33,14 +33,14 @@ public final class BlockStmt extends Statement {
 
     private List<Statement> stmts;
 
-    public BlockStmt() {
-    }
+    public BlockStmt() {}
 
     public BlockStmt(List<Statement> stmts) {
         this.stmts = stmts;
     }
 
-    public BlockStmt(int beginLine, int beginColumn, int endLine, int endColumn, List<Statement> stmts) {
+    public BlockStmt(
+            int beginLine, int beginColumn, int endLine, int endColumn, List<Statement> stmts) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.stmts = stmts;
     }

@@ -21,7 +21,7 @@ public @interface Var {
     /**
      * Which parameter this @Var is a use of.
      */
-    String arg()  default SimpleQualifierParameterAnnotationConverter.PRIMARY_TARGET;
+    String arg() default SimpleQualifierParameterAnnotationConverter.PRIMARY_TARGET;
 
     /**
      * The name of the parameter to set.
@@ -33,4 +33,3 @@ public @interface Var {
      */
     Wildcard wildcard() default Wildcard.NONE;
 }
-

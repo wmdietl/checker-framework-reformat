@@ -62,5 +62,4 @@ import org.checkerframework.framework.qual.SubtypeOf;
 @Target(ElementType.TYPE_USE)
 @MonotonicQualifier(NonNull.class)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MonotonicNonNull {
-}
+public @interface MonotonicNonNull {}

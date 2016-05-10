@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -31,14 +31,14 @@ public class StringLiteralExpr extends LiteralExpr {
 
     protected String value;
 
-    public StringLiteralExpr() {
-    }
+    public StringLiteralExpr() {}
 
     public StringLiteralExpr(String value) {
         this.value = value;
     }
 
-    public StringLiteralExpr(int beginLine, int beginColumn, int endLine, int endColumn, String value) {
+    public StringLiteralExpr(
+            int beginLine, int beginColumn, int endLine, int endColumn, String value) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.value = value;
     }

@@ -79,7 +79,8 @@ public class ManualTaglet implements Taglet {
         }
         return String.format(
                 "<A HREF=\"http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html%s\">%s</A>",
-                anchor, text);
+                anchor,
+                text);
     }
 
     /**
@@ -90,9 +91,7 @@ public class ManualTaglet implements Taglet {
      * @return the formatted tag
      */
     private String formatHeader(String text) {
-        return String.format(
-                "<DT><B>See the Checker Framework Manual:</B><DD>%s<BR>",
-                text);
+        return String.format("<DT><B>See the Checker Framework Manual:</B><DD>%s<BR>", text);
     }
 
     @Override
@@ -117,7 +116,7 @@ public class ManualTaglet implements Taglet {
         return formatHeader(sb.toString());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static void register(Map tagletMap) {
         ManualTaglet tag = new ManualTaglet();
         Taglet t = (Taglet) tagletMap.get(tag.getName());

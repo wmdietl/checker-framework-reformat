@@ -28,11 +28,12 @@ import org.checkerframework.common.basetype.BaseTypeVisitor;
  *
  * @checker_framework.manual #subtyping-checker Subtying Checker
  */
-@SupportedOptions( { "quals", "qualDirs" })
+@SupportedOptions({"quals", "qualDirs"})
 public final class SubtypingChecker extends BaseTypeChecker {
     @Override
     public Collection<String> getSuppressWarningsKeys() {
-        Set<Class<? extends Annotation>> annos = ((BaseTypeVisitor<?>)visitor).getTypeFactory().getSupportedTypeQualifiers();
+        Set<Class<? extends Annotation>> annos =
+                ((BaseTypeVisitor<?>) visitor).getTypeFactory().getSupportedTypeQualifiers();
         if (annos.isEmpty()) {
             return super.getSuppressWarningsKeys();
         }

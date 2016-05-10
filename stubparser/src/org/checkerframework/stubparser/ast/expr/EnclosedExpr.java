@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -31,14 +31,14 @@ public final class EnclosedExpr extends Expression {
 
     private Expression inner;
 
-    public EnclosedExpr() {
-    }
+    public EnclosedExpr() {}
 
     public EnclosedExpr(Expression inner) {
         this.inner = inner;
     }
 
-    public EnclosedExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression inner) {
+    public EnclosedExpr(
+            int beginLine, int beginColumn, int endLine, int endColumn, Expression inner) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.inner = inner;
     }
@@ -60,5 +60,4 @@ public final class EnclosedExpr extends Expression {
     public void setInner(Expression inner) {
         this.inner = inner;
     }
-
 }

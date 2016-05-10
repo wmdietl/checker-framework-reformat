@@ -29,10 +29,12 @@ import org.checkerframework.framework.qual.SubtypeOf;
  */
 @SubtypeOf(UnknownInitialization.class)
 @DefaultQualifierInHierarchy
-@DefaultFor({ TypeUseLocation.IMPLICIT_UPPER_BOUND, TypeUseLocation.IMPLICIT_LOWER_BOUND,
-              TypeUseLocation.EXCEPTION_PARAMETER })
+@DefaultFor({
+    TypeUseLocation.IMPLICIT_UPPER_BOUND,
+    TypeUseLocation.IMPLICIT_LOWER_BOUND,
+    TypeUseLocation.EXCEPTION_PARAMETER
+})
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-public @interface Initialized {
-}
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+public @interface Initialized {}

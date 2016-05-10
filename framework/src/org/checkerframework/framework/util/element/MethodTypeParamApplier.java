@@ -34,8 +34,8 @@ import static com.sun.tools.javac.code.TargetType.THROWS;
  */
 public class MethodTypeParamApplier extends TypeParamElementAnnotationApplier {
 
-
-    public static void apply(AnnotatedTypeVariable type, Element element, AnnotatedTypeFactory typeFactory) {
+    public static void apply(
+            AnnotatedTypeVariable type, Element element, AnnotatedTypeFactory typeFactory) {
         new MethodTypeParamApplier(type, element, typeFactory).extractAndApply();
     }
 
@@ -43,18 +43,24 @@ public class MethodTypeParamApplier extends TypeParamElementAnnotationApplier {
      * @return true if element represents a type parameter for a method
      */
     public static boolean accepts(final AnnotatedTypeMirror type, final Element element) {
-        return element.getKind() == ElementKind.TYPE_PARAMETER &&
-               element.getEnclosingElement() instanceof Symbol.MethodSymbol;
+        return element.getKind() == ElementKind.TYPE_PARAMETER
+                && element.getEnclosingElement() instanceof Symbol.MethodSymbol;
     }
 
     private final Symbol.MethodSymbol enclosingMethod;
 
-    MethodTypeParamApplier(AnnotatedTypeVariable type, Element element, AnnotatedTypeFactory typeFactory) {
+    MethodTypeParamApplier(
+            AnnotatedTypeVariable type, Element element, AnnotatedTypeFactory typeFactory) {
         super(type, element, typeFactory);
 
-        if (!( element.getEnclosingElement() instanceof Symbol.MethodSymbol )) {
-            ErrorReporter.errorAbort("TypeParameter not enclosed by method?  Type( " + type + " ) " +
-                    "Element ( " + element + " ) ");
+        if (!(element.getEnclosingElement() instanceof Symbol.MethodSymbol)) {
+            ErrorReporter.errorAbort(
+                    "TypeParameter not enclosed by method?  Type( "
+                            + type
+                            + " ) "
+                            + "Element ( "
+                            + element
+                            + " ) ");
         }
 
         enclosingMethod = (Symbol.MethodSymbol) element.getEnclosingElement();
@@ -86,11 +92,24 @@ public class MethodTypeParamApplier extends TypeParamElementAnnotationApplier {
 
     @Override
     protected TargetType[] validTargets() {
-        return new TargetType[]{
-            METHOD_RETURN, METHOD_FORMAL_PARAMETER, METHOD_RECEIVER, THROWS, LOCAL_VARIABLE,
-            RESOURCE_VARIABLE, EXCEPTION_PARAMETER, NEW, CAST, INSTANCEOF, METHOD_INVOCATION_TYPE_ARGUMENT,
-            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT, METHOD_REFERENCE, CONSTRUCTOR_REFERENCE,
-            METHOD_REFERENCE_TYPE_ARGUMENT, CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT, };
+        return new TargetType[] {
+            METHOD_RETURN,
+            METHOD_FORMAL_PARAMETER,
+            METHOD_RECEIVER,
+            THROWS,
+            LOCAL_VARIABLE,
+            RESOURCE_VARIABLE,
+            EXCEPTION_PARAMETER,
+            NEW,
+            CAST,
+            INSTANCEOF,
+            METHOD_INVOCATION_TYPE_ARGUMENT,
+            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT,
+            METHOD_REFERENCE,
+            CONSTRUCTOR_REFERENCE,
+            METHOD_REFERENCE_TYPE_ARGUMENT,
+            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT,
+        };
     }
 
     /**

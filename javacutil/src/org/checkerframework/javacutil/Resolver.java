@@ -53,31 +53,49 @@ public class Resolver {
         this.log = Log.instance(context);
 
         try {
-            FIND_METHOD = Resolve.class.getDeclaredMethod("findMethod",
-                    Env.class, Type.class, Name.class, List.class, List.class,
-                    boolean.class, boolean.class, boolean.class);
+            FIND_METHOD =
+                    Resolve.class
+                            .getDeclaredMethod(
+                                    "findMethod",
+                                    Env.class,
+                                    Type.class,
+                                    Name.class,
+                                    List.class,
+                                    List.class,
+                                    boolean.class,
+                                    boolean.class,
+                                    boolean.class);
             FIND_METHOD.setAccessible(true);
 
-            FIND_VAR = Resolve.class.getDeclaredMethod("findVar",
-                    Env.class, Name.class);
+            FIND_VAR = Resolve.class.getDeclaredMethod("findVar", Env.class, Name.class);
             FIND_VAR.setAccessible(true);
 
-            FIND_IDENT_IN_TYPE = Resolve.class.getDeclaredMethod(
-                    "findIdentInType", Env.class, Type.class, Name.class,
-                    int.class);
+            FIND_IDENT_IN_TYPE =
+                    Resolve.class
+                            .getDeclaredMethod(
+                                    "findIdentInType",
+                                    Env.class,
+                                    Type.class,
+                                    Name.class,
+                                    int.class);
             FIND_IDENT_IN_TYPE.setAccessible(true);
 
-            FIND_IDENT_IN_PACKAGE = Resolve.class.getDeclaredMethod(
-                    "findIdentInPackage", Env.class, TypeSymbol.class, Name.class,
-                    int.class);
+            FIND_IDENT_IN_PACKAGE =
+                    Resolve.class
+                            .getDeclaredMethod(
+                                    "findIdentInPackage",
+                                    Env.class,
+                                    TypeSymbol.class,
+                                    Name.class,
+                                    int.class);
             FIND_IDENT_IN_PACKAGE.setAccessible(true);
 
-            FIND_TYPE = Resolve.class.getDeclaredMethod(
-                    "findType", Env.class, Name.class);
+            FIND_TYPE = Resolve.class.getDeclaredMethod("findType", Env.class, Name.class);
             FIND_TYPE.setAccessible(true);
         } catch (Exception e) {
-            Error err = new AssertionError(
-                    "Compiler 'Resolve' class doesn't contain required 'find' method");
+            Error err =
+                    new AssertionError(
+                            "Compiler 'Resolve' class doesn't contain required 'find' method");
             err.initCause(e);
             throw err;
         }
@@ -100,13 +118,12 @@ public class Resolver {
      * @return the element for the field
      */
     public VariableElement findField(String name, TypeMirror type, TreePath path) {
-        Log.DiagnosticHandler discardDiagnosticHandler =
-            new Log.DiscardDiagnosticHandler(log);
+        Log.DiagnosticHandler discardDiagnosticHandler = new Log.DiscardDiagnosticHandler(log);
         try {
             JavacScope scope = (JavacScope) trees.getScope(path);
             Env<AttrContext> env = scope.getEnv();
-            Element res = wrapInvocation(FIND_IDENT_IN_TYPE, env, type,
-                    names.fromString(name), VAR);
+            Element res =
+                    wrapInvocation(FIND_IDENT_IN_TYPE, env, type, names.fromString(name), VAR);
             if (res.getKind() == ElementKind.FIELD) {
                 return (VariableElement) res;
             } else {
@@ -128,15 +145,13 @@ public class Resolver {
      * @return the element for the local variable
      */
     public VariableElement findLocalVariableOrParameter(String name, TreePath path) {
-        Log.DiagnosticHandler discardDiagnosticHandler =
-            new Log.DiscardDiagnosticHandler(log);
+        Log.DiagnosticHandler discardDiagnosticHandler = new Log.DiscardDiagnosticHandler(log);
         try {
             JavacScope scope = (JavacScope) trees.getScope(path);
             Env<AttrContext> env = scope.getEnv();
-            Element res = wrapInvocation(FIND_VAR, env,
-                    names.fromString(name));
+            Element res = wrapInvocation(FIND_VAR, env, names.fromString(name));
             if (res.getKind() == ElementKind.LOCAL_VARIABLE
-             || res.getKind() == ElementKind.PARAMETER) {
+                    || res.getKind() == ElementKind.PARAMETER) {
                 return (VariableElement) res;
             } else {
                 // Most likely didn't find the variable and the Element is a SymbolNotFoundError
@@ -161,8 +176,7 @@ public class Resolver {
      * @return the element for the class
      */
     public Element findClass(String name, TreePath path) {
-        Log.DiagnosticHandler discardDiagnosticHandler =
-            new Log.DiscardDiagnosticHandler(log);
+        Log.DiagnosticHandler discardDiagnosticHandler = new Log.DiscardDiagnosticHandler(log);
         try {
             JavacScope scope = (JavacScope) trees.getScope(path);
             Env<AttrContext> env = scope.getEnv();
@@ -188,10 +202,12 @@ public class Resolver {
      *            Tree path.
      * @return the method element (if found)
      */
-    public Element findMethod(String methodName, TypeMirror receiverType,
-            TreePath path, java.util.List<TypeMirror> argumentTypes) {
-        Log.DiagnosticHandler discardDiagnosticHandler =
-            new Log.DiscardDiagnosticHandler(log);
+    public Element findMethod(
+            String methodName,
+            TypeMirror receiverType,
+            TreePath path,
+            java.util.List<TypeMirror> argumentTypes) {
+        Log.DiagnosticHandler discardDiagnosticHandler = new Log.DiscardDiagnosticHandler(log);
         try {
             JavacScope scope = (JavacScope) trees.getScope(path);
             Env<AttrContext> env = scope.getEnv();
@@ -213,8 +229,17 @@ public class Resolver {
                 Object methodContext = buildMethodContext();
                 Object oldContext = getField(resolve, "currentResolutionContext");
                 setField(resolve, "currentResolutionContext", methodContext);
-                Element result = wrapInvocation(FIND_METHOD, env, site, name, argtypes,
-                    typeargtypes, allowBoxing, useVarargs, operator);
+                Element result =
+                        wrapInvocation(
+                                FIND_METHOD,
+                                env,
+                                site,
+                                name,
+                                argtypes,
+                                typeargtypes,
+                                allowBoxing,
+                                useVarargs,
+                                operator);
                 setField(resolve, "currentResolutionContext", oldContext);
                 return result;
             } catch (Throwable t) {
@@ -230,11 +255,12 @@ public class Resolver {
     /**
      * Build an instance of {@code Resolve$MethodResolutionContext}.
      */
-    protected Object buildMethodContext() throws ClassNotFoundException,
-            InstantiationException, IllegalAccessException,
-            InvocationTargetException, NoSuchFieldException {
+    protected Object buildMethodContext()
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+                    InvocationTargetException, NoSuchFieldException {
         // Class is not accessible, instantiate reflectively.
-        Class<?> methCtxClss = Class.forName("com.sun.tools.javac.comp.Resolve$MethodResolutionContext");
+        Class<?> methCtxClss =
+                Class.forName("com.sun.tools.javac.comp.Resolve$MethodResolutionContext");
         Constructor<?> constructor = methCtxClss.getDeclaredConstructors()[0];
         constructor.setAccessible(true);
         Object methodContext = constructor.newInstance(resolve);
@@ -247,17 +273,16 @@ public class Resolver {
     }
 
     /** Reflectively set a field. */
-    private void setField(Object receiver, String fieldName,
-            Object value) throws NoSuchFieldException,
-            IllegalAccessException {
+    private void setField(Object receiver, String fieldName, Object value)
+            throws NoSuchFieldException, IllegalAccessException {
         Field f = receiver.getClass().getDeclaredField(fieldName);
         f.setAccessible(true);
         f.set(receiver, value);
     }
 
     /** Reflectively get the value of a field. */
-    private Object getField(Object receiver, String fieldName) throws NoSuchFieldException,
-            IllegalAccessException {
+    private Object getField(Object receiver, String fieldName)
+            throws NoSuchFieldException, IllegalAccessException {
         Field f = receiver.getClass().getDeclaredField(fieldName);
         f.setAccessible(true);
         return f.get(receiver);

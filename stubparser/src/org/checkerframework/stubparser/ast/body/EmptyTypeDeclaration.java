@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -29,14 +29,14 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  */
 public final class EmptyTypeDeclaration extends TypeDeclaration {
 
-    public EmptyTypeDeclaration() {
-    }
+    public EmptyTypeDeclaration() {}
 
     public EmptyTypeDeclaration(JavadocComment javaDoc) {
         super(null, javaDoc, 0, null, null);
     }
 
-    public EmptyTypeDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc) {
+    public EmptyTypeDeclaration(
+            int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc) {
         super(beginLine, beginColumn, endLine, endColumn, null, javaDoc, 0, null, null);
     }
 

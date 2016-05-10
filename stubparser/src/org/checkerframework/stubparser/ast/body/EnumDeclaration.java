@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -37,21 +37,47 @@ public final class EnumDeclaration extends TypeDeclaration {
 
     private List<EnumConstantDeclaration> entries;
 
-    public EnumDeclaration() {
-    }
+    public EnumDeclaration() {}
 
     public EnumDeclaration(int modifiers, String name) {
         super(modifiers, name);
     }
 
-    public EnumDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, String name, List<ClassOrInterfaceType> implementsList, List<EnumConstantDeclaration> entries, List<BodyDeclaration> members) {
+    public EnumDeclaration(
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            String name,
+            List<ClassOrInterfaceType> implementsList,
+            List<EnumConstantDeclaration> entries,
+            List<BodyDeclaration> members) {
         super(annotations, javaDoc, modifiers, name, members);
         this.implementsList = implementsList;
         this.entries = entries;
     }
 
-    public EnumDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, String name, List<ClassOrInterfaceType> implementsList, List<EnumConstantDeclaration> entries, List<BodyDeclaration> members) {
-        super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc, modifiers, name, members);
+    public EnumDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            String name,
+            List<ClassOrInterfaceType> implementsList,
+            List<EnumConstantDeclaration> entries,
+            List<BodyDeclaration> members) {
+        super(
+                beginLine,
+                beginColumn,
+                endLine,
+                endColumn,
+                annotations,
+                javaDoc,
+                modifiers,
+                name,
+                members);
         this.implementsList = implementsList;
         this.entries = entries;
     }

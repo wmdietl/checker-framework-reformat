@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -32,14 +32,14 @@ public final class ExpressionStmt extends Statement {
 
     private Expression expr;
 
-    public ExpressionStmt() {
-    }
+    public ExpressionStmt() {}
 
     public ExpressionStmt(Expression expr) {
         this.expr = expr;
     }
 
-    public ExpressionStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression expr) {
+    public ExpressionStmt(
+            int beginLine, int beginColumn, int endLine, int endColumn, Expression expr) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.expr = expr;
     }

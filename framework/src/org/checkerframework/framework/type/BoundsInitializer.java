@@ -53,11 +53,13 @@ public class BoundsInitializer {
     public static void initializeBounds(final AnnotatedTypeVariable typeVar) {
         final Set<AnnotationMirror> annos = saveAnnotations(typeVar);
 
-        InitializerVisitor visitor = new InitializerVisitor(new TypeVariableStructure(null, typeVar));
+        InitializerVisitor visitor =
+                new InitializerVisitor(new TypeVariableStructure(null, typeVar));
         visitor.initializeLowerBound(typeVar);
         visitor.resolveTypeVarReferences(typeVar);
 
-        InitializerVisitor visitor2 = new InitializerVisitor(new TypeVariableStructure(null, typeVar));
+        InitializerVisitor visitor2 =
+                new InitializerVisitor(new TypeVariableStructure(null, typeVar));
         visitor2.initializeUpperBound(typeVar);
         visitor2.resolveTypeVarReferences(typeVar);
 
@@ -87,7 +89,8 @@ public class BoundsInitializer {
         return null;
     }
 
-    private static void restoreAnnotations(final AnnotatedTypeMirror type, final Set<AnnotationMirror> annos) {
+    private static void restoreAnnotations(
+            final AnnotatedTypeMirror type, final Set<AnnotationMirror> annos) {
         if (annos != null) {
             type.addAnnotations(annos);
         }
@@ -98,7 +101,7 @@ public class BoundsInitializer {
      * the appropriate cycles will be introduced in the type
      * @param wildcard the wildcard whose lower bound is being initialized
      */
-    public static void initializeSuperBound( final AnnotatedWildcardType wildcard ) {
+    public static void initializeSuperBound(final AnnotatedWildcardType wildcard) {
         final Set<AnnotationMirror> annos = saveAnnotations(wildcard);
 
         InitializerVisitor visitor = new InitializerVisitor(new WildcardStructure());
@@ -108,13 +111,12 @@ public class BoundsInitializer {
         restoreAnnotations(wildcard, annos);
     }
 
-
     /**
      * Create the entire extends bound, with no missing information, for wildcard.  If a wildcard is recursive
      * the appropriate cycles will be introduced in the type
      * @param wildcard the wildcard whose extends bound is being initialized
      */
-    public static void initializeExtendsBound( final AnnotatedWildcardType wildcard ) {
+    public static void initializeExtendsBound(final AnnotatedWildcardType wildcard) {
         final Set<AnnotationMirror> annos = saveAnnotations(wildcard);
 
         InitializerVisitor visitor = new InitializerVisitor(new WildcardStructure());
@@ -130,7 +132,7 @@ public class BoundsInitializer {
     /**
      * InitializerVisitor
      */
-    private static class InitializerVisitor implements AnnotatedTypeVisitor<Void,Void> {
+    private static class InitializerVisitor implements AnnotatedTypeVisitor<Void, Void> {
         /**
          * The BoundStructure starting from the first wildcard or type variable bound initialization
          * that kicked  this visitation off
@@ -141,13 +143,15 @@ public class BoundsInitializer {
         private final Map<TypeVariable, TypeVariableStructure> typeVarToStructure = new HashMap<>();
         // private final Map<TypeVariable, TypeVariableRecord> typeVarToRecord = new HashMap<>();
         private final Map<WildcardType, AnnotatedWildcardType> wildcards = new HashMap<>();
-        private final Map<IntersectionType, AnnotatedIntersectionType> intersections = new HashMap<>();
+        private final Map<IntersectionType, AnnotatedIntersectionType> intersections =
+                new HashMap<>();
         // need current bound path
 
         public InitializerVisitor(final BoundStructure boundStructure) {
             this.topLevelStructure = boundStructure;
             this.currentStructure = boundStructure;
         }
+
         public InitializerVisitor(final TypeVariableStructure typeVarStruct) {
             this((BoundStructure) typeVarStruct);
             typeVarToStructure.put(typeVarStruct.typeVar, typeVarStruct);
@@ -232,7 +236,6 @@ public class BoundsInitializer {
             return null;
         }
 
-
         @Override
         public Void visitNull(AnnotatedNullType type, Void aVoid) {
             return null;
@@ -244,17 +247,23 @@ public class BoundsInitializer {
                 initializeSuperBound(wildcard);
 
             } else {
-                ErrorReporter.errorAbort("Wildcard super field should not be initialized:\n"
-                                       + "wildcard=" + wildcard.toString()
-                                       + "currentPath=" + currentStructure.currentPath);
+                ErrorReporter.errorAbort(
+                        "Wildcard super field should not be initialized:\n"
+                                + "wildcard="
+                                + wildcard.toString()
+                                + "currentPath="
+                                + currentStructure.currentPath);
             }
 
             if (wildcard.getExtendsBoundField() == null) {
                 initializeExtendsBound(wildcard);
             } else {
-                ErrorReporter.errorAbort("Wildcard extends field should not be initialized:\n"
-                                       + "wildcard=" + wildcard.toString()
-                                       + "currentPath=" + currentStructure.currentPath);
+                ErrorReporter.errorAbort(
+                        "Wildcard extends field should not be initialized:\n"
+                                + "wildcard="
+                                + wildcard.toString()
+                                + "currentPath="
+                                + currentStructure.currentPath);
             }
 
             return null;
@@ -275,7 +284,7 @@ public class BoundsInitializer {
             return invalidType(type);
         }
 
-        public AnnotatedTypeMirror replaceOrVisit( final AnnotatedTypeMirror type ) {
+        public AnnotatedTypeMirror replaceOrVisit(final AnnotatedTypeMirror type) {
             if (type.getKind() == TypeKind.WILDCARD) {
                 final AnnotatedWildcardType wildcard = (AnnotatedWildcardType) type;
                 if (wildcards.containsKey(wildcard.getUnderlyingType())) {
@@ -299,7 +308,6 @@ public class BoundsInitializer {
             } else {
                 visit(type);
                 return type;
-
             }
         }
 
@@ -323,27 +331,29 @@ public class BoundsInitializer {
             removePathNode(pathNode);
         }
 
-        public void initializeSuperBound( final AnnotatedWildcardType wildcard ) {
+        public void initializeSuperBound(final AnnotatedWildcardType wildcard) {
             final AnnotatedTypeFactory typeFactory = wildcard.atypeFactory;
 
             final WildcardType underlyingType = wildcard.getUnderlyingType();
             TypeMirror underlyingSuperBound = underlyingType.getSuperBound();
             if (underlyingSuperBound == null) {
                 underlyingSuperBound =
-                        TypesUtils.wildLowerBound(wildcard.atypeFactory.processingEnv, underlyingType);
+                        TypesUtils.wildLowerBound(
+                                wildcard.atypeFactory.processingEnv, underlyingType);
             }
 
-            final AnnotatedTypeMirror superBound = AnnotatedTypeMirror.createType(underlyingSuperBound, typeFactory, false);
-            wildcard.setSuperBound( superBound );
+            final AnnotatedTypeMirror superBound =
+                    AnnotatedTypeMirror.createType(underlyingSuperBound, typeFactory, false);
+            wildcard.setSuperBound(superBound);
 
-            this.wildcards.put( wildcard.getUnderlyingType(), wildcard );
+            this.wildcards.put(wildcard.getUnderlyingType(), wildcard);
 
             final BoundPathNode superNode = addPathNode(new SuperNode());
             visit(superBound);
             removePathNode(superNode);
         }
 
-        public void initializeExtendsBound( final AnnotatedWildcardType wildcard )  {
+        public void initializeExtendsBound(final AnnotatedWildcardType wildcard) {
             final AnnotatedTypeFactory typeFactory = wildcard.atypeFactory;
 
             final WildcardType underlyingType = wildcard.getUnderlyingType();
@@ -351,13 +361,15 @@ public class BoundsInitializer {
             if (underlyingExtendsBound == null) {
                 // Take the upper bound of the type variable the wildcard is bound to.
                 underlyingExtendsBound =
-                        TypesUtils.wildUpperBound(wildcard.atypeFactory.processingEnv, underlyingType);
+                        TypesUtils.wildUpperBound(
+                                wildcard.atypeFactory.processingEnv, underlyingType);
             }
 
-            final AnnotatedTypeMirror extendsBound = AnnotatedTypeMirror.createType(underlyingExtendsBound, typeFactory, false);
+            final AnnotatedTypeMirror extendsBound =
+                    AnnotatedTypeMirror.createType(underlyingExtendsBound, typeFactory, false);
             wildcard.setExtendsBound(extendsBound);
 
-            this.wildcards.put( wildcard.getUnderlyingType(), wildcard );
+            this.wildcards.put(wildcard.getUnderlyingType(), wildcard);
 
             final BoundPathNode extendsNode = addPathNode(new ExtendsNode());
             visit(extendsBound);
@@ -372,7 +384,8 @@ public class BoundsInitializer {
                     final List<? extends TypeMirror> actualTypeArgs = actualType.getTypeArguments();
                     for (int i = 0; i < actualTypeArgs.size(); i++) {
                         final AnnotatedTypeMirror annoTypeArg =
-                                AnnotatedTypeMirror.createType(actualTypeArgs.get(i), declaredType.atypeFactory, false);
+                                AnnotatedTypeMirror.createType(
+                                        actualTypeArgs.get(i), declaredType.atypeFactory, false);
 
                         final BoundPathNode node = addPathNode(new TypeArgNode(i));
                         typeArgs.add(replaceOrVisit(annoTypeArg));
@@ -382,12 +395,14 @@ public class BoundsInitializer {
                 declaredType.typeArgs = Collections.unmodifiableList(typeArgs);
             } else {
 
-                final List<AnnotatedTypeMirror> typeArgs = new ArrayList<>(declaredType.getTypeArguments());
-                final List<AnnotatedTypeMirror> typeArgReplacements = new ArrayList<>(typeArgs.size());
+                final List<AnnotatedTypeMirror> typeArgs =
+                        new ArrayList<>(declaredType.getTypeArguments());
+                final List<AnnotatedTypeMirror> typeArgReplacements =
+                        new ArrayList<>(typeArgs.size());
                 for (int i = 0; i < typeArgs.size(); i++) {
                     final AnnotatedTypeMirror typeArg = typeArgs.get(i);
                     final BoundPathNode node = addPathNode(new TypeArgNode(i));
-                    typeArgReplacements.add( replaceOrVisit(typeArg) );
+                    typeArgReplacements.add(replaceOrVisit(typeArg));
                     removePathNode(node);
                 }
 
@@ -396,9 +411,13 @@ public class BoundsInitializer {
         }
 
         public static Void invalidType(final AnnotatedTypeMirror atm) {
-            ErrorReporter.errorAbort("Unexpected type in Wildcard bound:\n"
-                                   + "kind=" + atm.getKind() + "\n"
-                                   + "atm="  + atm);
+            ErrorReporter.errorAbort(
+                    "Unexpected type in Wildcard bound:\n"
+                            + "kind="
+                            + atm.getKind()
+                            + "\n"
+                            + "atm="
+                            + atm);
             return null; // dead code
         }
 
@@ -409,23 +428,34 @@ public class BoundsInitializer {
 
         public BoundPathNode removePathNode(final BoundPathNode node) {
             if (currentStructure.currentPath.getLast() != node) {
-                ErrorReporter.errorAbort("Cannot remove node: " + node + " It is not the last item.\n"
-                        +  "node=" + node + "\n"
-                        +  "currentPath=" + currentStructure.currentPath );
+                ErrorReporter.errorAbort(
+                        "Cannot remove node: "
+                                + node
+                                + " It is not the last item.\n"
+                                + "node="
+                                + node
+                                + "\n"
+                                + "currentPath="
+                                + currentStructure.currentPath);
             } // else
 
-           currentStructure.currentPath.removeLast();
-           return node;
+            currentStructure.currentPath.removeLast();
+            return node;
         }
 
         public void pushNewTypeVarStruct(final AnnotatedTypeVariable typeVar) {
             if (typeVarToStructure.containsKey(typeVar.getUnderlyingType())) {
-                ErrorReporter.errorAbort("Starting a TypeVarStructure that already exists!\n"
-                                       + "typeVar=" + typeVar + "\n"
-                                       + "currentStructure=" + currentStructure);
+                ErrorReporter.errorAbort(
+                        "Starting a TypeVarStructure that already exists!\n"
+                                + "typeVar="
+                                + typeVar
+                                + "\n"
+                                + "currentStructure="
+                                + currentStructure);
             }
 
-            final TypeVariableStructure typeVarStruct = new TypeVariableStructure(currentStructure, typeVar);
+            final TypeVariableStructure typeVarStruct =
+                    new TypeVariableStructure(currentStructure, typeVar);
             typeVarToStructure.put(typeVar.getUnderlyingType(), typeVarStruct);
 
             this.currentStructure = typeVarStruct;
@@ -437,9 +467,14 @@ public class BoundsInitializer {
 
         public void popCurrentTypeVarStruct(final AnnotatedTypeVariable typeVar) {
             if (!(this.currentStructure instanceof TypeVariableStructure)) {
-                ErrorReporter.errorAbort("Trying to pop WildcardStructure!\n"
-                                       + "typeVar=" + typeVar + "\n"
-                                       + "currentStucture=" + currentStructure + "\n");
+                ErrorReporter.errorAbort(
+                        "Trying to pop WildcardStructure!\n"
+                                + "typeVar="
+                                + typeVar
+                                + "\n"
+                                + "currentStucture="
+                                + currentStructure
+                                + "\n");
             } // else
 
             final TypeVariableStructure toPop = (TypeVariableStructure) this.currentStructure;
@@ -463,8 +498,8 @@ public class BoundsInitializer {
             return refMap;
         }
 
-        public void addImmediateTypeVarPaths(ReferenceMap refMap, BoundPath basePath,
-                                             TypeVariableStructure targetStruct) {
+        public void addImmediateTypeVarPaths(
+                ReferenceMap refMap, BoundPath basePath, TypeVariableStructure targetStruct) {
 
             // explain typevar sleds
             for (BoundPath path : targetStruct.immediateBoundTypeVars) {
@@ -492,7 +527,6 @@ public class BoundsInitializer {
             final List<AnnotatedTypeVariable> annotatedTypeVars = new ArrayList<>();
             final Map<TypeVariable, ReferenceMap> typeVarToRefMap = new HashMap<>();
 
-
             for (final TypeVariableStructure typeVarStruct : typeVarToStructure.values()) {
                 ReferenceMap refMap = createReferenceMap(typeVarStruct);
                 typeVarToRefMap.put(typeVarStruct.typeVar, refMap);
@@ -512,8 +546,9 @@ public class BoundsInitializer {
             }
         }
 
-        public void fixWildcardPathReference(final AnnotatedWildcardType wildcard,
-                                             final Map<TypeVariable, ReferenceMap> typeVarToRefMap) {
+        public void fixWildcardPathReference(
+                final AnnotatedWildcardType wildcard,
+                final Map<TypeVariable, ReferenceMap> typeVarToRefMap) {
 
             final ReferenceMap topLevelMap = createReferenceMap(topLevelStructure);
             for (AnnotatedTypeVariable typeVar : topLevelMap.values()) {
@@ -527,10 +562,11 @@ public class BoundsInitializer {
             }
         }
 
-        public void fixTypeVarPathReference(final AnnotatedTypeVariable type, Map<TypeVariable, ReferenceMap> typeVarToRefMap) {
+        public void fixTypeVarPathReference(
+                final AnnotatedTypeVariable type, Map<TypeVariable, ReferenceMap> typeVarToRefMap) {
             final ReferenceMap refMap = typeVarToRefMap.get(type.getUnderlyingType());
 
-            for (final Entry<BoundPath, AnnotatedTypeVariable> pathToRef : refMap.entrySet() ) {
+            for (final Entry<BoundPath, AnnotatedTypeVariable> pathToRef : refMap.entrySet()) {
                 final BoundPath path = pathToRef.getKey();
                 final AnnotatedTypeVariable replacement = pathToRef.getValue();
 
@@ -541,7 +577,8 @@ public class BoundsInitializer {
             }
         }
 
-        public AnnotatedTypeMirror traverseToParent(final AnnotatedTypeMirror start, final List<BoundPathNode> path) {
+        public AnnotatedTypeMirror traverseToParent(
+                final AnnotatedTypeMirror start, final List<BoundPathNode> path) {
             AnnotatedTypeMirror current = start;
             for (int i = 0; i < path.size() - 1; i++) {
                 current = path.get(i).next(current);
@@ -554,16 +591,16 @@ public class BoundsInitializer {
     private static AnnotatedTypeMirror createAndSetUpperBound(final AnnotatedTypeVariable typeVar) {
 
         final AnnotatedTypeMirror upperBound =
-                AnnotatedTypeMirror.createType( typeVar.getUnderlyingType().getUpperBound(),
-                        typeVar.atypeFactory, false);
+                AnnotatedTypeMirror.createType(
+                        typeVar.getUnderlyingType().getUpperBound(), typeVar.atypeFactory, false);
         typeVar.setUpperBoundField(upperBound);
         return upperBound;
     }
 
     private static AnnotatedTypeMirror createAndSetLowerBound(final AnnotatedTypeVariable typeVar) {
         final AnnotatedTypeMirror lowerBound =
-                AnnotatedTypeMirror.createType(typeVar.getUnderlyingType().getLowerBound(),
-                        typeVar.atypeFactory, false);
+                AnnotatedTypeMirror.createType(
+                        typeVar.getUnderlyingType().getLowerBound(), typeVar.atypeFactory, false);
         typeVar.setLowerBoundField(lowerBound);
         return lowerBound;
     }
@@ -593,18 +630,14 @@ public class BoundsInitializer {
 
         public final BoundPath currentPath = new BoundPath();
 
-        public BoundStructure() {
-
-        }
+        public BoundStructure() {}
 
         public void addTypeVar(final TypeVariable typeVariable) {
             pathToTypeVar.put(this.currentPath.copy(), typeVariable);
         }
     }
 
-    private static class WildcardStructure extends BoundStructure {
-
-    }
+    private static class WildcardStructure extends BoundStructure {}
 
     private static class TypeVariableStructure extends BoundStructure {
         /**
@@ -633,7 +666,8 @@ public class BoundsInitializer {
          */
         public Set<BoundPath> immediateBoundTypeVars = new LinkedHashSet<>();
 
-        public TypeVariableStructure(final BoundStructure parent, final AnnotatedTypeVariable annotatedTypeVar) {
+        public TypeVariableStructure(
+                final BoundStructure parent, final AnnotatedTypeVariable annotatedTypeVar) {
             this.parent = parent;
             this.typeVar = annotatedTypeVar.getUnderlyingType();
             this.annotatedTypeVar = annotatedTypeVar;
@@ -692,8 +726,7 @@ public class BoundsInitializer {
         public Kind kind;
         public TypeKind typeKind;
 
-        BoundPathNode() {
-        }
+        BoundPathNode() {}
 
         BoundPathNode(final BoundPathNode template) {
             this.kind = template.kind;
@@ -710,13 +743,17 @@ public class BoundsInitializer {
             return getType(parent);
         }
 
-        public void replaceType(final AnnotatedTypeMirror parent, final AnnotatedTypeVariable replacement) {
+        public void replaceType(
+                final AnnotatedTypeMirror parent, final AnnotatedTypeVariable replacement) {
             abortIfParentNotKind(typeKind, replacement, parent);
             setType(parent, replacement);
         }
 
-        public abstract void setType(final AnnotatedTypeMirror parent, final AnnotatedTypeVariable replacement);
+        public abstract void setType(
+                final AnnotatedTypeMirror parent, final AnnotatedTypeVariable replacement);
+
         public abstract AnnotatedTypeMirror getType(final AnnotatedTypeMirror parent);
+
         public abstract BoundPathNode copy();
     }
 
@@ -885,17 +922,21 @@ public class BoundsInitializer {
 
         @Override
         public void setType(AnnotatedTypeMirror parent, AnnotatedTypeVariable replacement) {
-            ErrorReporter.errorAbort("Type variables cannot be intersection bounds!\n"
-                                   + "parent=" + parent + "\n"
-                                   + "replacement=" + replacement);
+            ErrorReporter.errorAbort(
+                    "Type variables cannot be intersection bounds!\n"
+                            + "parent="
+                            + parent
+                            + "\n"
+                            + "replacement="
+                            + replacement);
         }
 
         @Override
         public AnnotatedTypeMirror getType(final AnnotatedTypeMirror parent) {
             final AnnotatedIntersectionType isect = (AnnotatedIntersectionType) parent;
             if (parent.directSuperTypes().size() <= superIndex) {
-                ErrorReporter.errorAbort("Invalid superIndex( " + superIndex + " ):\n" +
-                                         "parent=" + parent);
+                ErrorReporter.errorAbort(
+                        "Invalid superIndex( " + superIndex + " ):\n" + "parent=" + parent);
             }
 
             return isect.directSuperTypes().get(superIndex);
@@ -928,17 +969,21 @@ public class BoundsInitializer {
 
         @Override
         public void setType(AnnotatedTypeMirror parent, AnnotatedTypeVariable replacement) {
-            ErrorReporter.errorAbort("Union types cannot be intersection bounds!\n"
-                    + "parent=" + parent + "\n"
-                    + "replacement=" + replacement);
+            ErrorReporter.errorAbort(
+                    "Union types cannot be intersection bounds!\n"
+                            + "parent="
+                            + parent
+                            + "\n"
+                            + "replacement="
+                            + replacement);
         }
 
         @Override
         public AnnotatedTypeMirror getType(final AnnotatedTypeMirror parent) {
             final AnnotatedUnionType isect = (AnnotatedUnionType) parent;
-            if (parent.directSuperTypes().size() <= altIndex ) {
-                ErrorReporter.errorAbort("Invalid altIndex( " + altIndex + " ):\n" +
-                        "parent=" + parent);
+            if (parent.directSuperTypes().size() <= altIndex) {
+                ErrorReporter.errorAbort(
+                        "Invalid altIndex( " + altIndex + " ):\n" + "parent=" + parent);
             }
 
             return isect.directSuperTypes().get(altIndex);
@@ -976,10 +1021,16 @@ public class BoundsInitializer {
 
             List<AnnotatedTypeMirror> typeArgs = new ArrayList<>(parentAdt.getTypeArguments());
             if (argIndex >= typeArgs.size()) {
-                ErrorReporter.errorAbort("Invalid type arg index!\n"
-                                      +  "parent=" + parent + "\n"
-                                      +  "replacement=" + replacement + "\n"
-                                      +  "argIndex=" + argIndex);
+                ErrorReporter.errorAbort(
+                        "Invalid type arg index!\n"
+                                + "parent="
+                                + parent
+                                + "\n"
+                                + "replacement="
+                                + replacement
+                                + "\n"
+                                + "argIndex="
+                                + argIndex);
             }
             typeArgs.add(argIndex, replacement);
             typeArgs.remove(argIndex + 1);
@@ -991,10 +1042,14 @@ public class BoundsInitializer {
             final AnnotatedDeclaredType parentAdt = (AnnotatedDeclaredType) parent;
 
             List<AnnotatedTypeMirror> typeArgs = parentAdt.getTypeArguments();
-            if (argIndex >= typeArgs.size() ) {
-                ErrorReporter.errorAbort("Invalid type arg index!\n"
-                        +  "parent=" + parent + "\n"
-                        +  "argIndex=" + argIndex);
+            if (argIndex >= typeArgs.size()) {
+                ErrorReporter.errorAbort(
+                        "Invalid type arg index!\n"
+                                + "parent="
+                                + parent
+                                + "\n"
+                                + "argIndex="
+                                + argIndex);
             }
 
             return typeArgs.get(argIndex);
@@ -1006,8 +1061,10 @@ public class BoundsInitializer {
         }
     }
 
-    public static void abortIfParentNotKind(final TypeKind typeKind, final AnnotatedTypeVariable type,
-                                            final AnnotatedTypeMirror parent) {
+    public static void abortIfParentNotKind(
+            final TypeKind typeKind,
+            final AnnotatedTypeVariable type,
+            final AnnotatedTypeMirror parent) {
         if (parent.getKind().equals(typeKind)) {
             return;
         }

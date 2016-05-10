@@ -60,8 +60,7 @@ public class TypeCastNode extends Node {
         TypeCastNode other = (TypeCastNode) obj;
         // TODO: TypeMirror.equals may be too restrictive.
         // Check whether Types.isSameType is the better comparison.
-        return getOperand().equals(other.getOperand())
-                && getType().equals(other.getType());
+        return getOperand().equals(other.getOperand()) && getType().equals(other.getType());
     }
 
     @Override

@@ -62,17 +62,28 @@ public final class CompilationUnit extends Node {
 
     private List<Comment> comments;
 
-    public CompilationUnit() {
-    }
+    public CompilationUnit() {}
 
-    public CompilationUnit(PackageDeclaration pakage, List<ImportDeclaration> imports, List<TypeDeclaration> types, List<Comment> comments) {
+    public CompilationUnit(
+            PackageDeclaration pakage,
+            List<ImportDeclaration> imports,
+            List<TypeDeclaration> types,
+            List<Comment> comments) {
         this.pakage = pakage;
         this.imports = imports;
         this.types = types;
         this.comments = comments;
     }
 
-    public CompilationUnit(int beginLine, int beginColumn, int endLine, int endColumn, PackageDeclaration pakage, List<ImportDeclaration> imports, List<TypeDeclaration> types, List<Comment> comments) {
+    public CompilationUnit(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            PackageDeclaration pakage,
+            List<ImportDeclaration> imports,
+            List<TypeDeclaration> types,
+            List<Comment> comments) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.pakage = pakage;
         this.imports = imports;
@@ -182,5 +193,4 @@ public final class CompilationUnit extends Node {
     public void setTypes(List<TypeDeclaration> types) {
         this.types = types;
     }
-
 }

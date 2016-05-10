@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -30,14 +30,14 @@ import org.checkerframework.stubparser.ast.visitor.VoidVisitor;
  */
 public final class JavadocComment extends Comment {
 
-    public JavadocComment() {
-    }
+    public JavadocComment() {}
 
     public JavadocComment(String content) {
         super(content);
     }
 
-    public JavadocComment(int beginLine, int beginColumn, int endLine, int endColumn, String content) {
+    public JavadocComment(
+            int beginLine, int beginColumn, int endLine, int endColumn, String content) {
         super(beginLine, beginColumn, endLine, endColumn, content);
     }
 

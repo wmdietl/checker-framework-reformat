@@ -167,5 +167,4 @@ public abstract class Node {
         }
         return transitiveOperands;
     }
-
 }

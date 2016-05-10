@@ -14,6 +14,5 @@ import org.checkerframework.common.basetype.BaseTypeChecker;
  * @author Siwakorn Srisakaokul
  *
  */
-@SupportedOptions( {"bundlenames", "propfiles"} )
-public class I18nFormatterChecker extends BaseTypeChecker {
-}
+@SupportedOptions({"bundlenames", "propfiles"})
+public class I18nFormatterChecker extends BaseTypeChecker {}

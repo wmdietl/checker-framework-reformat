@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -44,8 +44,7 @@ public final class ObjectCreationExpr extends Expression {
 
     private List<BodyDeclaration> anonymousClassBody;
 
-    public ObjectCreationExpr() {
-    }
+    public ObjectCreationExpr() {}
 
     public ObjectCreationExpr(Expression scope, ClassOrInterfaceType type, List<Expression> args) {
         this.scope = scope;
@@ -53,7 +52,16 @@ public final class ObjectCreationExpr extends Expression {
         this.args = args;
     }
 
-    public ObjectCreationExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression scope, ClassOrInterfaceType type, List<Type> typeArgs, List<Expression> args, List<BodyDeclaration> anonymousBody) {
+    public ObjectCreationExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression scope,
+            ClassOrInterfaceType type,
+            List<Type> typeArgs,
+            List<Expression> args,
+            List<BodyDeclaration> anonymousBody) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.scope = scope;
         this.type = type;
@@ -111,5 +119,4 @@ public final class ObjectCreationExpr extends Expression {
     public void setTypeArgs(List<Type> typeArgs) {
         this.typeArgs = typeArgs;
     }
-
 }

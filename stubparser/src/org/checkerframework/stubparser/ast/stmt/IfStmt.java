@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -36,8 +36,7 @@ public final class IfStmt extends Statement {
 
     private Statement elseStmt;
 
-    public IfStmt() {
-    }
+    public IfStmt() {}
 
     public IfStmt(Expression condition, Statement thenStmt, Statement elseStmt) {
         this.condition = condition;
@@ -45,7 +44,14 @@ public final class IfStmt extends Statement {
         this.elseStmt = elseStmt;
     }
 
-    public IfStmt(int beginLine, int beginColumn, int endLine, int endColumn, Expression condition, Statement thenStmt, Statement elseStmt) {
+    public IfStmt(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression condition,
+            Statement thenStmt,
+            Statement elseStmt) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.condition = condition;
         this.thenStmt = thenStmt;

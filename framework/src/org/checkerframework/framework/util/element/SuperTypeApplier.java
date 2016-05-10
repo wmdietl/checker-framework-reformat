@@ -23,13 +23,15 @@ public class SuperTypeApplier extends IndexedElementAnnotationApplier {
      * @param supertypes supertypes to annotate
      * @param subtypeElement element that may have annotations to apply to supertypes
      */
-    public static void annotateSupers(List<AnnotatedTypeMirror.AnnotatedDeclaredType> supertypes, TypeElement subtypeElement) {
+    public static void annotateSupers(
+            List<AnnotatedTypeMirror.AnnotatedDeclaredType> supertypes,
+            TypeElement subtypeElement) {
 
         final boolean isInterface = subtypeElement.getSuperclass().getKind() == TypeKind.NONE;
 
         final int typeOffset = isInterface ? 0 : -1;
 
-        for (int i= 0; i < supertypes.size(); i++) {
+        for (int i = 0; i < supertypes.size(); i++) {
             final AnnotatedTypeMirror supertype = supertypes.get(i);
             final int typeIndex = i + typeOffset;
 
@@ -60,7 +62,10 @@ public class SuperTypeApplier extends IndexedElementAnnotationApplier {
      * it is intended to be used for annotate super types via the static annotateSuper method, hence the private
      * constructor
      */
-    SuperTypeApplier(final AnnotatedTypeMirror supertype, final TypeElement subclassElement, final int index) {
+    SuperTypeApplier(
+            final AnnotatedTypeMirror supertype,
+            final TypeElement subclassElement,
+            final int index) {
         super(supertype, subclassElement);
         this.subclassSymbol = (Symbol.ClassSymbol) subclassElement;
         this.index = index;
@@ -87,7 +92,7 @@ public class SuperTypeApplier extends IndexedElementAnnotationApplier {
      */
     @Override
     protected TargetType[] annotatedTargets() {
-        return new TargetType[]{ TargetType.CLASS_EXTENDS };
+        return new TargetType[] {TargetType.CLASS_EXTENDS};
     }
 
     /**
@@ -95,8 +100,9 @@ public class SuperTypeApplier extends IndexedElementAnnotationApplier {
      */
     @Override
     protected TargetType[] validTargets() {
-        return new TargetType[]{ TargetType.CLASS_TYPE_PARAMETER,
-                                 TargetType.CLASS_TYPE_PARAMETER_BOUND };
+        return new TargetType[] {
+            TargetType.CLASS_TYPE_PARAMETER, TargetType.CLASS_TYPE_PARAMETER_BOUND
+        };
     }
 
     /**

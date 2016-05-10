@@ -43,7 +43,6 @@ public class StubGenerator {
     /** the package of the class being processed */
     private String currentPackage = null;
 
-
     /**
      * Constructs an instanceof {@code IndexGenerator} that outputs to
      * {@code System.out}.
@@ -81,8 +80,7 @@ public class StubGenerator {
             return;
         }
 
-        String pkg = ElementUtils.getVerboseName((ElementUtils
-                .enclosingPackage(elt)));
+        String pkg = ElementUtils.getVerboseName((ElementUtils.enclosingPackage(elt)));
         if (!"".equals(pkg)) {
             currentPackage = pkg;
             currentIndention = "    ";
@@ -90,7 +88,6 @@ public class StubGenerator {
         }
         VariableElement field = (VariableElement) elt;
         printFieldDecl(field);
-
     }
 
     /**
@@ -105,8 +102,7 @@ public class StubGenerator {
         out.print(currentPackage);
         out.println(";");
 
-        for (TypeElement element
-                : ElementFilter.typesIn(packageElement.getEnclosedElements())) {
+        for (TypeElement element : ElementFilter.typesIn(packageElement.getEnclosedElements())) {
             if (isPublicOrProtected(element)) {
                 out.println();
                 printClass(element);
@@ -123,8 +119,7 @@ public class StubGenerator {
             return;
         }
 
-        String newPackage = ElementUtils.getVerboseName(ElementUtils
-                .enclosingPackage(elt));
+        String newPackage = ElementUtils.getVerboseName(ElementUtils.enclosingPackage(elt));
         if (!newPackage.equals("")) {
             currentPackage = newPackage;
             currentIndention = "    ";
@@ -143,11 +138,10 @@ public class StubGenerator {
 
         // only output stub for classes or interfaces.  not enums
         if (typeElement.getKind() != ElementKind.CLASS
-                && typeElement.getKind() != ElementKind.INTERFACE)
-            return;
+                && typeElement.getKind() != ElementKind.INTERFACE) return;
 
-        String newPackageName = ElementUtils.getVerboseName(ElementUtils
-                .enclosingPackage(typeElement));
+        String newPackageName =
+                ElementUtils.getVerboseName(ElementUtils.enclosingPackage(typeElement));
         boolean newPackage = !newPackageName.equals(currentPackage);
         currentPackage = newPackageName;
 
@@ -159,13 +153,16 @@ public class StubGenerator {
             out.println(";");
             out.println();
         }
-        String fullClassName = ElementUtils.getQualifiedClassName(typeElement)
-                .toString();
+        String fullClassName = ElementUtils.getQualifiedClassName(typeElement).toString();
 
-        String className = fullClassName.substring(fullClassName
-                //+1 because currentPackage doesn't include
-                // the . between the package name and the classname
-                .indexOf(currentPackage) + currentPackage.length()+1);
+        String className =
+                fullClassName.substring(
+                        fullClassName
+                                        //+1 because currentPackage doesn't include
+                                        // the . between the package name and the classname
+                                        .indexOf(currentPackage)
+                                + currentPackage.length()
+                                + 1);
 
         int index = className.lastIndexOf('.');
         if (index == -1) {
@@ -236,10 +233,9 @@ public class StubGenerator {
         indent();
         out.println("}");
 
-        for (TypeElement element: innerClass) {
+        for (TypeElement element : innerClass) {
             printClass(element, typeElement.getSimpleName().toString());
         }
-
     }
 
     /**
@@ -261,9 +257,9 @@ public class StubGenerator {
      */
     private void printMember(Element member, List<TypeElement> innerClass) {
         if (member.getKind().isField()) {
-            printFieldDecl((VariableElement)member);
+            printFieldDecl((VariableElement) member);
         } else if (member instanceof ExecutableElement) {
-            printMethodDecl((ExecutableElement)member);
+            printMethodDecl((ExecutableElement) member);
         } else if (member instanceof TypeElement) {
             innerClass.add((TypeElement) member);
         }
@@ -381,7 +377,7 @@ public class StubGenerator {
     /** Returns true if the element is public or protected element */
     private boolean isPublicOrProtected(Element element) {
         return element.getModifiers().contains(Modifier.PUBLIC)
-               || element.getModifiers().contains(Modifier.PROTECTED);
+                || element.getModifiers().contains(Modifier.PROTECTED);
     }
 
     /** outputs the simple name of the type */
@@ -391,9 +387,7 @@ public class StubGenerator {
 
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
-            if (token.length() == 1
-                    || token.lastIndexOf('.') == -1)
-                sb.append(token);
+            if (token.length() == 1 || token.lastIndexOf('.') == -1) sb.append(token);
             else {
                 int index = token.lastIndexOf('.');
                 sb.append(token.substring(index + 1));

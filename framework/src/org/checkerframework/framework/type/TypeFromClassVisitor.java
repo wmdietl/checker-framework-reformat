@@ -12,8 +12,7 @@ import javax.lang.model.element.TypeElement;
 class TypeFromClassVisitor extends TypeFromTreeVisitor {
 
     @Override
-    public AnnotatedTypeMirror visitClass(ClassTree node,
-                                          AnnotatedTypeFactory f) {
+    public AnnotatedTypeMirror visitClass(ClassTree node, AnnotatedTypeFactory f) {
         TypeElement elt = TreeUtils.elementFromDeclaration(node);
         AnnotatedTypeMirror result = f.toAnnotatedType(elt.asType(), true);
 

@@ -22,5 +22,4 @@ import org.checkerframework.framework.qual.SubtypeOf;
 @SubtypeOf({})
 @DefaultQualifierInHierarchy
 @Target({})
-public @interface UnknownFormat {
-}
+public @interface UnknownFormat {}

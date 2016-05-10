@@ -19,12 +19,10 @@ import java.lang.annotation.Target;
  * @checker_framework.manual #initialization-checker Initialization Checker
  * @author Stefan Heule
  */
-@SubtypeOf({ UnderInitialization.class, Initialized.class })
-@ImplicitFor(literals = { LiteralKind.NULL })
+@SubtypeOf({UnderInitialization.class, Initialized.class})
+@ImplicitFor(literals = {LiteralKind.NULL})
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-@TargetLocations({ TypeUseLocation.EXPLICIT_LOWER_BOUND,
-    TypeUseLocation.EXPLICIT_UPPER_BOUND })
-public @interface FBCBottom {
-}
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+@TargetLocations({TypeUseLocation.EXPLICIT_LOWER_BOUND, TypeUseLocation.EXPLICIT_UPPER_BOUND})
+public @interface FBCBottom {}

@@ -24,7 +24,7 @@ public class VariableApplier extends TargetedElementAnnotationApplier {
     }
 
     private static final ElementKind[] acceptedKinds = {
-            ElementKind.LOCAL_VARIABLE, ElementKind.RESOURCE_VARIABLE, ElementKind.EXCEPTION_PARAMETER
+        ElementKind.LOCAL_VARIABLE, ElementKind.RESOURCE_VARIABLE, ElementKind.EXCEPTION_PARAMETER
     };
 
     /**
@@ -43,15 +43,21 @@ public class VariableApplier extends TargetedElementAnnotationApplier {
 
     @Override
     protected TargetType[] annotatedTargets() {
-        return new TargetType[]{ LOCAL_VARIABLE, RESOURCE_VARIABLE, EXCEPTION_PARAMETER, FIELD };
+        return new TargetType[] {LOCAL_VARIABLE, RESOURCE_VARIABLE, EXCEPTION_PARAMETER, FIELD};
     }
 
     @Override
     protected TargetType[] validTargets() {
-        return new TargetType []{
-                NEW, CAST, INSTANCEOF, METHOD_INVOCATION_TYPE_ARGUMENT, CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT,
-                METHOD_REFERENCE, CONSTRUCTOR_REFERENCE, METHOD_REFERENCE_TYPE_ARGUMENT,
-                CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+        return new TargetType[] {
+            NEW,
+            CAST,
+            INSTANCEOF,
+            METHOD_INVOCATION_TYPE_ARGUMENT,
+            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT,
+            METHOD_REFERENCE,
+            CONSTRUCTOR_REFERENCE,
+            METHOD_REFERENCE_TYPE_ARGUMENT,
+            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
         };
     }
 

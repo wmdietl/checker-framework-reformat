@@ -50,11 +50,12 @@ abstract class TypeParamElementAnnotationApplier extends IndexedElementAnnotatio
      */
     abstract protected TargetType upperBoundTarget();
 
-    TypeParamElementAnnotationApplier( final AnnotatedTypeVariable type,
-                                       final Element element,
-                                       final AnnotatedTypeFactory typeFactory) {
+    TypeParamElementAnnotationApplier(
+            final AnnotatedTypeVariable type,
+            final Element element,
+            final AnnotatedTypeFactory typeFactory) {
         super(type, element);
-        this.typeParam   = type;
+        this.typeParam = type;
         this.typeFactory = typeFactory;
     }
 
@@ -63,7 +64,7 @@ abstract class TypeParamElementAnnotationApplier extends IndexedElementAnnotatio
      */
     @Override
     protected TargetType[] annotatedTargets() {
-        return new TargetType[]{ lowerBoundTarget(), upperBoundTarget() };
+        return new TargetType[] {lowerBoundTarget(), upperBoundTarget()};
     }
 
     /**
@@ -91,13 +92,12 @@ abstract class TypeParamElementAnnotationApplier extends IndexedElementAnnotatio
         final List<TypeCompound> upperBoundAnnos = new ArrayList<>();
         final List<TypeCompound> lowerBoundAnnos = new ArrayList<>();
 
-
         for (final TypeCompound anno : targeted) {
             final AnnotationMirror aliasedAnno = typeFactory.aliasedAnnotation(anno);
             final AnnotationMirror canonicalAnno = (aliasedAnno != null) ? aliasedAnno : anno;
 
-            if (anno.position.parameter_index != paramIndex ||
-                !typeFactory.isSupportedQualifier(canonicalAnno)) {
+            if (anno.position.parameter_index != paramIndex
+                    || !typeFactory.isSupportedQualifier(canonicalAnno)) {
                 continue;
             }
 
@@ -121,24 +121,33 @@ abstract class TypeParamElementAnnotationApplier extends IndexedElementAnnotatio
      * the upper bound is an intersection we must first find the correct location for each
      * annotation.
      */
-    private void applyUpperBounds( final List<TypeCompound> upperBounds) {
+    private void applyUpperBounds(final List<TypeCompound> upperBounds) {
         if (!upperBounds.isEmpty()) {
             final AnnotatedTypeMirror upperBoundType = typeParam.getUpperBound();
 
-
             if (upperBoundType.getKind() == TypeKind.INTERSECTION) {
 
-                final List<? extends AnnotatedTypeMirror> intersectionTypes = upperBoundType.directSuperTypes();
+                final List<? extends AnnotatedTypeMirror> intersectionTypes =
+                        upperBoundType.directSuperTypes();
                 final int boundIndexOffset = getBoundIndexOffset(intersectionTypes);
 
                 for (final TypeCompound anno : upperBounds) {
                     final int boundIndex = anno.position.bound_index + boundIndexOffset;
 
                     if (boundIndex < 0 || boundIndex > intersectionTypes.size()) {
-                        ErrorReporter.errorAbort("Invalid bound index on element annotation ( " + anno + " ) " +
-                                "for type ( " + typeParam + " ) with " +
-                                "upper bound ( " + typeParam.getUpperBound() + " ) " +
-                                "and boundIndex( " + boundIndex + " ) ");
+                        ErrorReporter.errorAbort(
+                                "Invalid bound index on element annotation ( "
+                                        + anno
+                                        + " ) "
+                                        + "for type ( "
+                                        + typeParam
+                                        + " ) with "
+                                        + "upper bound ( "
+                                        + typeParam.getUpperBound()
+                                        + " ) "
+                                        + "and boundIndex( "
+                                        + boundIndex
+                                        + " ) ");
                     }
 
                     intersectionTypes.get(boundIndex).replaceAnnotation(anno); //TODO: WHY NOT ADD?
@@ -164,8 +173,10 @@ abstract class TypeParamElementAnnotationApplier extends IndexedElementAnnotatio
         }
     }
 
-    private void addAnnotationToMap(final AnnotatedTypeMirror type, final TypeCompound anno,
-                                    final Map<AnnotatedTypeMirror, List<TypeCompound>> typeToAnnos) {
+    private void addAnnotationToMap(
+            final AnnotatedTypeMirror type,
+            final TypeCompound anno,
+            final Map<AnnotatedTypeMirror, List<TypeCompound>> typeToAnnos) {
         List<TypeCompound> annoList = typeToAnnos.get(type);
         if (annoList == null) {
             annoList = new ArrayList<>();
@@ -182,26 +193,35 @@ abstract class TypeParamElementAnnotationApplier extends IndexedElementAnnotatio
         if (anno.position.type == upperBoundTarget()) {
 
             if (upperBoundType.getKind() == TypeKind.INTERSECTION) {
-                final List<? extends AnnotatedTypeMirror> intersectionTypes = upperBoundType.directSuperTypes();
-                final int boundIndex = anno.position.bound_index + getBoundIndexOffset(intersectionTypes);
+                final List<? extends AnnotatedTypeMirror> intersectionTypes =
+                        upperBoundType.directSuperTypes();
+                final int boundIndex =
+                        anno.position.bound_index + getBoundIndexOffset(intersectionTypes);
 
                 if (boundIndex < 0 || boundIndex > intersectionTypes.size()) {
-                    ErrorReporter.errorAbort("Invalid bound index on element annotation ( " + anno + " ) " +
-                            "for type ( " + typeParam + " ) with upper bound ( " + typeParam.getUpperBound() + " )");
+                    ErrorReporter.errorAbort(
+                            "Invalid bound index on element annotation ( "
+                                    + anno
+                                    + " ) "
+                                    + "for type ( "
+                                    + typeParam
+                                    + " ) with upper bound ( "
+                                    + typeParam.getUpperBound()
+                                    + " )");
                 }
                 addAnnotationToMap(intersectionTypes.get(boundIndex), anno, typeToAnnotations);
 
             } else {
                 addAnnotationToMap(upperBoundType, anno, typeToAnnotations);
-
             }
 
         } else {
             addAnnotationToMap(typeParam.getLowerBound(), anno, typeToAnnotations);
         }
 
-        for (Entry<AnnotatedTypeMirror, List<TypeCompound>> typeToAnno : typeToAnnotations.entrySet()) {
-             annotateViaTypeAnnoPosition(typeToAnno.getKey(), typeToAnno.getValue());
+        for (Entry<AnnotatedTypeMirror, List<TypeCompound>> typeToAnno :
+                typeToAnnotations.entrySet()) {
+            annotateViaTypeAnnoPosition(typeToAnno.getKey(), typeToAnno.getValue());
         }
     }
 }

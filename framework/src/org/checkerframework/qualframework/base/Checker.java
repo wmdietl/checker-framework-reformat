@@ -104,8 +104,7 @@ public abstract class Checker<Q> implements QualifierContext<Q> {
                 new DefaultQualFormatter<Q>(getInvisibleQualifiers()),
                 getContext().getCheckerAdapter().getTypeMirrorConverter(),
                 getContext().getOptionConfiguration().hasOption("printVerboseGenerics"),
-                getContext().getOptionConfiguration().hasOption("printAllQualifiers")
-        );
+                getContext().getOptionConfiguration().hasOption("printAllQualifiers"));
     }
 
     /**
@@ -114,7 +113,6 @@ public abstract class Checker<Q> implements QualifierContext<Q> {
     protected Set<?> getInvisibleQualifiers() {
         return new HashSet<>();
     }
-
 
     // TODO: support for checker-defined visitor
 }

@@ -17,11 +17,12 @@ import java.lang.annotation.Target;
  *                           Format String Checker
  * @author Siwakorn Srisakaokul
  */
-@SubtypeOf({ I18nFormat.class, I18nInvalidFormat.class, I18nFormatFor.class })
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-@TargetLocations({ TypeUseLocation.EXPLICIT_LOWER_BOUND,
-    TypeUseLocation.EXPLICIT_UPPER_BOUND })
-@ImplicitFor(literals = { LiteralKind.NULL }, typeNames = { java.lang.Void.class })
-@DefaultFor(value = { TypeUseLocation.LOWER_BOUND })
-public @interface I18nFormatBottom {
-}
+@SubtypeOf({I18nFormat.class, I18nInvalidFormat.class, I18nFormatFor.class})
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+@TargetLocations({TypeUseLocation.EXPLICIT_LOWER_BOUND, TypeUseLocation.EXPLICIT_UPPER_BOUND})
+@ImplicitFor(
+    literals = {LiteralKind.NULL},
+    typeNames = {java.lang.Void.class}
+)
+@DefaultFor(value = {TypeUseLocation.LOWER_BOUND})
+public @interface I18nFormatBottom {}

@@ -21,6 +21,5 @@ import org.checkerframework.framework.qual.*;
 @Documented
 @PolymorphicQualifier(Nullable.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER })
-public @interface PolyNull {
-}
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+public @interface PolyNull {}

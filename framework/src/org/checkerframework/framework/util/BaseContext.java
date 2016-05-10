@@ -11,9 +11,14 @@ import com.sun.source.util.Trees;
 /** A collection of references to javac components. */
 public interface BaseContext {
     ProcessingEnvironment getProcessingEnvironment();
+
     Elements getElementUtils();
+
     Types getTypeUtils();
+
     Trees getTreeUtils();
+
     AnnotationProvider getAnnotationProvider();
+
     OptionConfiguration getOptionConfiguration();
 }

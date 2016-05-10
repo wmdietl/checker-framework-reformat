@@ -32,7 +32,7 @@ import org.checkerframework.framework.qual.StubFiles;
  * @checker_framework.manual #fenum-checker Fake Enum Checker
  */
 @StubFiles("jdnc.astub")
-@SupportedOptions( { "quals", "qualDirs" } )
+@SupportedOptions({"quals", "qualDirs"})
 public class FenumChecker extends BaseTypeChecker {
 
     /*
@@ -47,7 +47,8 @@ public class FenumChecker extends BaseTypeChecker {
      */
     @Override
     public Collection<String> getSuppressWarningsKeys() {
-        Set<Class<? extends Annotation>> annos = ((BaseTypeVisitor<?>)visitor).getTypeFactory().getSupportedTypeQualifiers();
+        Set<Class<? extends Annotation>> annos =
+                ((BaseTypeVisitor<?>) visitor).getTypeFactory().getSupportedTypeQualifiers();
         if (annos.isEmpty()) {
             return super.getSuppressWarningsKeys();
         }

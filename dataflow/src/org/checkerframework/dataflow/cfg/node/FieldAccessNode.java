@@ -45,7 +45,7 @@ public class FieldAccessNode extends Node {
             this.element = (VariableElement) TreeUtils.elementFromUse((MemberSelectTree) tree);
         } else {
             assert tree instanceof IdentifierTree;
-            this.element =  (VariableElement) TreeUtils.elementFromUse((IdentifierTree) tree);
+            this.element = (VariableElement) TreeUtils.elementFromUse((IdentifierTree) tree);
         }
     }
 

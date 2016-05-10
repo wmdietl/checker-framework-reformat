@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -35,8 +35,7 @@ public final class ConditionalExpr extends Expression {
 
     private Expression elseExpr;
 
-    public ConditionalExpr() {
-    }
+    public ConditionalExpr() {}
 
     public ConditionalExpr(Expression condition, Expression thenExpr, Expression elseExpr) {
         this.condition = condition;
@@ -44,7 +43,14 @@ public final class ConditionalExpr extends Expression {
         this.elseExpr = elseExpr;
     }
 
-    public ConditionalExpr(int beginLine, int beginColumn, int endLine, int endColumn, Expression condition, Expression thenExpr, Expression elseExpr) {
+    public ConditionalExpr(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            Expression condition,
+            Expression thenExpr,
+            Expression elseExpr) {
         super(beginLine, beginColumn, endLine, endColumn);
         this.condition = condition;
         this.thenExpr = thenExpr;
@@ -84,5 +90,4 @@ public final class ConditionalExpr extends Expression {
     public void setThenExpr(Expression thenExpr) {
         this.thenExpr = thenExpr;
     }
-
 }

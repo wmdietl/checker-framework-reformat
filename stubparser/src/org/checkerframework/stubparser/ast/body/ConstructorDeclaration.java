@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Júlio Vilmar Gesser.
- * 
+ *
  * This file is part of Java 1.5 parser and Abstract Syntax Tree.
  *
  * Java 1.5 parser and Abstract Syntax Tree is free software: you can redistribute it and/or modify
@@ -49,15 +49,22 @@ public final class ConstructorDeclaration extends BodyDeclaration {
 
     private BlockStmt block;
 
-    public ConstructorDeclaration() {
-    }
+    public ConstructorDeclaration() {}
 
     public ConstructorDeclaration(int modifiers, String name) {
         this.modifiers = modifiers;
         this.name = name;
     }
 
-    public ConstructorDeclaration(JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, List<TypeParameter> typeParameters, String name, List<Parameter> parameters, List<NameExpr> throws_, BlockStmt block) {
+    public ConstructorDeclaration(
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            List<TypeParameter> typeParameters,
+            String name,
+            List<Parameter> parameters,
+            List<NameExpr> throws_,
+            BlockStmt block) {
         super(annotations, javaDoc);
         this.modifiers = modifiers;
         this.typeParameters = typeParameters;
@@ -67,7 +74,20 @@ public final class ConstructorDeclaration extends BodyDeclaration {
         this.block = block;
     }
 
-    public ConstructorDeclaration(int beginLine, int beginColumn, int endLine, int endColumn, JavadocComment javaDoc, int modifiers, List<AnnotationExpr> annotations, List<TypeParameter> typeParameters, String name, List<Parameter> parameters, List<AnnotationExpr> receiverAnnotations, List<NameExpr> throws_, BlockStmt block) {
+    public ConstructorDeclaration(
+            int beginLine,
+            int beginColumn,
+            int endLine,
+            int endColumn,
+            JavadocComment javaDoc,
+            int modifiers,
+            List<AnnotationExpr> annotations,
+            List<TypeParameter> typeParameters,
+            String name,
+            List<Parameter> parameters,
+            List<AnnotationExpr> receiverAnnotations,
+            List<NameExpr> throws_,
+            BlockStmt block) {
         super(beginLine, beginColumn, endLine, endColumn, annotations, javaDoc);
         this.modifiers = modifiers;
         this.typeParameters = typeParameters;
@@ -94,7 +114,7 @@ public final class ConstructorDeclaration extends BodyDeclaration {
 
     /**
      * Return the modifiers of this member declaration.
-     * 
+     *
      * @see ModifierSet
      * @return modifiers
      */

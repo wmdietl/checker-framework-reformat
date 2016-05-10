@@ -18,7 +18,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.util.Types;
 
-
 /**
  * KeyForPropagator is used to move nested KeyFor annotations from one side of a pseudo-assignment to
  * the other.  The KeyForPropagationTreeAnnotator details the locations in which this occurs.
@@ -37,7 +36,6 @@ public class KeyForPropagator {
         // TO_SUPERTYPE transfer because it will already have a KeyFor annotation
         BOTH
     }
-
 
     // The top type of the KeyFor hierarchy, this class will replace @UnknownKeyFor annotations.
     // It will also add annotations when they are misisng for types that require primary annotation
@@ -76,10 +74,14 @@ public class KeyForPropagator {
      * The type of subtype after propagate would be:
      * {@code HashMap<@KeyFor("a") String, @KeyFor("b") List<@KeyFor("c") String>>}
      */
-    public void propagate(final AnnotatedDeclaredType subtype, final AnnotatedDeclaredType supertype,
-                          PropagationDirection direction, final AnnotatedTypeFactory typeFactory) {
+    public void propagate(
+            final AnnotatedDeclaredType subtype,
+            final AnnotatedDeclaredType supertype,
+            PropagationDirection direction,
+            final AnnotatedTypeFactory typeFactory) {
         final TypeElement subtypeElement = (TypeElement) subtype.getUnderlyingType().asElement();
-        final TypeElement supertypeElement = (TypeElement) supertype.getUnderlyingType().asElement();
+        final TypeElement supertypeElement =
+                (TypeElement) supertype.getUnderlyingType().asElement();
         final Types types = typeFactory.getProcessingEnv().getTypeUtils();
 
         // Note: The right hand side of this or expression will cover raw types
@@ -95,12 +97,11 @@ public class KeyForPropagator {
             return;
         }
 
-
-
         Set<Pair<Integer, Integer>> typeParamMappings =
-             TypeArgumentMapper.mapTypeArgumentIndices(subtypeElement, supertypeElement, types);
+                TypeArgumentMapper.mapTypeArgumentIndices(subtypeElement, supertypeElement, types);
 
-        KeyForPropagationMerger merger = new KeyForPropagationMerger(typeFactory.getProcessingEnv());
+        KeyForPropagationMerger merger =
+                new KeyForPropagationMerger(typeFactory.getProcessingEnv());
 
         final List<AnnotatedTypeMirror> subtypeArgs = subtype.getTypeArguments();
         final List<AnnotatedTypeMirror> supertypeArgs = supertype.getTypeArguments();
@@ -109,7 +110,8 @@ public class KeyForPropagator {
             final AnnotatedTypeMirror subtypeArg = subtypeArgs.get(path.first);
             final AnnotatedTypeMirror supertypeArg = supertypeArgs.get(path.second);
 
-            if (subtypeArg.getKind() == TypeKind.WILDCARD || supertypeArg.getKind() == TypeKind.WILDCARD) {
+            if (subtypeArg.getKind() == TypeKind.WILDCARD
+                    || supertypeArg.getKind() == TypeKind.WILDCARD) {
                 continue;
             }
 
@@ -128,9 +130,7 @@ public class KeyForPropagator {
                     merger.visit(supertypeArg, subtypeArg);
                     break;
             }
-
         }
-
     }
 
     /**
@@ -150,12 +150,12 @@ public class KeyForPropagator {
             final AnnotationMirror fromKeyFor = from.getAnnotationInHierarchy(UNKNOWN_KEYFOR);
             final AnnotationMirror toKeyFor = to.getAnnotationInHierarchy(UNKNOWN_KEYFOR);
 
-            boolean toNeedsAnnotation = toKeyFor == null || AnnotationUtils.areSame(toKeyFor, UNKNOWN_KEYFOR);
-            if (fromKeyFor!= null && toNeedsAnnotation) {
+            boolean toNeedsAnnotation =
+                    toKeyFor == null || AnnotationUtils.areSame(toKeyFor, UNKNOWN_KEYFOR);
+            if (fromKeyFor != null && toNeedsAnnotation) {
                 AnnotationBuilder annotationBuilder = new AnnotationBuilder(env, fromKeyFor);
                 to.replaceAnnotation(annotationBuilder.build());
             }
         }
     }
-
 }

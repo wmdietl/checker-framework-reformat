@@ -49,13 +49,13 @@ public final class JavaParser {
     }
 
     /**
-     * Changes the way that the parser acts when starts to parse. If the 
-     * parser cache is enabled, only one insance of this object will be 
+     * Changes the way that the parser acts when starts to parse. If the
+     * parser cache is enabled, only one insance of this object will be
      * used in every call to parse methods.
-     * If this parser is intend to be used asynchonously, the cache must 
+     * If this parser is intend to be used asynchonously, the cache must
      * be disabled setting this flag to <code>false</code>.
      * By default, the cache is enabled.
-     * @param value <code>false</code> to disable the parser instance cache. 
+     * @param value <code>false</code> to disable the parser instance cache.
      */
     public static void setCacheParser(boolean value) {
         cacheParser = value;
@@ -65,8 +65,8 @@ public final class JavaParser {
     }
 
     /**
-     * Parses the Java code contained in the {@link InputStream} and returns 
-     * a {@link CompilationUnit} that represents it. 
+     * Parses the Java code contained in the {@link InputStream} and returns
+     * a {@link CompilationUnit} that represents it.
      * @param in {@link InputStream} containing Java source code
      * @param encoding encoding of the source code
      * @return CompilationUnit representing the Java source code
@@ -85,8 +85,8 @@ public final class JavaParser {
     }
 
     /**
-     * Parses the Java code contained in the {@link InputStream} and returns 
-     * a {@link CompilationUnit} that represents it. 
+     * Parses the Java code contained in the {@link InputStream} and returns
+     * a {@link CompilationUnit} that represents it.
      * @param in {@link InputStream} containing Java source code
      * @return CompilationUnit representing the Java source code
      * @throws ParseException if the source code has parser errors
@@ -96,8 +96,8 @@ public final class JavaParser {
     }
 
     /**
-     * Parses the Java code contained in a {@link File} and returns 
-     * a {@link CompilationUnit} that represents it. 
+     * Parses the Java code contained in a {@link File} and returns
+     * a {@link CompilationUnit} that represents it.
      * @param file {@link File} containing Java source code
      * @param encoding encoding of the source code
      * @return CompilationUnit representing the Java source code
@@ -113,8 +113,8 @@ public final class JavaParser {
     }
 
     /**
-     * Parses the Java code contained in a {@link File} and returns 
-     * a {@link CompilationUnit} that represents it. 
+     * Parses the Java code contained in a {@link File} and returns
+     * a {@link CompilationUnit} that represents it.
      * @param file {@link File} containing Java source code
      * @return CompilationUnit representing the Java source code
      * @throws ParseException if the source code has parser errors
